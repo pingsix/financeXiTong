@@ -1,0 +1,86 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">机构配对</div>
+	        <!--<div class="inner-header-rt fr" style="min-width:220px">-->
+	            <!--<a  ui-sref ="configuration.newOrganic" class="btn1 fr importA">新建机构</a>-->
+	        <!--</div>-->
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	            	<tr>
+	                    <td class="tl-r">产品状态：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="production.productionStatus" ng-options = "option.id as option.value for option in baseData.productionStatusList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                	<td class="tl-r">配置状态：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="production.configStatus" ng-options = "option.id as option.value for option in baseData.configStatusList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 关键字：</td>
+	                    <td class="fl search">
+	                        <input type="text"  placeholder="产品编码" ng-model="production.keyWord" id="search"/>
+	                    </td>
+	                </tr>
+	                <tr>
+						<td class="tl-r"></td>
+						<td class="fl search">
+							<div class="search-start" ng-click="searchStart()">查 询</div>
+							<div class="search-start" ng-click="clearSearch()">清 空</div>
+						</td>
+					</tr>
+	            </table>
+	            <div class="inner-table">
+	                    <div class="hdFixed">
+	                    </div>
+	                    <div class="bd">
+	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                                <th>
+	                                	产品名称
+	                                	<!--<div class="sortWrap">
+	                                		<div class="sortTimeTop" ng-click = 'sortTime({sortKey:"update_time",order:"asc"})'></div>
+	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
+	                                	</div>-->
+	                                </th>
+	                                <th>产品编码</th>
+	                                <th>产品状态</th>
+	                            	<th>配置状态</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            <tr ng-repeat="item in pairList">
+	                                <td width="30%" ng-bind="item.productionName"></td>
+	                                <td width="25%" ng-bind="item.productionCode"></td>
+	                                <td width="20%" ng-bind="item.status|productionStatus"></td>
+	                                <td width="20%" ng-bind="item.configStatus|configStatus"></td>
+	                                <td>
+	                                	<a href="javascript:void(0)" ng-click = "viewDetail(item)" ng-bind = "handleTitle(item)">配置</a>
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf">
+			                                共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values">
+			                </select>
+			                </div>
+			                <div class="fr ft-rt">
+			                    <div class="page clearfix">
+			                        <span page></span>
+			                    </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	</div>
+</div>
+	
+		

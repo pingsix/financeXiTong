@@ -1,0 +1,129 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">机构配置</div>
+	        <div class="inner-header-rt fr" style="min-width:220px">
+	            <a  ui-sref ="configuration.newOrganic" class="btn1 fr importA">新建机构</a>
+	        </div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                <!--<tr>
+	                    <td class="tl-r">数据统计日期范围：<input type="hidden" id="timeDefaut"></td>
+	                    <td>
+	                    	<input id="inpstart" class="datainp inp1 fl calendar" ng-model = 'query.presentDateStart' type="text" placeholder="开始日期" value=""  readonly>
+	                        <span class="fl" style="line-height:27px;padding:0 6px;">至</span>
+						    <input id="inpend" class="datainp inp1 fl calendar" ng-model = 'query.presentDateEnd' type="text" placeholder="结束日期" readonly>
+	                    </td>
+	                </tr>-->
+	                <tr>
+	                    <td class="tl-r">机构类型：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.partnerType" ng-options = "option.typeCode as option.typeName for option in baseSelectData.partnerTypeList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r">机构名称：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.partnerCode" ng-options = "option.partnerCode as option.partnerName for option in baseSelectData.partnerList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 关键字：</td>
+	                    <td class="fl search">
+	                        <input type="text"  placeholder="apiCode" ng-model="query.apiCode" id="search"/>
+	                    </td>
+	                </tr>
+	                <tr>
+						<td class="tl-r"></td>
+						<td class="fl search">
+							<div class="search-start" ng-click="searchStart()">查 询</div>
+							<div class="search-start" ng-click="clearSearch()">清 空</div>
+						</td>
+					</tr>
+	            </table>
+	            <div class="inner-table">
+	                    <div class="hdFixed">
+	                    </div>
+	                    <div class="bd">
+	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                                <th>
+	                                	创建日期
+	                                	<div class="sortWrap">
+	                                		<div class="sortTimeTop" ng-click = 'sortTime({sortKey:"update_time",order:"asc"})'></div>
+	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
+	                                	</div>
+	                                </th>
+	                                <th>机构名称</th>
+	                                <th>机构类型</th>
+	                            	<th>放款总额（万）</th>
+	                                <th>保证金额度（万）</th>
+	                                <th>机构管理员</th>
+	                                <th>apiCode</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            <tr ng-repeat="item in loanMenInfo">
+	                                <td ng-bind="item.modifyTime.time|timeDateFilter"></td>
+	                                <td ng-bind="item.partnerName"></td>
+	                                <td ng-bind="item.partnerType|partnerType"></td>
+	                                <td ng-bind="item.totalLoans"></td>
+	                                <td ng-bind="item.fineMoney"></td>
+	                                <td ng-bind="item.partnerAdminName"></td>
+	                                <td ng-bind="item.apiCode"></td>
+	                                <td>
+	                                	<a href="javascript:void(0)" class="mlr5" ng-click = "upload(item)">上传</a>
+	                                	<a href="javascript:void(0)" class="mlr5" ng-click = "downLoad(item)">下载</a>
+	                                	<a href="javascript:void(0)" class="mlr5" ng-click = "edit(item)">编辑</a>
+	                                	<a href="javascript:void(0)" ng-click = "viewDetail(item)">查看</a>
+	                                	<!--<a href="javascript:void(0)" class="mlr5" ng-click = "isFreeze(item)" ng-bind = "item.isCooperation|isFreeze"></a>-->
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf">
+			                                共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values">
+			                </select>
+			                </div>
+			                <div class="fr ft-rt">
+			                    <div class="page clearfix">
+			                        <span page></span>
+			                    </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	    <div>
+	   	    <div id="report-template-mask" ng-style="{display:dialog.show ? 'block' : 'none'}"></div>
+	    	<div class="successList2" ng-style = "{display:dialog.show ? 'block' : 'none'}">
+		        <div class="col-md-11" style="padding-top: 80px">
+					<div>
+						<input class="upLoadInfo" name="file" readonly="readonly" ng-model = "uploader.queue[0].file.name" type="text" placeholder="上传附件格式（.zip）"/>
+						<div class="upLoadWrapper">
+							<span style="position: absolute; left: 36px; top: -27px;">选择文件</span>
+							<input type="file" class="upLoadInp" nv-file-select="" uploader="uploader" />
+						</div>
+					</div>
+		            <div>
+		                <div class="progress" ng-show = "uploader.queue[0].file.name" style="margin-bottom: 48px;">
+		                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">{{uploader.progress}}%</div>
+		                </div>
+		                <button type="button" class="btn btn-success btn-s mlr30" ng-click="uploader.uploadAll(upLoadParam)" ng-disabled="!uploader.getNotUploadedItems().length">
+		                   	 上传       	  
+		                </button>
+		                <button type="button" class="btn btn-danger btn-s mlr30" ng-click="uploader.clearQueue(dialog)">
+		             		关闭
+		                </button>
+		            </div>
+		        </div>
+	    	</div>
+	    </div>
+	</div>
+</div>
+	
+		

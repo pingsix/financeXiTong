@@ -1,0 +1,10 @@
+@keyframes rotateplane
+0% {
+    transform: perspective(120px) rotateX(0) rotateY(0);
+}
+50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0);
+}
+100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+}

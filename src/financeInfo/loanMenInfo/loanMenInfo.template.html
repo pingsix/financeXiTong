@@ -1,0 +1,121 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">借款人财务信息</div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                <tr>
+	                    <td class="tl-r">数据创建时间范围：<input type="hidden" id="timeDefaut"></td>
+	                    <td style="width: 500px;">
+	                    	<input id="inpCreateStart" class="datainp inp1 fl calendar" ng-model = 'query.createTimeStart' ng-click = "getCreateStartDate(query.createTimeStart)" type="text" placeholder="开始日期" value=""  readonly>
+	                        <span class="fl" style="line-height:27px;padding:0 6px;">至</span>
+						    <input id="inpCreateEnd" class="datainp inp1 fl calendar" ng-model = 'query.createTimeEnd' ng-click = "getCreateEndDate(query.createTimeEnd)" type="text" placeholder="结束日期" readonly>
+	                    </td>
+	                	<td class="tl-r">数据更新时间范围：<input type="hidden" id="timeDefaut"></td>
+	                    <td>
+	                    	<input id="inpstart" class="datainp inp1 fl calendar" ng-model = 'query.updateTimeStart' ng-click = "getStartDate(query.updateTimeStart)" type="text" placeholder="开始日期" value=""  readonly>
+	                        <span class="fl" style="line-height:27px;padding:0 6px;">至</span>
+						    <input id="inpend" class="datainp inp1 fl calendar" ng-model = 'query.updateTimeEnd' ng-click = "getEndDate(query.updateTimeEnd)" type="text" placeholder="结束日期" readonly>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r">产品：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.productionCode" ng-options = "option.productionCode as option.productionName for option in baseSelectData.productionList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r">当前状态：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.presentStatus" ng-options = "option.id as option.value for option in baseSelectData.presentStatusList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                <td class="tl-r">放款状态：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.loanStatus" ng-options = "option.id as option.value for option in baseSelectData.loanStatusList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 关键字：</td>
+	                    <td class="fl search">
+	                        <input type="text" placeholder="姓名/案件号/身份证号" ng-model="query.keyWord" id="search"/>
+	                    </td>
+	                </tr>
+	                <tr>
+						<td class="tl-r"></td>
+						<td class="fl search">
+							<div class="search-start" behavior ng-click="searchStart()">查 询</div>
+							<div class="search-start" behavior ng-click="clearSearch()">清 空</div>
+						</td>
+					</tr>
+	            </table>
+	                </div>
+	                <div class="inner-table">
+	                    <div class="hdFixed">
+	                        <div class="hd clearfix id" id="tableHD">
+	                            <label class="checkAll-wrap" ng-click="selectAll($event);tableClick($event)">
+									<input type="checkbox" id="selectAll" class="checkAll-checkbox" ng-click = "allChecked()" ng-checked = "checkBoxManage"/>
+									<span style="-webkit-user-select: none;">全选</span>
+	                            </label>
+	                            <span>
+	                            	<download-btn name = "全量导出" lock = "isDisabled" ng-click = "exprotFileAll()" class="fr"/>
+	                            </span>
+	                            <span>
+	                            	<download-btn name = "导出" lock = "downloadBtn" ng-click = "exprotFile()" class="fr"/>
+	                            </span>
+	                        </div>
+	                    </div>
+	                    <div class="bd">
+	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                                <th width="39"></th>
+	                            	<th>案件号</th>
+	                                <th>产品</th>
+	                                <th>
+	                                	数据更新时间
+	                                	<div class="sortWrap">
+	                                		<div class="sortTimeTop" ng-click = 'sortTime({sortKey:"update_time",order:"asc"})'></div>
+	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
+	                                	</div>
+	                                </th>
+	                                <th>放款金额</th>
+	                                <th>姓名</th>
+	                                <th>身份证号</th>
+	                                <th>当前状态</th>
+	                                <th>操作状态</th>
+	                                <th>放款状态</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            <tr ng-repeat="item in loanMenInfo">
+	                            	<td><input type="checkbox" ng-model="item.CheckboxFlag" ng-click = "watchListChecked()" ng-change = "watchChecked2()" ng-disabled = "item.beAccept" ng-checked="item.CheckboxFlag"/></td>
+	                                <td ng-bind="item.requestId"></td>
+	                                <td ng-bind="item.productionName"></td>
+	                                <td ng-bind="item.updateTime.time|timeFilter"></td>
+	                                <td ng-bind="item.loanAmount"></td>
+	                                <td ng-bind="item.applicantName"></td>
+	                                <td ng-bind="item.cardId"></td>
+	                                <td ng-bind="item.presentStatus"></td>
+	                                <td ng-bind="item.operationStatus"></td>
+	                                <td ng-bind="item.loanStatus"></td>
+	                                <td><a href="javascript:void(0)" target="_blank" ng-click = "viewDetail(item)">查看</a></td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf"> 共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values"></select>
+			            </div>
+			            <div class="fr ft-rt">
+			                <div class="page clearfix">
+			                <span page></span>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,68 @@
+<div class="main">
+	<div class="inner">
+	    <div class="content_wrap content_wrapRole">
+	        <div class="inner-header">
+	            <div class="inner-header-lf fl">角色管理</div>
+	
+	            <div class="add_user">
+	                <a ng-click="manager(10)">
+	                    <span class="add"></span>
+	                    <span>新建角色</span>
+	                </a>
+	            </div>
+	        </div>
+	
+	        <div class="inner-body">
+	            <div class="hdFixed">
+	                <div class="hd id" id="tableHD">
+	                    <p class="contentR_shezhi">
+	                        <label ng-click="selectAll();tableClick($event)">
+	                            <input ng-click = "allChecked()" ng-checked = "checkBoxManage" ng-model = "checkBoxManage" type="checkbox" class="c1" id="selectAll">
+	                            <span class="all">全选</span>
+	                        </label>
+	
+	                    <span class="delboxR  {{isActive2}}" ng-click="delAllAction()">
+	                        <span class="delR"></span>
+	                        <span>删除</span>
+	                    </span>
+	                    </p>
+	                </div>
+	            </div>
+	
+	            <div class="inner-table" style="margin: 0 23px">
+	                <table class="table_role oddEvenColor" ng-click="tableClick($event)">
+	                    <tr class="tr_header">
+	                        <td class="c2"></td>
+	                        <td class="role_name">角色ID</td>
+	                        <td class="role_name">角色名称</td>
+	                        <td class="info">说明</td>
+	                        <td class="cz">操作</td>
+	                    </tr>
+	                    <tr ng-repeat="item in UserInfoList">
+	                        <td><input type="checkbox" ng-change = "watchChecked2()" ng-model="item.CheckboxFlag" ng-checked="item.CheckboxFlag"></td>
+	                        <td ng-bind="item.groupId"></td>
+	                        <td ng-bind="item.groupName"></td>
+	                        <td width="50%" ng-bind="item.roleExplain"></td>
+	                        <td>
+	                            <a href="javascript:void(0)" ng-click = "editRole(item)">编辑</a>
+	                        </td>
+	                    </tr>
+	                </table>
+	                <div class="ft clearfix yeshu">
+			            <div class="fl ft-lf">
+				                共<span ng-bind="count"></span>条 每页显示
+				                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values"></select>
+				            </div>
+				            <div class="fr ft-rt">
+				                <div class="page">
+				                    <span page></span>
+				                </div>
+				            </div>
+		       			 </div>
+	            </div>
+	            <div class="inner-footer"></div>
+	        </div>
+	        <div class="inner-footer"></div>
+	    </div>
+	</div>
+</div>

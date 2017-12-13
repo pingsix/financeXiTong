@@ -1,0 +1,128 @@
+#slideBar .menu1{
+    background:url(../images/userManage_off.png) 46px 15px no-repeat;
+}
+#slideBar .menu2{
+    background:url(../images/roleManage_off.png) 46px 15px no-repeat;
+}
+/*#slideBar .menu3{
+    background:url(../images/manager_menu3_on.png) 46px 15px no-repeat;
+}
+#slideBar .menu4{
+    background:url(../images/manager_menu4_on.png) 46px 15px no-repeat;
+}*/
+
+#slideBar .selected .menu1{
+    background:url(../images/userManage_on.png) 46px 15px no-repeat;
+}
+#slideBar .selected .menu2{
+    background:url(../images/roleManage_on.png) 46px 15px no-repeat;
+}
+/*#slideBar .selected .menu3{
+    background:url(../images/manager_menu3_off.png) 46px 15px no-repeat;
+}
+#slideBar .selected .menu4{
+    background:url(../images/manager_menu4_off.png) 46px 15px no-repeat;
+}*/
+
+
+.inner{
+    color:#323236;
+    background:#f6f6f6;
+    padding:0 22px;
+    position: relative;
+    /*border: 1px solid transparent;*/
+}
+.inner-header-lf{
+    font:bold 14px/24px 'microsoft yahei';
+    padding:19px 0 8px;
+}
+.inner-header-lf .title{
+    font-weight: bold;
+}
+.inner-header-rt{
+    padding:17px 0 0 0;
+}
+.inner-body{
+    padding-top: 50px;
+    background: #fff;
+    border:1px solid #efefef;
+}
+
+.inner-footer {
+    min-height: 20px;
+}
+.yeshu select{
+    width: 70px;
+    height: 22px;
+}
+.yeshu{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.content_wrapRole{
+    margin-top: 0;
+}
+
+.content_newUser label input{
+    position: relative;
+    top: 2px;
+}
+.rolesWrapper{
+	overflow: hidden;
+	height: 27px;
+}
+.clearfl{
+	content:".";
+    visibility:hidden;
+    display:block;
+    height:0;
+    clear:both;
+}
+.showBtn{
+	position: absolute; 
+	right: 19%; 
+	top: 6px; 
+	cursor: pointer; 
+	-webkit-user-select: none;
+}
+.lables{
+	 margin-left: 10px; 
+	 display: inline-block; 
+	 width: 156px;
+	 height:30px;
+	 line-height: 30px;
+	 -webkit-user-select: none;
+}
+.lablesWrapper{
+	width: 90%;
+}
+.inputTip{
+	width: 18px; 
+	height: 18px;
+	line-height: 18px;
+	display: inline-block;
+	margin: 5px 0 0 5px;
+	border-radius: 16px;
+	background: #ff3f08;
+}
+.inputTip:after{
+	color: #FFFFFF;
+	content: '?';
+	margin-left: 6px;
+}
+.inputTipBlank{
+	width: auto;
+	height: 26px;
+	line-height: 22px;
+	margin-left: 10px;
+	color: #bbb;
+	font-size: 16px;
+	font-weight: normal;
+}
+.ml54{
+	margin-left: 54px;
+}
+.content-role{
+	background: #fff;
+    padding: 50px 0 60px 0;
+}

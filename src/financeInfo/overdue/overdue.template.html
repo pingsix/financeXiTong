@@ -1,0 +1,91 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">
+	                       逾期用户信息
+	        </div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                <tr>
+	                    <td class="tl-r">当期逾期发生日期：<input type="hidden" id="timeDefaut"></td>
+	                    <td>
+	                    	<input id="inpstart" class="datainp inp1 fl calendar" ng-model = 'query.presOverdueDateStart' type="text" placeholder="开始日期" value=""  readonly>
+	                        <span class="fl" style="line-height:27px;padding:0 6px;">至</span>
+						    <input id="inpend" class="datainp inp1 fl calendar" ng-model = 'query.presOverdueDateEnd' type="text" placeholder="结束日期" readonly>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r">产品：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.productionCode" ng-options = "option.productionCode as option.productionName for option in baseSelectData.productionList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r">合作机构：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.partnerCode" ng-options = "option.partnerCode as option.partner for option in baseSelectData.partnerList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 关键字：</td>
+	                    <td class="fl search">
+	                        <input type="text" placeholder="姓名/案件号/身份证号" ng-model="query.keyWord" id="search"/>
+	                    </td>
+	                </tr>
+	            </table>
+	                </div>
+	                <div class="inner-table">
+	                    <div class="hdFixed">
+	                        <div class="hd clearfix id" id="tableHD">
+	                        	<download-btn name = "全量导出" lock = "allExportFlag" ng-click = "fileExport()" class="fr"/>
+								<!--<button ng-disabled = "!allExportFlag" ng-style = "{color: allExportFlag ? 'rgb(233, 64, 51)' : 'rgb(167, 167, 167)'}" ng-click="fileExport('allExport')" class="fl btn2 btn2-export all-exprot">全量导出</button>-->
+	                        </div>
+	                    </div>
+	                    <div class="bd">
+	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                            	<th>案件号</th>
+	                                <th>合作机构</th>
+	                                <th>产品</th>
+	                                <th>
+	                                	当期逾期发生日期
+	                                	<div class="sortWrap">
+	                                		<div class="sortTimeTop" ng-click = 'sortTime({sortKey:"update_time",order:"asc"})'></div>
+	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
+	                                	</div>
+	                                </th>
+	                                <th>当前应偿未偿总金额</th>
+	                                <th>姓名</th>
+	                                <th>身份证</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            <tr ng-repeat="item in loanMenInfo">
+	                                <td ng-bind="item.requestId"></td>
+	                                <td ng-bind="item.partner"></td>
+	                                <td ng-bind="item.productionName"></td>
+	                                <td ng-bind="item.presOverdueDate.time|timeDateFilter"></td>
+	                                <td ng-bind="item.presentDueSum"></td>
+	                                <td ng-bind="item.applicantName"></td>
+	                                <td ng-bind="item.cardId"></td>
+	                                <td><a href="javascript:void(0)" ng-click = "viewDetail(item)" href="">查看</a></td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf">共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values"></select>
+			            </div>
+			            <div class="fr ft-rt">
+			                <div class="page clearfix">
+			                <span page></span>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	</div>
+</div>

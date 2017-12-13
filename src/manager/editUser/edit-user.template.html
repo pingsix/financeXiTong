@@ -1,0 +1,48 @@
+<div class="main">
+	<div class="inner">
+	    <div class="title" style="margin-top: 24px">编辑用户</div>
+	    <div class="content_wrap" id="content">
+	        <div class="content content_user">
+	            <div id="roleid" class="rolesWrapper" style="padding:0 20% 0 27%; position: relative;">
+		            <span class="fl"><i class="not-null">*</i>角色：</span>
+		            <div class="fr lablesWrapper">
+		            	<label ng-repeat="item in selectData.values" class="lables">
+		                	<input ng-model="item.checked" ng-change = 'saveRoles()' name="roleName" type="checkbox" value="{{item.groupId}}" >&nbsp;{{item.groupName}}
+		           		</label>
+		            </div>
+		            <div ng-click = "taggleAll()" class="showBtn">&#9660;</div>
+		        </div>
+		        <div class="clearfl"></div>
+	            <p>
+	                <span><i class="not-null">*</i>账号：</span>
+	                <input type="text" disabled ng-model="username" style="background: #ffffff;border: none">
+	            </p>
+	            <p>
+	                <span><i class="not-null">*</i>姓名：</span>
+	                <input type="text" ng-model="realName" id="realName" ng-keyup="realNameKeyup(event)">
+	            </p>
+	            <p>
+	                <span class="fl adjust"><i class="not-null">*</i>邮箱：</span>
+	                <input type="text" ng-model="email" id="email" ng-blur="mailVerify()" class="fl">
+	                <a class="tooltip fl error1" ng-bind="mailTip"></a>
+	            </p>
+	            <p>
+	                <span class="fl adjust">固定号码：</span>
+	                <input type="text" ng-model="phone" id="phone" maxlength="18" ng-blur="cellVerify()" class="fl">
+	                <i ng-mouseOver = "tellTipShow()" ng-mouseOut = "tellTipHidden()" class=" inputTip"></i>
+	                <a ng-show = "inputTipContext" class="inputTipBlank">例：010-12345678/13812345678</a>
+	            </p>
+	            <p class="text" style="height: 180px;">
+	                <span class="beizhu">备注：</span>
+	                <textarea cols="50" rows="8" id="remark" ng-model="remark" ng-keyup="remarkKeyup(event)" maxlength="200"></textarea>
+	                &nbsp;还能输入<span class="number" id="number" ng-bind="number"></span>个字符
+	            </p>
+	            <p class="btn">
+	                <button class="save" ng-click="click()" id="save">保 存</button>
+	                <button class="back ml54" id="back" ng-click="back()">返 回</button>
+	            </p>
+	        </div>
+	        <div class="inner-footer"></div>
+	    </div>
+	</div>
+</div>

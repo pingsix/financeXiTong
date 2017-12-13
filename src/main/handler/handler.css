@@ -1,0 +1,33 @@
+.ml54{
+	margin-left: 54px;
+}
+.content_pwd .mt80{
+	margin-top: 80px;
+}
+.title-pwd{
+	font-size: 14px;
+    font-weight: bold;
+    color: #323236;
+    padding-left: 10px;
+    margin-top: 24px;
+	margin-bottom: 120px;
+}
+.content_pwd{
+	width: 100%;
+}
+.content_pwd p{
+	padding-left:40%;
+	margin: 20px;
+	height: 24px;
+}
+.content_pwd p span,input{
+	height: 22px;
+}
+.content_pwd p span{
+	width: 70px;
+	display: inline-block;
+	text-align: right;
+}
+.content_pwd p input{
+	padding: 1px 6px;
+}

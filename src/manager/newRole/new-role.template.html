@@ -1,0 +1,30 @@
+<div id="main">
+    <div class="main">
+        <div class="inner">
+        	<div class="inner-header clearfix">
+		        <div class="inner-header-lf fl" ng-bind = "title"></div>
+		    </div>
+            <div class="contentTree content-role">
+                <div class="rolenameTitle">
+                    <div ng-show = "roleShowId" id="roleShow" style="position: relative;">
+                        <span><i class="not-null">*</i>角色ID：</span><input type="text" id="roleId" ng-model = "roleId" maxlength="20">
+                    </div>
+                    <div>
+                        <span><i class="not-null">*</i>角色昵称：</span>
+                        <input ng-disabled = "!!isEdit" type="text" id="roleName" ng-model = "roleName" maxlength="20">
+                    </div>
+                    <div id="shuoming">
+                        <span style="margin-top: 4px;float: left">说明：</span><textarea cols="28" rows="2" id="remark" ng-model = "remark" maxlength="200"></textarea>
+                    </div>
+                </div>
+                <div style="margin-left: 40%">
+                    <div id="dtree" style="font-size: 13px;color: #414142"></div>
+                    <p class="btn" style="margin-top: 40px;padding-left: 30px;margin-bottom: 30px">
+                        <button class="save btn" id="btnSave">保 存</button>
+                    </p>
+                </div>
+            </div>
+            <div class="inner-footer"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+.content_wrapR{
+    width: 100%;
+}
+.content_left{
+    float: left;
+    height: 100%;
+    width: 9%;
+    min-width: 118px;
+    background-color: #2a3355;
+}
+.content_left_nav{
+    display: block;
+    height: 70px;
+    border: 1px solid transparent;
+}
+.yinying{
+    background-color: rgba(0,0,0,0.5);
+}
+.content_left_nav span{
+    display: block;
+    width: 25px;
+    height: 25px;
+    margin: 11px auto 7px auto;
+}
+.jsgl{
+    background: url("../images/icon_sprites.png") -255px 0 no-repeat;
+}
+.shgl{
+    background: url("../images/icon_sprites.png") -226px 0 no-repeat;
+
+}
+.content_left_nav p{
+    text-align: center;
+    font-size: 14px;
+    line-height: 14px;
+    color: #fefeff;
+}
+.content_title{
+    font-size: 14px;
+    font-weight: bold;
+    color: #323236;
+    margin: 0 23px;
+    margin-bottom: 12px;
+    padding-left: 10px;
+}
+.table_role{
+    width: 100%;
+    /*margin: 0 auto;*/
+    font-size: 13px;
+    color: #414142;
+    text-align: center;
+}
+.tr_header{
+background-color: #f6f6f6;
+}
+.tr_dan{
+background-color: #fafafa;
+}
+.table_role tr{
+    height: 32px;
+}
+.table_role tr td{
+    border-right: 1px solid #ffffff;
+}
+.table_role tr td:last-child{
+    width: 248px;
+}
+.table_role tr td:last-child a{
+    color: #81abe9;
+}
+input[type="checkbox"]{
+    background-color: #ffffff;
+    width: 15px;
+    height: 15px;
+}
+/*.delR{*/
+    /*display: inline-block;*/
+    /*width: 15px;*/
+    /*height: 15px;*/
+    /*background: url("../images/del.png");*/
+    /*margin-right: 5px;*/
+/*}*/
+.delete{
+    background: url("../images/del.png") -30px 0;
+}
+.c2{
+    width: 40px;
+}
+.table_role .role_name{
+    width: 220px;
+}
+.table_role tr td:nth-child(2){
+    text-align: left;
+    width: 165px;
+    padding-left: 60px;
+}
+.table_role tr td:nth-child(3){
+    text-align: left;
+    padding-left: 60px;
+}
+.table_role .tr_header .info{
+    /*padding-left: 185px;*/
+}
+
+
+/*树*/
+.contentTree input{
+    font-size: 13px;
+    color: #414142;
+    width: 206px;
+    height: 28px;
+    border: 1px solid #c6c6c6;
+    padding-left: 4px;
+}
+.contentTree span{
+    font-size: 14px;
+    colort: #414142;
+    display: inline-block;
+    text-align: right;
+    width: 84px;
+}
+.contentTree textarea{
+    margin-left: 0;
+}
+.contentTree .rolenameTitle{
+    margin-left: 35%;
+
+}
+.contentTree .rolenameTitle div{
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #414142;
+}

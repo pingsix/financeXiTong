@@ -1,0 +1,8 @@
+{
+  "generator-angular_pro": {
+    "name": "accms2",
+    "domain": "xxx.100credit.com",
+    "port": "80",
+    "interfaceServer": "http://192.168.162.108"
+  }
+}

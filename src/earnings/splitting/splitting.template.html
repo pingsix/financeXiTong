@@ -1,0 +1,110 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">分润情况</div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                <tr>
+	                    <td class="tl-r">Ⅰ类合作机构：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="query.partnerCode" ng-change = "getSelectFlList(query.partnerCode)" ng-options = "option.partnerCode as option.partnerName for option in selectBaseData.organize1"></select>
+	                    </td>
+	                    <td class="tl-r">Ⅱ类合作机构：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="query.accPartnerCode" ng-options = "option.accPartnerCode as option.accPartnerName for option in selectBaseData2.organize2"></select>
+	                    </td>
+	                    <td class="tl-r">产品：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="query.productionCode" ng-options = "option.productionCode as option.productionName for option in selectBaseData.productionList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 关键字：</td>
+	                    <td class="fl search">
+	                        <input type="text"  placeholder="产品" ng-model="query.keyWord" id="search"/>
+	                    </td>
+	                </tr>
+	                <tr>
+						<td class="tl-r"></td>
+						<td class="fl search">
+							<div class="search-start" ng-click="searchStart()">查 询</div>
+							<div class="search-start" ng-click="clearSearch()">清 空</div>
+						</td>
+					</tr>
+	            </table>
+	            <div class="inner-table">
+	                    <div class="hdFixed">
+	                    </div>
+	                    <div class="bd">
+	                    	<div style="margin: 20px 0 40px;">
+	                    		<div class="listHeadToolsBar">
+	                    			<span class="title">产品总收益</span>
+	                    			<download-btn name = "导出" lock = "true" ng-click = "exportAll()" class="fr"/>
+	                    		</div>
+	                    		<table class="table_user oddEvenColor" border="1" borderColor="#fff">
+	                    			<tr>
+	                    				<td>产品名称</td>
+	                    				<td>放款总金额</td>
+	                    				<td>放款总人数</td>
+	                    				<td>百融服务费收益</td>
+	                    				<td>资产方服务费收益</td>
+	                    				<td>资金方服务费收益</td>
+	                    				<td>资金成本</td>
+	                    				<td>实际服务费收益</td>
+	                    			</tr>
+	                    			<tr ng-repeat = "item in listBaseData">
+	                    				<td ng-bind="item.productionName"></td>
+	                    				<td ng-bind="item.loanAmountTot"></td>
+	                    				<td ng-bind="item.loanNumTot"></td>
+	                    				<td ng-bind="item.serviceFeeBrTot"></td>
+	                    				<td ng-bind="item.serviceFeeZcTot"></td>
+	                    				<td ng-bind="item.serviceFeeZjTot"></td>
+	                    				<td ng-bind="item.fundSharing"></td>
+	                    				<td ng-bind="item.repaidServiceFeeBr"></td>
+	                    			</tr>
+	                    		</table>
+	                    	</div>
+	                    	<div style="margin-bottom: 80px;">
+	                    		<div class="listHeadToolsBar">
+	                    			<span class="title">产品总收益（当月）</span>
+	                    			<!--<download-btn name = "导出" lock = "exportMonthLock" ng-click = "exportMonth" class="fr"/>-->
+	                    		</div>
+	                    		<table class="table_user oddEvenColor" border="1" borderColor="#fff">
+	                    			<tr>
+	                    				<td>产品名称</td>
+	                    				<td>放款总金额</td>
+	                    				<td>放款总人数</td>
+	                    				<td>百融服务费收益</td>
+	                    				<td>资产方服务费收益</td>
+	                    				<td>资金方服务费收益</td>
+	                    				<td>资金成本</td>
+	                    				<td>实际服务费收益</td>
+	                    			</tr>
+	                    			<tr ng-repeat = "item in listBaseData">
+	                    				<td ng-bind="item.productionName"></td>
+	                    				<td ng-bind="item.loanAmountTot"></td>
+	                    				<td ng-bind="item.loanNumTot"></td>
+	                    				<td ng-bind="item.serviceFeeBrTot"></td>
+	                    				<td ng-bind="item.serviceFeeZcTot"></td>
+	                    				<td ng-bind="item.serviceFeeZjTot"></td>
+	                    				<td ng-bind="item.fundSharing"></td>
+	                    				<td ng-bind="item.repaidServiceFeeBr"></td>
+	                    			</tr>
+	                    		</table>
+	                    	</div>
+	                    	
+	                    	
+	                    </div>
+	                <div class="ft clearfix" ng-style="{visibility:showPage}">
+			        </div>
+			    </div>
+			</div>
+	    </div>
+		<div class="inner-footer"></div>
+	</div>
+</div>
+	
+		

@@ -1,0 +1,83 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">应回款报表</div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                <tr>
+	                    <td class="tl-r">应回款日期：<input type="hidden" id="timeDefaut"></td>
+	                    <td style="width: 500px;">
+	                    	<input id="inpCreateStart" class="datainp inp1 fl calendar" ng-model = 'query.repaymentDate' ng-click = "getCreateStartDate(query.repaymentDate)" type="text" readonly>
+	                    </td>
+	                	<td></td>
+	                    <td>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r">产品：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.productionCode" ng-options = "option.productionCode as option.productionName for option in baseSelectData.productionList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+						<td class="tl-r"></td>
+						<td class="fl search">
+							<div class="search-start" behavior ng-click="searchStart()">查 询</div>
+							<div class="search-start" behavior ng-click="clearSearch()">清 空</div>
+						</td>
+					</tr>
+	            </table>
+	                </div>
+	                <div class="inner-table">
+	                    <div class="hdFixed">
+	                        <div class="hd clearfix id" id="tableHD">
+	                            <download-btn name = "导出" lock = "isDisabled" ng-click = "exprotFile()" class="fr"/>
+	                        </div>
+	                    </div>
+	                    <div class="bd">
+	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                                <th width="39">序号</th>
+	                            	<th>案件号</th>
+	                            	<th>产品</th>
+	                                <th>姓名</th>
+	                                <th>期数</th>
+	                                <th>应还时间</th>
+	                                <th>应还本金</th>
+	                                <th>应还利息</th>
+	                                <th>应还百融服务费</th>
+	                                <th>应还总金额</th>
+	                                <th>还款状态</th>
+	                            </tr>
+	                            <tr ng-repeat="item in loanMenInfo">
+	                            	<td ng-bind="$index + 1"></td>
+	                                <td ng-bind="item.requestId"></td>
+	                                <td ng-bind="item.productionName"></td>
+	                                <td ng-bind="item.applicantName"></td>
+	                                <td ng-bind="item.billPeriods"></td>
+	                                <td ng-bind="item.repaidDeadline.time|timeDateFilter"></td>
+	                                <td ng-bind="item.presentPri"></td>
+	                                <td ng-bind="item.presentInt"></td>
+	                                <td ng-bind="item.presentServiceFeeBr"></td>
+	                                <td ng-bind="(item.presentPri + item.presentInt + item.presentServiceFeeBr) | number:2"></td>
+	                                <td ng-bind="item.status"></td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf"> 共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values"></select>
+			            </div>
+			            <div class="fr ft-rt">
+			                <div class="page clearfix">
+			                <span page></span>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	</div>
+</div>

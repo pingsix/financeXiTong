@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>账务系统</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	</head>
+	<body ng-controller="loginCtrl">
+	<!--<body>-->
+		<div id="login_content">
+			<!--<div class="loging_mask"></div>-->
+		    <div class="form_content">
+		        <div>
+		            <div class="loginForm" ng-keyup="myKeyup($event)">
+		            	<div class="logo_icon">
+		            		<img src="../images/logo-login.png" />
+		           		</div>
+		                <p class="loginForm_errorInfo" id="loginForm_errorInfo">用户名或密码错误</p>
+		                <div class="uName_ inputsty" id="uName_">
+		                    <span class="uName_pic"><img src="../images/uname.png"/></span>
+		                    <input  type="text" ng-focus = "ngfocus()" ng-blur = "ngblur()" maxlength="32" ng-keyup="usernameKeyup(event)" ng-model="username" id="uesrname" class="userName" placeholder="请输入您的用户名" ng-change="changeColor1(event)" -ms-clear { display: none; }/>
+		                    <a class="loginCancle" id="loginCancle1" ng-click="loginCancle()"><img src="../images/cancle.png"></a>
+		                </div>
+		                <div class="uPwd_ inputsty" id="uPwd_">
+		                    <span class="uPwd_pic"><img src="../images/upwd.png"/></span>
+		                    <input type="text" ng-focus = "ngfocus()" ng-blur = "ngblur()" maxlength="32" onfocus="this.type = 'password'" ng-keyup="passwordKeyup(event)" class="userPwd" id="password" ng-model="password"  placeholder="请输入您的密码" ng-change="changeColor2(event)"/>
+		                    <a class="loginCancle" id="loginCancle2" ng-click="loginCancle1()"><img src="../images/eye.png"></a>
+		                </div>
+						<div class="uYzm_" id="uYzm_">
+								<span class="uYzm_1">
+		                        <input type="text"  ng-focus = "ngfocus()" ng-blur = "ngblur()" maxlength="4" ng-keyup="yzmKeyup(event)" class="userYzm" id="yzm" ng-model="yzm" maxlength="4" placeholder="验证码"  ng-change="changeColor3(event)"/>
+		                        </span>
+								<span class="uYzm_2" ng-click="changeCode()"><img id="yzmImg" ng-src="{{imgCode}}" /></span>
+						</div>
+		                <div class="btnLogin">
+		                    <button class="loginBtn" id="loginBtn" ng-click="click()" ng-mouseover="overBtn()" ng-mouseout="outBtn()">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+		                </div>
+		                <div class="lineHeight">
+			            	<img  src="../images/login_xian_shu.png" />
+			            </div>
+			            <div class="login_xian">
+			                <img class="lineWidth" src="../images/login_xian.png"/>
+			            </div>
+		            </div>
+		        </div>
+		        <div class="sky">
+					<div class="clouds_one"></div>
+					<div class="clouds_two"></div>
+					<div class="clouds_three"></div>
+					<p>Copyright &copy; 2014百融（北京）金融信息服务股份有限公司.All Right Reserved.京ICP备14032774号</p>
+				</div>
+		    </div>
+		</div>
+	</body>
+</html>

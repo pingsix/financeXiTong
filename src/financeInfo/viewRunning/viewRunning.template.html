@@ -1,0 +1,70 @@
+<div class="main">
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">明细账单流水详情信息</div>
+	    </div>
+	    <div class="inner-body viewRunningInner">
+	    	<div id="detailInfo2">
+	    		<div id="detailInfo" class="sectionMargin">
+	    		<div class="sectionTit">基本信息</div>
+	    		<ul class="sideTitle">
+		    		<li>当前状态数据时间</li>
+			    	<li>实际回款日期</li>
+			    	<li>本次已偿本金</li>
+			    	<li>本次已偿利息</li>
+			    	<li>本次已偿滞纳金</li>
+			    	<li>本次已偿逾期管理费</li>
+			    	<li>本次已偿服务费</li>
+			    	<li>本次已偿总金额</li>
+			    	<li>流水统计方式</li>
+			    	<li>当期状态</li>
+		    	</ul>
+	    		<ul ng-repeat = "item in swiftAccount">
+	    			<li ng-bind = "item.presentTime.time|timeFilter"></li>
+				    <li ng-bind = "item.repaidDate.time|timeFilter"></li><!--实际回款日期-->
+				    <li ng-bind = "item.repaidPri|toNum0"></li>
+				    <li ng-bind = "item.repaidInt|toNum0"></li>
+				    <li ng-bind = "item.repaidLateFee|toNum0"></li>
+				    <li ng-bind = "item.repaidLateManFee|toNum0"></li>
+				    <li ng-bind = "item.repaidServiceFee|toNum0"></li>
+				    <li ng-bind = "item.repaidTotMoney|toNum0"></li>
+				    <li ng-bind = "item.executeStatus"></li>
+				    <li ng-bind = "item.status"></li>
+	    		</ul>	
+	    	</div>
+	    	
+	    	<div id="detailInfo" class="sectionMargin some-period">
+	    		<div class="sectionTit">详细信息</div>
+		    		<ul class="sideTitle">
+		    			<li>当前期数</li>
+			    		<li>对应时期已偿本金</li>
+			    		<li>对应时期已偿服务费</li>
+			    		<li>对应时期已偿利息</li>
+			    		<li>对应时期已偿滞纳金</li>
+			    		<li>对应时期已偿逾期管理费</li>
+			    		<li>对应时期已偿总金额</li>
+			    	</ul>
+		    		<div class="innerAuto">
+						<div class="innerWrapper">
+							<ul ng-repeat = "item in swiftDetails">
+								<li>第{{item.billPeriods}}期</li>
+				    			<li ng-bind = "item.repaidPri|toNum0"></li>
+				    			<li ng-bind = "item.repaidServiceFee|toNum0"></li>
+				    			<li ng-bind = "item.repaidInt|toNum0"></li>
+				    			<li ng-bind = "item.repaidLateFee|toNum0"></li>
+				    			<li ng-bind = "item.repaidLateManFee|toNum0"></li>
+				    			<li ng-bind = "item.repaidTotMoney|toNum0"></li>
+				    		</ul>
+						</div>
+		    		</div>
+		    	</div>
+	    	</div>
+	    	<div class="goBack">
+				<a class="btn6" ng-click="goBack()" href="javascript:void(0)">返 回</a>
+	    	</div>
+	    </div>
+	    
+	    <div class="inner-footer">
+	    </div>
+	</div>
+</div>

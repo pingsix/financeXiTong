@@ -1,0 +1,698 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? innerResetHeight : 'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">详细信息</div>
+	    </div>
+	    <div class="inner-body paddingInner">
+	    	<table id="baseInfo" class="sectionMargin" width="100%" border="1px" bordercolor="#d2d2d2">
+	    		<caption class="sectionTit">基本信息</caption>
+				<tr>
+					<td>客户ID</td>
+					<td ng-bind = "detailData.customId"></td>
+					<td>案件号</td>
+					<td ng-bind = "detailData.requestId"></td>
+					<td>还款方式</td>
+					<td ng-bind = "detailData.eventType"></td>
+				</tr>
+				<tr>
+					<td>产品名称</td>
+					<td ng-bind = "detailData.productionName"></td>
+					<td>当前状态</td>
+					<td ng-bind = "detailData.presentStatus"></td>
+					<td>当前剩余本金余额</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentResPri"></td>
+				</tr>
+				<tr>
+					<td>姓名</td>
+					<td ng-bind = "detailData.applicantName"></td>
+					<td>当前状态数据时间</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentTime.time|timeFilter"></td>
+					<td>当前剩余利息</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentResInt"></td>
+				</tr>
+				<tr>
+					<td>身份证</td>
+					<td ng-bind = "detailData.cardId"></td>
+					<td>放款状态</td>
+					<td ng-bind = "detailData.loanStatus"></td>
+					<td>当前剩余滞纳金</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentResLateFee"></td>
+				</tr>
+				<tr>
+					<td>手机号码</td>
+					<td ng-bind = "detailData.callNumber"></td>
+					<td>未放款原因</td>
+					<td  title="{{detailData.loanRemark}}"><p ng-class = "{overflow : detailData.loanRemark.length > 27}" ng-bind = "detailData.loanRemark" ></p></td>
+					<td>当前剩余服务费</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentServiceFee"></td>
+				</tr>
+				<tr>
+					<td>申请日期</td>
+					<td ng-bind = "detailData.createTime == '0' ? '' : detailData.createTime.time|timeFilter"></td>
+					<td>放款日期</td>
+					<td ng-bind = "detailData.loanTime.time|timeDateFilter"></td>
+					<td>当前剩余期数</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentResPeriods == '0' ? '0' : detailData.productionPresentStatus.presentResPeriods"></td>
+				</tr>
+				<tr>
+					<td>申请金额</td>
+					<td ng-bind = "detailData.applyMoney == '0' ? '0' : detailData.applyMoney"></td>
+					<td>放款金额</td>
+					<td ng-bind = "detailData.loanAmount == '0' ? '0' : detailData.loanAmount"></td>
+					<td>百融服务费总计</td>
+					<td ng-bind = "detailData.productionPresentStatus.serviceFeeBrTot == '0' ? '0' : detailData.productionPresentStatus.serviceFeeBrTot"></td>
+				</tr>
+				<tr>
+					<td>申请期数</td>
+					<td ng-bind = "detailData.refundPeriods == '0' ? '0' : detailData.refundPeriods"></td>
+					<td>放款期数</td>
+					<td ng-bind = "detailData.loanPeriods == '0' ? '0' : detailData.loanPeriods"></td>
+					<td>百融已收服务费</td>
+					<td ng-bind = "detailData.productionPresentStatus.repaidServiceFeeBr == '0' ? '0' : detailData.productionPresentStatus.repaidServiceFeeBr"></td>
+				</tr>
+	    	</table>
+	    	
+	    	<div>
+	    		<div class="sectionTit">各期明细账单信息</div>
+	    		<ul class="navigation">
+	    			<li>资金方还款计划</li>
+	    			<li>百融还款计划</li>
+	    			<li>资产方还款计划</li>
+	    		</ul>
+	    		<div class="detail_plan">
+			    	<div id="detailInfo" class="sectionMargin detailInfo">
+			    		<ul class="sideTitle">
+				    		<li>当前期数</li>
+				    		<li class="overStyle" title = "当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额">当期应偿未偿金额</li>
+				    		<li>当期应偿本金</li>
+				    		<li>当期应偿利息</li>
+				    		<li>当期应偿滞纳金</li>
+				    		<li>当期应偿逾期管理费</li>
+				    		<li>当期应偿服务费</li>
+				    		<li>当期应偿总金额</li>
+				    		<li>当期已偿本金</li>
+				    		<li>当期已偿利息</li>
+				    		<li>当期已偿滞纳金</li>
+				    		<li>当期已偿逾期管理费</li>
+				    		<li>当期已偿服务费</li>
+				    		<li>当期已偿总金额</li>
+				    		<li>实际回款日期</li>
+				    		<li>当次逾期发生日期</li>
+				    		<li>应回款日期</li>
+				    		<li>保证金划扣金额</li>
+				    		<li>保证金划扣时间</li>
+				    		<li>合作机构回款金额</li>
+				    		<li>合作机构回款时间</li>
+				    		<li class="overStyle" title="还款合计 = 当期已偿总金额 + 当期已偿服务费">还款合计</li>
+				    		<li>当期状态</li>
+				    	</ul>
+			    		<div class="innerAuto">
+							<div class="innerWrapper">
+								<ul ng-repeat = "item in billPeriodsData.billPeriods">
+					    			<li class="financial-periods-head">
+					    				<span>第{{item.billPeriods}}期</span>
+					    				<!-- ng-if="flager"-->
+					    				<span ng-if="flager" class="financial-periods-edit" ng-click="editItemForm(item.billPeriods)">编辑</span>
+					    				<cloak_frame ng-show="flager" head = "第({{item.billPeriods}})期  账单明细编辑" cloak-submit="cloakCallback{{item.billPeriods}}" validate="validateSubmit">
+					    					<div class="innerlist-wrap">
+					    						<ul class="sideTitle">
+					    							<li>计划所属机构</li>
+										    		<li class="overStyle" title = "当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额">当期应偿未偿金额</li>
+										    		<li>当期应偿本金</li>
+										    		<li>当期应偿利息</li>
+										    		<li>当期应偿总服务费</li>
+				    								<li>当期应偿百融服务费</li>
+				    								<li>当期应偿合作方服务费</li>
+										    		<li>当期应偿滞纳金</li>
+										    		<li>当期应偿逾期管理费</li>
+										    		<li>当期应偿服务费</li>
+										    		<li>当期应偿总金额</li>
+										    		<li>当期已偿本金</li>
+										    		<li>当期已偿利息</li>
+										    		<li>当期已偿总服务费</li>
+										    		<li>当期已偿百融服务费</li>
+										    		<li>当期已偿合作方服务费</li>
+										    		<li>当期已偿滞纳金</li>
+										    		<li>当期已偿逾期管理费</li>
+										    		<li>当期已偿服务费</li>
+										    		<li>当期已偿总金额</li>
+										    		<li>实际回款日期</li>
+										    		<li>当次逾期发生日期</li>
+										    		<li>应回款日期</li>
+										    		<li>保证金划扣金额</li>
+										    		<li>保证金划扣时间</li>
+										    		<li>合作机构回款金额</li>
+										    		<li>合作机构回款时间</li>
+										    		<li class="overStyle" title="还款合计 = 当期已偿总金额 + 当期已偿服务费">还款合计</li>
+										    		<li>当期状态</li>
+					    						</ul>
+					    						<ul  ng-repeat = "editItem in editList">
+					    							<li ng-bind = "editItem.nameData.name|toNum0"></li>
+					    							
+					    							<li ng-if="editItem.nameData.key === 'billPeriodsForBr'? false : true" 
+					    								ng-bind = "{{handleNum(editItem.data.presentTotDue - editItem.data.repaidTotMoney - editItem.data.repaidServiceFee)}}|toNum0"></li>
+					    							<li ng-if="editItem.nameData.key === 'billPeriodsForBr'? true : false">-</li>
+					    							
+									    			<li ng-bind = "editItem.data.presentPri|toNum0"></li>
+									    			<li ng-bind = "editItem.data.presentInt|toNum0"></li>
+									    			
+									    			
+					    			
+					    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true">-</li> 
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false" 
+									    				ng-bind = "editItem.data.presentServiceFee|toNum0"></li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true">-</li> 
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false" 
+									    				ng-bind = "editItem.data.presentServiceFeeBr|toNum0"></li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true">-</li> 
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false" 
+									    				ng-bind = "editItem.data.presentServiceFeeZc|toNum0"></li>
+									    			
+									    			
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false" 
+									    				ng-bind = "editItem.data.presentLateFee|toNum0"></li>
+									    				
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false" 
+									    				ng-bind = "editItem.data.presentLateManFee|toNum0"></li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true" ng-bind = "editItem.data.presentServiceFee|toNum0"></li>
+									    			<!--<li ng-bind = "editItem.data.presentTotDue|toNum0"></li>-->
+									    			<li ng-bind = "(editItem.data.presentServiceFee + editItem.data.presentInt + editItem.data.presentPri)|number:2"></li>
+									    			<li><input ng-change="handlePeriodsInp(editItem.data.repaidPri,editItem.data,'repaidPri')" ng-model="editItem.data.repaidPri" type="number" /></li>
+									    				
+									    			
+									    			<li><input ng-change="handlePeriodsInp(editItem.data.repaidInt,editItem.data,'repaidInt')" ng-model="editItem.data.repaidInt" type="number" /></li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true">-</li> 
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidServiceFee,editItem.data,'repaidServiceFee')" ng-model="editItem.data.repaidServiceFee" type="number" />
+									    			</li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true">-</li> 
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidServiceFeeBr,editItem.data,'repaidServiceFeeBr')" ng-model="editItem.data.repaidServiceFeeBr" type="number" />
+									    			</li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? false :true">-</li> 
+									    			<li ng-if="editItem.nameData.key === 'billPeriodsForBr' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidServiceFeeZc,editItem.data,'repaidServiceFeeZc')" ng-model="editItem.data.repaidServiceFeeZc" type="number" />
+									    			</li>
+									    			
+									    				
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidLateFee,editItem.data,'repaidLateFee')" ng-model="editItem.data.repaidLateFee" type="number" />
+									    			</li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidLateManFee,editItem.data,'repaidLateManFee')" ng-model="editItem.data.repaidLateManFee" type="number" />
+									    			</li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' || 
+									    				editItem.nameData.key === 'billPeriodsForZc' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' || 
+									    				editItem.nameData.key === 'billPeriodsForZc' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidServiceFee,editItem.data,'repaidServiceFee')" ng-model="editItem.data.repaidServiceFee" type="number" />
+									    			</li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' || 
+									    				editItem.nameData.key === 'billPeriodsForZc' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' || 
+									    				editItem.nameData.key === 'billPeriodsForZc' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.repaidTotMoney,editItem.data,'repaidTotMoney')" ng-model="editItem.data.repaidTotMoney" type="number" />
+									    			</li>
+									    			
+									    			<li><input ng-blur="validateItemTime($event,editItem.data,'repaidDate')" placeholder="格式：yyyy/MM/dd" 
+									    				ng-model="editItem.data.repaidDate" type="text" /></li>
+									    				
+									    			
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false">
+									    				<input ng-blur="validateItemTime($event,editItem.data,'presOverdueDate')" placeholder="格式：yyyy/MM/dd" 
+									    					ng-model="editItem.data.presOverdueDate" type="text" /> 
+									    			</li>
+									    			
+									    			<li><input ng-blur="validateItemTime($event,editItem.data,'repaidDeadline')" placeholder="格式：yyyy/MM/dd" 
+									    				ng-model="editItem.data.repaidDeadline" type="text" /></li>
+									    			
+									    			
+									    			<li><input ng-change="handlePeriodsInp(editItem.data.fineMoney,editItem.data,'fineMoney')" ng-model="editItem.data.fineMoney" type="number" /></li>   
+									    				
+									    			
+									    			<li><input ng-blur="validateItemTime($event,editItem.data,'fineDate')" placeholder="格式：yyyy/MM/dd HH:mm:ss" 
+									    				ng-model="editItem.data.fineDate" type="text" /></li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false">
+									    				<input ng-change="handlePeriodsInp(editItem.data.fineRepaidMoney,editItem.data,'fineRepaidMoney')" ng-model="editItem.data.fineRepaidMoney" type="number"/>
+									    			</li>
+									    			
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? false :true">-</li>
+									    			<li ng-if="editItem.nameData.key === 'billPeriods' ? true :false">
+									    				<input ng-blur="validateItemTime($event,editItem.data,'fineRepaidDate')" placeholder="格式：yyyy/MM/dd HH:mm:ss" 
+									    					ng-model="editItem.data.fineRepaidDate" type="text"/>
+									    			</li>
+									    			
+									    			<li ng-bind = "(editItem.data.repaidServiceFee + editItem.data.repaidPri + editItem.data.repaidInt)|number:2"></li>
+									    			
+									    			<li>
+									    				<select ng-model="editItem.data.status" ng-options="option.id as option.value for option in belongStateList"></select>
+									    			</li> 
+					    						</ul>
+					    						<div class="edit-item-remark">
+					    							<p>备注：</p>
+					    							<textarea maxlength="500" ng-model="itemFormParam.remark"></textarea>
+					    						</div>
+					    					</div>
+					    				</cloak_frame>
+					    			</li>
+					    			<li ng-bind = "{{handleNum(item.presentTotDue - item.repaidTotMoney - item.repaidServiceFee)}}|toNum0"></li>
+					    			<li ng-bind = "item.presentPri|toNum0"></li>
+					    			<li ng-bind = "item.presentInt|toNum0"></li>
+					    			<li ng-bind = "item.presentLateFee|toNum0"></li>
+					    			<li ng-bind = "item.presentLateManFee|toNum0"></li>
+					    			<li ng-bind = "item.presentServiceFee|toNum0"></li>
+					    			<!--<li ng-bind = "item.presentTotDue|toNum0"></li>-->
+					    			<li ng-bind = "(item.presentServiceFee + item.presentInt + item.presentPri)|number:2"></li>
+					    			<li ng-bind = "item.repaidPri|toNum0"></li>
+					    			<li ng-bind = "item.repaidInt|toNum0"></li>
+					    			<li ng-bind = "item.repaidLateFee|toNum0"></li>
+					    			<li ng-bind = "item.repaidLateManFee|toNum0"></li>
+					    			<li ng-bind = "item.repaidServiceFee|toNum0"></li>
+					    			<li ng-bind = "item.repaidTotMoney|toNum0"></li>
+					    			<li ng-bind = "item.repaidDate.time|timeDateFilter"></li><!--实际回款日期-->
+					    			<li ng-bind = "item.presOverdueDate.time|timeDateFilter"></li>
+					    			<li ng-bind = "item.repaidDeadline.time|timeDateFilter"></li>
+					    			<li ng-bind = "item.fineMoney|toNum0"></li>
+					    			<li ng-bind = "item.fineDate.time|timeFilter"></li>
+					    			<li ng-bind = "item.fineRepaidMoney|toNum0"></li>
+					    			<li ng-bind = "item.fineRepaidDate.time|timeFilter"></li>
+					    			<li ng-bind = "(item.repaidServiceFee + item.repaidTotMoney)|number:2"></li>
+					    			<li ng-bind = "item.status"></li>  
+					    		</ul>
+							</div>
+			    		</div>
+			    	</div>
+		    	</div>
+		    	<div class="detail_plan">
+		    		<div id="detailInfo" class="sectionMargin detailInfo">
+			    		<ul class="sideTitle">
+				    		<li>当前期数</li>
+				    		<li>当期应偿本金</li>
+				    		<li>当期应偿利息</li>
+				    		<li>当期应偿总服务费</li>
+				    		<li>当期应偿百融服务费</li>
+				    		<li>当期应偿合作方服务费</li>
+				    		<li class="overStyle" title="当期应偿总金额 = 当期应偿总服务费 + 当期应偿本金 + 当期应偿利息">当期应偿总金额</li>
+				    		<li>当期已偿本金</li>
+				    		<li>当期已偿利息</li>
+				    		<li>当期已偿总服务费</li>
+				    		<li>当期已偿百融服务费</li>
+				    		<li>当期已偿合作方服务费</li>
+				    		<li>应回款日期</li>
+				    		<li>实际回款日期</li>
+				    		<li>保证金划扣金额 </li>
+				    		<li>保证金划扣时间</li>
+				    		<li class="overStyle" title="还款合计 = 当期已偿总服务费 + 当期已偿本金 + 当期已偿利息">还款合计</li>
+				    		<li>当期状态</li>
+				    	</ul>
+			    		<div class="innerAuto">
+							<div class="innerWrapper">
+								<ul ng-repeat = "item in billPeriodsData.billPeriodsForBr">
+					    			<li>第{{item.billPeriods}}期</li>
+					    			<li ng-bind = "item.presentPri|toNum0"></li>
+					    			<li ng-bind = "item.presentInt|toNum0"></li>
+					    			<li ng-bind = "item.presentServiceFee|toNum0"></li>
+					    			<li ng-bind = "item.presentServiceFeeBr|toNum0"></li>
+					    			<li ng-bind = "item.presentServiceFeeZc|toNum0"></li>
+					    			<li ng-bind = "(item.presentServiceFee + item.presentInt + item.presentPri)|number:2"></li>
+					    			<li ng-bind = "item.repaidPri|toNum0"></li>
+					    			<li ng-bind = "item.repaidInt|toNum0"></li>
+					    			<li ng-bind = "item.repaidServiceFee|toNum0"></li>
+					    			<li ng-bind = "item.repaidServiceFeeBr|toNum0"></li>
+					    			<li ng-bind = "item.repaidServiceFeeZc|toNum0"></li>
+					    			<li ng-bind = "item.repaidDeadline.time|timeDateFilter"></li>
+					    			<li ng-bind = "item.repaidDate.time|timeDateFilter"></li>
+					    			<li ng-bind = "item.fineMoney|toNum0"></li>
+					    			<li ng-bind = "item.fineDate.time|timeDateFilter"></li>
+					    			<li ng-bind = "(item.repaidPri + item.repaidInt + item.repaidServiceFee)|number:2"></li>
+					    			<li ng-bind = "item.status"></li>
+					    		</ul>
+							</div>
+			    		</div>
+			    	</div>
+		    	</div>
+		    	<div class="detail_plan">
+			    	<div id="detailInfo" class="sectionMargin detailInfo">
+			    		<ul class="sideTitle">
+				    		<li>当前期数</li>
+				    		<li class="overStyle" title="当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额 - 当期已偿服务费">当期应偿未偿金额</li>
+				    		<li>当期应偿本金</li>
+				    		<li>当期应偿利息</li>
+				    		<li>当期应偿服务费</li>
+				    		<li>当期应偿总金额</li>
+				    		<li>当期已偿本金</li>
+				    		<li>当期已偿利息</li>
+				    		<li>当期已偿服务费</li>
+				    		<li>当期已偿总金额</li>
+				    		<li>应回款日期</li>
+				    		<li>实际回款日期</li>
+				    		<li>保证金划扣金额</li>
+				    		<li>保证金划扣时间</li>
+				    		<li class="overStyle" title="还款合计 = 当期已偿服务费 + 当期已偿总金额">还款合计</li>
+				    		<li>当期状态</li>
+				    	</ul>
+			    		<div class="innerAuto">
+							<div class="innerWrapper">
+								<ul ng-repeat = "item in billPeriodsData.billPeriodsForZc">
+					    			<li>第{{item.billPeriods}}期</li>
+					    			<li ng-bind = "(item.presentTotDue - item.repaidTotMoney - item.repaidServiceFee).toFixed(2)|toNum0"></li>
+					    			<li ng-bind = "item.presentPri|toNum0"></li>
+					    			<li ng-bind = "item.presentInt|toNum0"></li>
+					    			<li ng-bind = "item.presentServiceFee|toNum0"></li>
+					    			<li ng-bind = "item.presentTotDue|toNum0"></li>
+					    			<li ng-bind = "item.repaidPri|toNum0"></li>
+					    			<li ng-bind = "item.repaidInt|toNum0"></li>
+					    			<li ng-bind = "item.repaidServiceFee|toNum0"></li>
+					    			<li ng-bind = "item.repaidTotMoney|toNum0"></li>
+					    			<li ng-bind = "item.repaidDeadline.time|timeDateFilter"></li>
+					    			<li ng-bind = "item.repaidDate.time|timeDateFilter"></li><!--实际回款日期-->
+					    			<li ng-bind = "item.fineMoney|toNum0"></li>
+					    			<li ng-bind = "item.fineDate.time|timeFilter"></li>
+					    			<li ng-bind = "(item.repaidServiceFee + item.repaidTotMoney)|number:2"></li>
+					    			<li ng-bind = "item.status"></li>  
+					    		</ul>
+							</div>
+			    		</div>
+			    	</div>
+		    	</div>
+	    	</div>
+	    	
+	    	<div>
+	    		<table class="detailRunning" width="100%" border="1px" bordercolor="#d2d2d2">
+		    		<caption class="sectionTit">明细账单流水</caption>
+		    		<thead>
+		    			<th width="40%">流水号</th>
+		    			<th width="40%">数据更新时间</th>
+		    			<th width="10%">回款总金额</th>
+		    			<th width="10%">操作</th>
+		    			<th ng-show = "showScroll" style="font-size: 16px; background: #fff;">&nbsp;&nbsp;&nbsp;</th>
+		    		</thead>
+		    	</table>
+	    	</div>
+	    	<div class="limitHeight1" ng-show = "swifts.length">
+	    		<table class="sectionMargin detailRunning" width="100%" border="1px" bordercolor="#d2d2d2">
+		    		<tr ng-repeat = "item in swifts">
+			    		<td width="40%" ng-bind = "item.swiftNumber"></td>
+			    		<td width="40%" ng-bind = "item.presentTime.time|timeFilter"></td>
+			    		<td width="10%" ng-bind="item.totalMoney"></td>
+			    		<td width="10%"><a ng-click = "viewRunning(item)" href="javascript:void(0)">查看</a></td>
+			    	</tr>
+		    	</table>
+	    	</div>
+	    	<table ng-if = "true" class = "sectionMargin detailRunning" width="100%" border="1px" bordercolor="#d2d2d2"> 
+	    		<caption class="sectionTit">代扣通知操作明细</caption>
+	    		<tr>
+	    			<th>流水号</th>
+	    			<th>代扣通知发出时间</th>
+	    			<th>当前应偿未偿总金额</th>
+	    			<th>代扣结果</th>
+	    			<th>合作机构代扣金额</th>
+	    			<th>操作人</th>
+	    			<th>操作</th>
+	    		</tr>
+	    		<tr ng-repeat = "item in collection">
+	    			<td ng-bind = "item.swiftNumber"></td>
+	    			<td ng-bind = "item.createTime.time|timeFilter"></td>
+	    			<td ng-bind = "item.presentDueSum"></td>
+	    			<td ng-bind = "item.withholdStatus|isSuccess"></td>
+	    			<td ng-bind = "item.withholdAmount"></td>
+	    			<td ng-bind = "item.adminUser"></td>
+	    			<td><a ng-click = "deductRecord(item)" href="javascript:void(0)">查看</a></td>
+	    		</tr>
+	    	</table>
+	    	<table ng-if = "true" width="100%" class = "detailRunning" border="1px" bordercolor="#d2d2d2"> 
+	    		<caption class="sectionTit">结束催收记录明细</caption>
+	    		<tr>
+	    			<th>催收结束时间</th>
+	    			<th>结束详情</th>
+	    			<th>操作人</th>
+	    		</tr>
+	    		<tr ng-repeat = "item in collectionOver">
+	    			<td ng-bind = "item.createTime.time|timeFilter"></td>
+	    			<td ng-bind = "item.collEndDetail"></td>
+	    			<td ng-bind = "item.adminUser"></td>
+	    		</tr>
+	    	</table>
+	    	<table ng-if = "true" width="100%" class = "detailRunning" border="1px" bordercolor="#d2d2d2"> 
+	    		<caption class="sectionTit">修改历史记录</caption>
+	    		<tr>
+	    			<th width="20%">修改时间</th>
+	    			<th width="20%">修改IP</th>
+	    			<th width="10%">修改人</th>
+	    			<th>备注</th>
+	    			<th width="5%">操作</th>
+	    		</tr>
+	    		<tr ng-repeat = "item in periodsRecord">
+	    			<td ng-bind = "item.createTime.time|timeFilter"></td>
+	    			<td ng-bind = "item.requestIp"></td>
+	    			<td ng-bind = "item.editName"></td>
+	    			<td ng-bind = "item.remark"></td>
+	    			<td class="show-periods-td">
+	    				<a ng-click ="showModifyRecord($index+1)" href="javascript:void(0)">查看</a>
+	    				<cloak_frame name="modifyRecordForm" head="第({{item.billPeriods}})期 修改记录查看">
+	    					<div id="detailInfo">
+	    						<div class="show-periods-list">
+		    						<ul class="sideTitle">
+						    			<li>计划所属机构</li>
+										<li class="overStyle" title = "当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额">当期应偿未偿金额</li>
+										<li>当期应偿本金</li>
+										<li>当期应偿利息</li>
+										<li>当期应偿总服务费</li>
+					    				<li>当期应偿百融服务费</li>
+					    				<li>当期应偿合作方服务费</li>
+										<li>当期应偿滞纳金</li>
+										<li>当期应偿逾期管理费</li>
+										<li>当期应偿服务费</li>
+										<li>当期应偿总金额</li>
+										<li>当期已偿本金</li>
+										<li>当期已偿利息</li>
+										<li>当期已偿总服务费</li>
+										<li>当期已偿百融服务费</li>
+										<li>当期已偿合作方服务费</li>
+										<li>当期已偿滞纳金</li>
+										<li>当期已偿逾期管理费</li>
+										<li>当期已偿服务费</li>
+										<li>当期已偿总金额</li>
+										<li>实际回款日期</li>
+										<li>当次逾期发生日期</li>
+										<li>应回款日期</li>
+										<li>保证金划扣金额</li>
+										<li>保证金划扣时间</li>
+										<li>合作机构回款金额</li>
+										<li>合作机构回款时间</li>
+										<li class="overStyle" title="还款合计 = 当期已偿总金额 + 当期已偿服务费">还款合计</li>
+										<li>当期状态</li>
+						    		</ul>
+		    						<ul ng-repeat="_item in periodsRecordDetail.data">
+		    							<li ng-bind = "_item.nameData.name|toNum0"></li>
+						    							
+						    			<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter'? false : true" 
+						    				ng-bind = "{{handleNum(_item.data.presentTotDue.val - _item.data.repaidTotMoney.val - _item.data.repaidServiceFee.val)}}|toNum0"></li>
+						    			<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter'? true : false">-</li>
+						    							
+										<li ng-bind = "_item.data.presentPri.val|toNum0"></li>
+										<li ng-bind = "_item.data.presentInt.val|toNum0"></li>
+										    			
+										    			
+						    			
+						    			
+										<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter' ? false :true">-</li> 
+										<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter' ? true :false" 
+										    ng-bind = "_item.data.presentServiceFee.val|toNum0"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter' ? false :true">-</li> 
+										<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter' ? true :false" 
+										    ng-bind = "_item.data.presentServiceFeeBr.val|toNum0"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter' ? false :true">-</li> 
+										<li ng-if="_item.nameData.key === 'brBefore' || _item.nameData.key === 'brAfter' ? true :false" 
+										    ng-bind = "_item.data.presentServiceFeeZc.val|toNum0"></li>
+										    			
+										    			
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || _item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li ng-if="_item.nameData.key === 'zjBefore' || _item.nameData.key === 'zjAfter' ? true :false" 
+										    ng-bind = "_item.data.presentLateFee.val|toNum0"></li>
+										    				
+										<li ng-if="_item.nameData.key === 'zjBefore' || _item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li ng-if="_item.nameData.key === 'zjBefore' || _item.nameData.key === 'zjAfter' ? true :false" 
+										    ng-bind = "_item.data.presentLateManFee.val|toNum0"></li>
+										    			
+										<li ng-bind = "_item.data.presentServiceFee.val|toNum0"></li>
+										<!--<li ng-bind = "_item.data.presentTotDue.val|toNum0"></li>-->
+										<li ng-bind = "(_item.data.presentServiceFee.val + _item.data.presentInt.val + _item.data.presentPri.val)|number:2"></li>
+										    			
+										<li  ng-class="{'changed':_item.data.repaidPri.sign}" ng-bind="_item.data.repaidPri.val"></li>
+										    				
+										    			
+										<li  ng-class="{'changed':_item.data.repaidInt.sign}" ng-bind="_item.data.repaidInt.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'brBefore' || 
+											_item.nameData.key === 'brAfter' ? false :true">-</li> 
+										<li  ng-class="{'changed':_item.data.repaidServiceFee.sign}" ng-if="_item.nameData.key === 'brBefore' || 
+											_item.nameData.key === 'brAfter' ? true :false"  ng-bind="_item.data.repaidServiceFee.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'brBefore' || 
+											_item.nameData.key === 'brAfter' ? false :true">-</li> 
+										<li  ng-class="{'changed':_item.data.repaidServiceFeeBr.sign}" ng-if="_item.nameData.key === 'brBefore' || 
+											_item.nameData.key === 'brAfter' ? true :false"  ng-bind="_item.data.repaidServiceFeeBr.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'brBefore' || 
+											_item.nameData.key === 'brAfter' ? false :true">-</li> 
+										<li ng-class="{'changed':_item.data.repaidServiceFeeZc.sign}" ng-if="_item.nameData.key === 'brBefore' || 
+											_item.nameData.key === 'brAfter' ? true :false"  ng-bind="_item.data.repaidServiceFeeZc.val"></li>
+										    			
+										    				
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li  ng-class="{'changed':_item.data.repaidLateFee.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? true :false"  ng-bind="_item.data.repaidLateFee.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li ng-class="{'changed':_item.data.repaidLateManFee.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? true :false"  ng-bind="_item.data.repaidLateManFee.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+										    _item.nameData.key === 'zjAfter' || 
+										    _item.nameData.key === 'zcBefore' ||  
+										    _item.nameData.key === 'zcAfter'  ? false :true">-</li>
+										<li  ng-class="{'changed':_item.data.repaidServiceFee.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+										    _item.nameData.key === 'zjAfter' || 
+										    _item.nameData.key === 'zcBefore' ||  
+										    _item.nameData.key === 'zcAfter' ? true :false"  ng-bind="_item.data.repaidServiceFee.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+										    _item.nameData.key === 'zjAfter' || 
+										    _item.nameData.key === 'zcBefore' ||  
+										    _item.nameData.key === 'zcAfter' ? false :true">-</li>
+										<li  ng-class="{'changed':_item.data.repaidTotMoney.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+										    _item.nameData.key === 'zjAfter' || 
+										    _item.nameData.key === 'zcBefore' ||  
+										    _item.nameData.key === 'zcAfter' ? true :false"  ng-bind="_item.data.repaidTotMoney.val"></li>
+										    			
+										<li ng-class="{'changed':_item.data.repaidDate.sign}" ng-bind="_item.data.repaidDate.val"></li>
+										    				
+										    			
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li  ng-class="{'changed':_item.data.presOverdueDate.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? true :false"  ng-bind="_item.data.presOverdueDate.val"></li>
+										    			
+										<li ng-class="{'changed':_item.data.repaidDeadline.sign}" ng-bind="_item.data.repaidDeadline.val"></li>
+										    			
+										    			
+										<li  ng-class="{'changed':_item.data.fineMoney.sign}" ng-bind="_item.data.fineMoney.val"></li>   
+										    				
+										    			
+										<li ng-class="{'changed':_item.data.fineDate.sign}" ng-bind="_item.data.fineDate.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li  ng-class="{'changed':_item.data.fineRepaidMoney.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? true :false" ng-bind="_item.data.fineRepaidMoney.val"></li>
+										    			
+										<li ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? false :true">-</li>
+										<li  ng-class="{'changed':_item.data.fineRepaidDate.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
+											_item.nameData.key === 'zjAfter' ? true :false" ng-bind="_item.data.fineRepaidDate.val"></li>
+										    			
+										<li ng-bind = "(_item.data.repaidServiceFee.val + _item.data.repaidPri.val + _item.data.repaidInt.val)|number:2"></li> 
+										<li ng-class="{'changed':_item.data.status.sign,'changedBefore':_item.data.status.before}" ng-bind="_item.data.status.val"></li> 
+		    						</ul>
+			    					<div class="edit-item-remark">
+						    			<p>备注：</p>
+						    			<div class="check-remark" ng-bind="periodsRecordDetail.remark"></div>
+						    		</div>
+		    					</div>
+	    					</div>
+	    				</cloak_frame>
+	    			</td>
+	    		</tr>
+	    	</table>
+	    	<div class="goBack">
+	    		<a class="btn6 mr50" ng-click="overReceivable()" ng-show = "receivableRole" href="javascript:void(0)">结束催收</a>
+	    		<a class="btn6 mr50" ng-click="emitInform()" ng-show = "receivableRole" href="javascript:void(0)">发出代扣通知</a>
+				<a class="btn6 mr50" ng-click="goBack()" href="javascript:void(0)">返 回</a>
+	    	</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	    
+	    <div ng-class="{overReceivableST : !inputFlag , emitInformST : inputFlag }" ng-show = "alerShow">
+			<p class="marginBt40"  style="text-align: center; font-size: 16px;">{{subInfo}}</p>
+			<div style="text-align: center; height: 250px;" ng-style = "{marginBottom: inputFlag ? 0 : 50}">                          
+				<p style="color: #ed948e; margin-bottom: 5px;" ng-show = "isError" ng-bind = "errorText"></p>
+				<span ng-show = "!inputFlag && isDeductRecord">代扣金额：</span><input ng-show = "!inputFlag && isDeductRecord" maxlength="22" ng-model = 'subArea' ng-keyup = "checkInputMoney(subArea)"/>
+				<textarea ng-show = "inputFlag" maxlength="500" style="width: 680px; height: 180px;" ng-model = 'subArea'></textarea>
+				<div ng-show = "!inputFlag" id="detailInfo3" class="sectionMargin">
+	                <div class="sectionTit">还款显示</div>
+	                <ul class="sideTitle">
+	                    <li>当前期数</li>
+	                    <li>本金</li>
+	                    <li>利息</li>
+	                    <li>滞纳金</li>
+	                    <li>逾期管理费</li>
+	                    <li>服务费</li>
+	                </ul>
+	                <div style="height: 192px; overflow-y: auto; overflow-x: hidden ; float: left;">
+	                    <div style="height: 192px; width: 340px;">
+	                        <ul ng-repeat = "item in billPeriods3">
+	                            <li>第{{item.billPeriods}}期</li>
+	                            <li ng-bind = "item.presentPri|toNum0"></li>
+	                            <li ng-bind = "item.presentInt|toNum0"></li>
+	                            <li ng-bind = "item.presentLateFee|toNum0"></li>
+	                            <li ng-bind = "item.presentLateManFee|toNum0"></li>
+	                            <li ng-bind = "item.presentServiceFee|toNum0"></li>
+	                        </ul>
+	                    </div>
+	                </div>
+	            </div>
+			</div>
+			<div style="text-align: center;" ng-style = "{'margin-top':overReceivableFlag?'-20px':'35px'}">
+				<a class="btn6" ng-show = "!isDeductRecord" ng-click="closeDialog()" href="javascript:void(0)">关闭</a>
+				<a class="btn6  mlr30" ng-show = "isDeductRecord" ng-click="submit()" href="javascript:void(0)">是</a>
+				<a class="btn6 mlr30" ng-show = "isDeductRecord" ng-click="cancel()" href="javascript:void(0)">否</a>
+			</div>
+		</div>
+	    <operate-dir></operate-dir>
+		<history-dir></history-dir>
+		<prove-data></prove-data>
+		<primary-operate></primary-operate>
+		<call-up></call-up>
+	    <div id="report-template-mask" style="z-index: 1030;" ng-style="{display:primaryOperate ? 'block' : 'none'}"></div>
+		<div id="report-template-mask" ng-style="{display:isShowReportDialog ? 'block' : 'none'}"></div>
+		<div id="report-template-mask" ng-style="{display:isShowReportDialog5 ? 'block' : 'none'}"></div>
+	    <div id="report-template-mask" style="z-index: 1030;" ng-style="{display:isShowReportDialog4 ? 'block' : 'none'}"></div>
+	    <div id="report-template-mask" style="z-index: 1010;"  ng-style="{display:isShowReportDialog3 ? 'block' : 'none'}"></div>
+	    <div class="diagram-view" style="{{ (diagram.visible ? '' : 'display:none;') }}" ng-click="diagram.click($event)">
+	        <div class="diagram-box">
+	            <img src="{{diagram.img.url}}" ng-style="{width: diagram.img.width, height: diagram.img.height}" />
+	            <div class="diagram-stepnow" ng-style="{left: diagram.stepNow.left, top: diagram.stepNow.top, width: diagram.stepNow.width, height: diagram.stepNow.height}"></div>
+	        </div>
+	    </div>
+	</div>
+</div>

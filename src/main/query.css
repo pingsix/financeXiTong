@@ -1,0 +1,172 @@
+.editform .content {
+    background-color: #ffffff;
+    padding-top: 40px;
+    border: 1px solid #efefef;
+}
+.editform .title{
+    font-size: 14px;
+    font-weight: bold;
+    color: #323236;
+    margin-bottom: 12px;
+    padding: 24px 0 0 10px;
+}
+.editform input {
+    width: 206px;
+    height: 28px;
+    border: 1px solid #c6c6c6;
+    color: #424242;
+    font-size: 12px;
+    font-family: microsoft yahei;
+    padding-left: 4px;
+}
+.editform input[type=checkbox] {
+    width: 18px;
+}
+.editform select {
+    width: 206px;
+    height: 30px;
+    border: 1px solid #c6c6c6;
+    font-family: microsoft yahei;
+    font-size: 12px;
+    color: #424242;
+}
+.editform .short_input{
+	width: 97px;
+}
+textarea {
+    border: 1px solid #c6c6c6;
+    font-size: 13px;
+    color: #424242;
+    font-family: microsoft yahei;
+    overflow-y: scroll;
+    resize:none;
+    margin-left: 5px;
+    padding-left: 4px;
+    padding-top: 3px;
+}
+.editform .content .number{
+    display: inline;
+    font-size: 12px;
+    color: #424242;
+    margin-right: 0;
+}
+.editform .formaction {
+    margin-top: 12px;
+    text-align: center;
+}
+.editform .formaction button{
+    border: none;
+    border-radius: 5px;
+    display: inline-block;
+    font-family: microsoft yahei;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 10px 37px;
+    cursor: pointer;
+}
+.back{
+    background-color: #727272;
+}
+.back:hover{
+    background-color: #8a8383;
+}
+.save{
+    background-color: #d8524a;
+}
+.save:hover{
+    background-color: #f57b73;
+}
+
+.editform .content p label{
+    margin-right: 10px;
+}
+.editform .content .yanzheng{
+    width: 70px;
+    font-size: 13px;
+    color: #a7a7a7;
+    border: 1px solid #ebebeb;
+    border-radius: 2px;
+    text-align: center;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.editform .content .yanzheng:hover{
+    border: 1px solid #d6d6d6;
+}
+
+
+
+.editform .content .red-border{
+    border : 1px solid red;
+}
+
+.editform table {
+    width: 90%;
+    border: 1px solid #fff;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+.editform table caption{
+    font-size:18px;
+    line-height:17px;
+    padding:8px 0;
+    margin: 15px 0 0;
+    font-weight: bold;
+}
+.editform table th{
+    background:#f6f6f6;
+    font-size:13px;
+    line-height:17px;
+    padding:8px 0;
+}
+.editform table td{
+    text-align:center;
+    padding:5px;
+    font:13px/20px 'microsoft yahei';
+}
+
+.editform .oddEvenColor tr:nth-child(odd){
+    background: #fafafa;
+}
+.editform .oddEvenColor tr:nth-child(even){
+    background: #fff;
+}
+.editform .oddEvenColor tr:hover{
+    background: #dee9f9;
+}
+
+.editform .content .normalRadio{
+    width:auto;
+    height: auto;
+}
+
+.col-list {
+    display: flex;
+}
+
+.col-list .col-item {
+    flex: 1;
+}
+
+.query-item {
+    padding-top: 12px;
+}
+.query-item .query-name {
+    width: 30%;
+    display: inline-block;
+    text-align: right;
+    padding: 0 3px 0 0;
+    vertical-align: top;
+    line-height: 28px;
+}
+.query-item i.warning {
+    padding-right: 3px;
+    color: #ed948e;
+}
+.query-item .query-value {width: 68%;display: inline-block;}
+
+.editform .form-invalid-msg {
+    color: #ed948e;
+    line-height: 120%;
+    padding: 5px 0;
+}

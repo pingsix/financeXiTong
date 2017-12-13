@@ -1,0 +1,23 @@
+<div class="title-pwd">修改密码</div>
+<div class="content_pwd">
+    <p>
+        <span>账号：</span>
+        <input type="text" disabled ng-model="userId">
+    </p>
+    <p>
+        <span>原密码：</span>
+        <input type="password" ng-model="oldPassword" id="oldPassword">
+    </p>
+    <p>
+        <span>新密码：</span>
+        <input type="password" ng-model="newPassword" id="newPassword" maxlength="20" ng-keyup="newPasswordKeyup(event)">
+    </p>
+    <p>
+        <span>确认密码：</span>
+        <input type="password" ng-model="confPassword" id="confPassword" maxlength="20" ng-keyup="confPasswordKeyup(event)">
+    </p>
+    <p class="btn mt80">
+        <button class="save" ng-click="click()">修 改</button>
+        <button class="back ml54" id="back" ng-click="back()">返 回</button>
+    </p>
+</div>

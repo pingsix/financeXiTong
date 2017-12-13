@@ -1,0 +1,64 @@
+.pair-dialog{
+    width: 700px;
+    height: 400px;
+    position: fixed;
+    margin: -200px -350px 0 0;
+    top: 380px;
+    right: 50%;
+    z-index: 1200;
+    background: #efefef;
+}
+.pair-dialog-title{
+	height: 50px;
+    line-height: 50px;
+    text-indent: 23px;
+    font-weight: 700;
+}
+.pair-title{
+	width: 114px; 
+	text-align: right;
+}
+.pair-wrap tr{
+	height: 50px;
+}
+.pair-wrap input{
+	width: 184px;
+}
+.pair-button{
+	border: none;
+    border-radius: 5px;
+    display: inline-block;
+    font-family: microsoft yahei;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 10px 37px;
+    cursor: pointer;
+    background: #d8524a;
+    margin: 0 20px;
+}
+.handle-btn{
+	text-align: center;
+    margin: 20px 0;
+}
+.producitonInfo{
+	background: #f2f2f2;
+	padding: 0 6px;
+	border: 1px solid #ccc;
+}
+.pair-edit-readonly{
+	background: #ccc;
+	border: 1px solid #bbb;
+}
+.br-blank{
+	text-align: center;
+	background: #efefef;
+	border: 1px solid #efefef;
+}
+.pair-edit-select{
+	width: 184px;
+	height: 24px;
+}
+.arrow_right{
+	background:url(../../images/arrow_right.png) no-repeat right 18px;
+	background-size: 85% 16px;
+}

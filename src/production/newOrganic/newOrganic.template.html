@@ -1,0 +1,104 @@
+<div class="main">
+	<div class="inner">
+	    <div class="content_wrap editform">
+	        <div class="title">新增机构</div>
+	        <div class="content">
+	            <form name="mainform" novalidate>
+	                <ul class="query-list">
+	                    <li class="query-item col-list">
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>机构类型:</span>
+	                            <span class="query-value">
+	                                <select ng-if = "!(isView || upBtnFlag)" name="partnerType" ng-model="production.partnerType" ng-class = "{readOnly : isView}" ng-readonly = "isView" ng-options="option.id as option.typeName for option in base.partnerTypeList" required></select>
+	                                <input ng-if = "isView || upBtnFlag" type="text"  ng-model="production.partnerTypeName" ng-class = "{readOnly : isView || upBtnFlag}" ng-readonly = "isView||upBtnFlag"/>
+	                                <p ng-show="(showValid || mainform.partnerType.$dirty) && mainform.partnerType.$error.required" class="form-invalid-msg">请选择此项</p>
+	                            </span>
+	                        </div>
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>放款总额:</span>
+	                            <span class="query-value">
+	                                <input type="text" name="totalLoans" ng-class = "{readOnly : isView}" maxlength="50" ng-model="production.totalLoans" ng-readonly = "isView" maxlength="20" required ng-pattern = "/\d/"/>
+	                                <p ng-show="(showValid || mainform.totalLoans.$dirty) && mainform.totalLoans.$error.required" class="form-invalid-msg">请填写此项</p>
+	                                <p ng-show="(showValid || mainform.totalLoans.$dirty) && !mainform.totalLoans.$error.required && mainform.totalLoans.$error.pattern" class="form-invalid-msg">仅能填写数字</p>
+	                            </span>
+	                        </div>
+	                    </li>
+	                    <li class="query-item col-list">
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>机构名称:</span>
+	                            <span class="query-value">
+	                                <input type="text" name="partnerName" ng-model="production.partnerName" ng-blur = "creatCertificate()" ng-class = "{readOnly : upBtnFlag||isView}" ng-readonly = "upBtnFlag||isView" required maxlength="20" ng-pattern = "/^[\u4e00-\u9fa5\][\w]{0,}$/"/>
+	                                <p ng-show="(showValid || mainform.partnerName.$dirty) && mainform.partnerName.$error.required" class="form-invalid-msg">请填写此项</p>
+	                                <p ng-show="(showValid || mainform.partnerName.$dirty) && !mainform.partnerName.$error.required && mainform.partnerName.$error.pattern" class="form-invalid-msg">仅能由汉字、字母、数字和下划线组成</p>
+	                            </span>
+	                        </div>
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>代偿节点:</span>
+	                            <span class="query-value">
+	                                <input name="compensatoryNode" type="text" ng-model="production.compensatoryNode" maxlength="50" ng-class = "{readOnly : isView}" ng-readonly = "isView" required ng-pattern = '/^[0-9]*$/' />
+	                                <p ng-show="(showValid || mainform.compensatoryNode.$dirty) && mainform.compensatoryNode.$error.required" class="form-invalid-msg">请填写此项</p>
+	                                <p ng-show="(showValid || mainform.compensatoryNode.$dirty) && !mainform.compensatoryNode.$error.required && mainform.compensatoryNode.$error.pattern" class="form-invalid-msg">仅能输入正整数</p> 
+	                            </span>
+	                        </div>
+	                    </li>
+	                    <li class="query-item col-list">
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>保证金数额:</span>
+	                            <span class="query-value">
+	                                <input name="fineMoney" type="text" ng-model="production.fineMoney" maxlength="50" ng-class = "{readOnly : isView}" ng-readonly = "isView" required ng-pattern = '/\d/'/>
+	                                <p ng-show="(showValid || mainform.fineMoney.$dirty) && mainform.fineMoney.$error.required" class="form-invalid-msg">请填写此项</p>
+	                                <p ng-show="(showValid || mainform.fineMoney.$dirty) && !mainform.fineMoney.$error.required && mainform.fineMoney.$error.pattern" class="form-invalid-msg">仅能填写数字</p>
+	                            </span>
+	                        </div>
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>机构管理员:</span>
+	                            <span class="query-value">
+	                                <select ng-if = "!isView" name="partnerAdmin" ng-model="production.partnerAdmin" ng-class = "{readOnly : isView}" ng-readonly = "isView" ng-options="option.groupId as option.groupName for option in base.groups" required></select>
+	                                <input ng-if = "isView" type="text"  ng-model="production.partnerAdminName" ng-class = "{readOnly : isView}" ng-readonly = "isView"/>
+	                                <p ng-show="(showValid || mainform.partnerAdmin.$dirty) && mainform.partnerAdmin.$error.required" class="form-invalid-msg">请选择此项</p>
+	                            </span>
+	                        </div>
+	                    </li>
+	                    <li class="query-item col-list">
+	                        <div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>apiCode:</span>
+	                            <span class="query-value">
+	                                <input name="apiCode" type="text" ng-model="production.apiCode" ng-class = "{readOnly : isView || upBtnFlag}" ng-readonly = "isView || upBtnFlag" required maxlength="20" ng-pattern = "/^[0-9]*$/"/>
+	                                <p ng-show="(showValid || mainform.apiCode.$dirty) && mainform.apiCode.$error.required" class="form-invalid-msg">请填写此项</p>
+	                                <p ng-show="(showValid || mainform.apiCode.$dirty) && !mainform.apiCode.$error.required && mainform.apiCode.$error.pattern" class="form-invalid-msg">仅能输入正整数</p>
+	                            </span>
+	                        </div>
+	                        <div class="col-item">
+	                        	<span class="query-name"><i class="warning"  ng-if = "production.nature == '内部' ? '' : '1'">*</i>公有证书名称:</span>
+	                            <span class="query-value">
+	                                <input ng-if = "production.nature == '内部' ? '' : '1'" name="certName" type="text" ng-model="production.certName" placeholder="(自动生成)" ng-class = "{readOnly : true}" readonly = "readonly"  maxlength="150"/>
+	                            </span>
+	                        </div>
+	                    </li>
+	                    <li class="query-item col-list">
+	                    	<div class="col-item">
+	                            <span class="query-name"><i class="warning">*</i>有无担保:</span>
+	                            <span class="query-value">
+	                                <select ng-if = "!isView" name="guarantee" ng-model="production.guarantee" ng-class = "{readOnly : isView}" ng-readonly = "isView" ng-options="option.repayId as option.value for option in base.guaranteeList" required></select>
+	                                <input ng-if = "isView" type="text"  ng-model="production.guaranteeName" ng-class = "{readOnly : isView}" ng-readonly = "isView"/>
+	                                <p ng-show="(showValid || mainform.guarantee.$dirty) && mainform.guarantee.$error.required" class="form-invalid-msg">请选择此项</p>
+	                            </span>
+	                        </div>
+	                        <div class="col-item">
+	                        	<span class="query-name"><i class="warning"  ng-if = "production.nature == '内部' ? '' : '1'">*</i>私有证书名称:</span>
+	                            <span class="query-value">
+	                                <input ng-if = "production.nature == '内部' ? '' : '1'" ng-class = "{readOnly : true}" readonly = "readonly" placeholder="(自动生成)" name="pfxName" type="text" ng-model="production.pfxName" maxlength="50"/>
+	                            </span>
+	                        </div>
+	                    </li>
+	                </ul>
+	                <p class="formaction">
+	                    <button ng-if="!production.id || production.status == 0 || upBtnFlag" class="back" ng-class = "{save : (upBtnFlag&&!mainform.$pristine) || (!upBtnFlag&&!isView)}" ng-click="save(mainform.$valid,mainform.$pristine)">保 存</button>
+	                    <button class="save ml54" ng-click="back()">返 回</button>
+	                </p>
+	            </form>
+	        </div>
+	        <div class="inner-footer"></div>
+	    </div>
+	</div>
+</div>

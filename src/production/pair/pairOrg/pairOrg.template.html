@@ -1,0 +1,150 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">机构配对</div>
+	        <div class="inner-header-rt fr" style="min-width:220px">
+	            <a href="javascript:void(0)" ng-if = "checkStatus" ng-click = "openPair()" class="btn1 fr importA">新增配对</a>
+	        </div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                 <tr>
+	                    <td class="tl-r"> 产品名称：</td>
+	                    <td ng-bind = "statusParamInfo.name"></td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 产品编码：</td>
+	                    <td ng-bind = "statusParamInfo.code"></td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 合作机构：</td>
+	                    <td ng-bind = "statusParamInfo.partner"></td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 合作机构编码：</td>
+	                    <td ng-bind = "statusParamInfo.partnerCode"></td>
+	                </tr>
+	            </table>
+	            <div class="inner-table">
+	                    <div class="hdFixed">
+	                    </div>
+	                    <div class="bd">
+	                       <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                                <th>资金合作机构名称</th>
+	                                <th>资金方机构编码</th>
+	                                <th>资金方分成</th>
+	                            	<th>资产方分成</th>
+	                            	<th>百融分成</th>
+	                            	<th>预计放款总额（万）</th>
+	                            	<th>催收发起节点</th>
+	                                <th ng-if = "checkStatus">操作</th>
+	                            </tr>
+	                            <tr ng-repeat="item in pairList">
+	                                <td ng-bind="item.accPartnerName"></td>
+	                                <td ng-bind="item.accPartnerCode"></td>
+	                                <td ng-bind="item.fundSharing"></td>
+	                                <td ng-bind="item.assetSharing"></td>
+	                                <td ng-bind="item.brSharing"></td>
+	                                <td ng-bind="item.estimateLoan"></td>
+	                                <td ng-bind="item.collNode"></td>
+	                                <td ng-if = "checkStatus"><a href="javascript:void(0)" ng-click = "openPair(item)">编辑</a></td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix" ng-style="{visibility:showPage}" style="margin-bottom: 50px;">
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	    <div class="pair-dialog" ng-if = "dialogShow">
+	    	<div class="pair-dialog-title">配对配置</div>
+	    	<table class = "pair-wrap">
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">产品名称：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  maxlength="50" ng-model = "production.name" readonly="readonly" />
+	    			</td>
+	    			<td><div style="width: 50px;"></div></td>
+	    			<td>
+	    				<div class="pair-title">产品编码：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  maxlength="50" ng-model = "production.code" readonly="readonly" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">关联资金方：</div>
+	    			</td>
+	    			<td>
+	    				<select class="pair-edit-select" ng-model = "production.partnerName" ng-options = "option.partnerCode as option.partnerName for option in accSideList"></select>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			
+	    			<td>
+	    				<div class="pair-title">分成比例：</div>
+	    			</td>
+	    			<td>
+	    				<input type="number" oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.fundSharing" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">资产方：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  ng-model = "production.partner" readonly="readonly"/>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			<td>
+	    				<div class="pair-title">分成比例：</div>
+	    			</td>
+	    			<td>
+	    				<input type="number"  oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.assetSharing" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    			</td>
+	    			<td>
+	    				<input class="br-blank" type="text" value="百融方" readonly="readonly"/>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			<td>
+	    				<div class="pair-title">分成比例：</div>
+	    			</td>
+	    			<td>
+	    				<input type="number"  oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.brSharing" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">预计放款额&nbsp;&nbsp;&nbsp;&nbsp;<br>（万）：</div>
+	    			</td>
+	    			<td>
+	    				<input type="text" maxlength="50" ng-model = "production.estimateLoan" />
+	    			</td>
+	    			<td></td>
+	    			<td>
+	    				<div class="pair-title">催收节点：</div>
+	    			</td>
+	    			<td>
+	    				<input type="text" maxlength="50" ng-model = "production.collNode" />
+	    			</td>
+	    		</tr>
+	    	</table>
+	    	<div class="handle-btn">
+	    		<button class="pair-button" ng-click = "savePair()">确定</button>
+	    		<button class="pair-button" ng-click = "closePair()">返回</button>
+	    	</div>
+	    </div>
+	</div>
+</div>
+	
+		

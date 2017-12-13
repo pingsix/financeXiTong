@@ -1,0 +1,83 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">
+	                       账务汇总信息
+	        </div>
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	                <tr>
+	                    <td class="tl-r">数据统计日期范围：<input type="hidden" id="timeDefaut"></td>
+	                    <td>
+	                    	<input id="inpstart" class="datainp inp1 fl calendar" ng-model = 'query.presentDateStart' type="text" placeholder="开始日期" value=""  readonly>
+	                        <span class="fl" style="line-height:27px;padding:0 6px;">至</span>
+						    <input id="inpend" class="datainp inp1 fl calendar" ng-model = 'query.presentDateEnd' type="text" placeholder="结束日期" readonly>
+	                    </td>
+	                </tr>
+	                 <tr>
+	                    <td class="tl-r">产品：</td>
+	                    <td>
+	                    	<select class="select-global" ng-model = "query.productionCode" ng-options = "option.productionCode as option.productionName for option in baseSelectData.productionList"></select>
+	                    </td>
+	                </tr>
+	            </table>
+	                </div>
+	                <div class="inner-table">
+	                    <div class="hdFixed">
+	                        <div class="hd clearfix id" id="tableHD">
+	                        </div>
+	                    </div>
+	                    <div class="bd">
+	                        <table class="oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                            	<th>产品</th>
+	                                <th>数据统计日期</th>
+	                                <th>放款笔数</th>
+	                                <th>放款额</th>
+	                                <th>回款额</th>
+	                                <th>剩余本金余额</th>
+	                                <th>逾期率</th>
+	                                <th>风险准备金备偿率</th>
+	                                <th>代偿占用率</th>
+	                                <th>违约次数</th>
+	                                <th>保证金划扣总金额</th>
+	                                <th>百融充值入账金额</th>
+	                                <th>当前剩余保证金</th>
+	                            </tr>
+	                            <tr ng-repeat="item in collectList">
+	                                <td ng-bind="item.productionName"></td>
+	                                <td ng-bind="item.presentDate.time|timeDateFilter"></td>
+	                                <td ng-bind="item.loanTotNum"></td>
+	                                <td ng-bind="item.loanTotMoney"></td>
+	                                <td ng-bind="item.repaidTotMoney"></td>
+	                                <td ng-bind="item.presentTotResPri"></td>
+	                                <td ng-bind="item.overdueRate"></td>
+	                                <td ng-bind="item.riskReserveRate"></td>
+	                                <td ng-bind="item.compensatoryRate"></td>
+	                                <td ng-bind="item.defaultNum"></td>
+	                                <td ng-bind="item.fineTotMoney"></td>
+	                                <td ng-bind="item.rechargeMoney"></td>
+	                                <td ng-bind="item.presentResFine"></td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf">
+			                                共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values">
+			                </select>
+			                </div>
+			                <div class="fr ft-rt">
+			                    <div class="page clearfix">
+			                        <span page></span>
+			                    </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	</div>
+</div>

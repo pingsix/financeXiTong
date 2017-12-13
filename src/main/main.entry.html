@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>账务系统</title>
+   		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	</head>
+	<body ng-controller="mainCtrl">
+		<div id="header" class="noprint">
+		    <div id="menu" class="fl">
+		    	<div class="menuCenter xq_bag" id="bar1">
+			        <ul style="display: inline-block;margin: 0 auto;" class="clearfix xq_navbar">
+			        	<li style="float: right;" class="xq_navli" ng-repeat = "item in appShell.topMenu" ng-class="{selected: item.selected}">
+			    			<a class="{{item.menuName}}" ng-href = "#/{{item.path}}" ng-bind = "item.text"></a>
+			    		</li>
+			        </ul>
+			    </div>
+		    </div>
+		    <div id="logo" class="fl">
+		    	<a href="javascript:void(0)" ng-click = "appShell.home()">
+		    		<img src="../images/logo-head.png"/>
+		    	</a>
+		    </div>
+		    <div id="menuIcon" class="fr" ng-mouseOver = "appShell.userOver()" ng-mouseOut = "appShell.userOut()">
+		    	<div id="usercenter" class="fr">
+			    	<div class="arr fr"></div>
+			    	<div id="username" class="name fr" ng-bind = "appShell.currentUser"></div>
+				    <div class="ico fr"></div>
+				    <div class="line fr"></div>
+			    	<ul id="operateList" ng-cloak class="ng-cloak" ng-show = "appShell.userOper">
+			    		<li>
+			    			<a href = "javascript:void(0)" ng-click = "appShell.usermodifyPwd()" ng-bind = "appShell.userOperate.modifyPassword"></a>
+			    		</li>
+			    		<li>
+			    			<a href="javascript:void(0)" ng-click = "appShell.userExit()" ng-bind = "appShell.userOperate.userExit"></a>
+			    		</li>
+			    	</ul>
+		    	</div>
+		    </div>
+		    <div class="slideBarSwitch" ng-click = "handleViewSize()"></div>
+		</div>
+		
+		
+		<div id="main">
+			<div ng-show = "appShell.isSliderBarShow" ui-view = "slider"></div>
+		    <div ui-view = "content"></div>
+		</div>
+		<div id = "maskDialog">
+			<span class="loding-img">
+				<img src="../images/loading.gif" />
+			</span>
+		</div>
+	</body>
+</html>
