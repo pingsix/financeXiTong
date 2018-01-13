@@ -18,14 +18,6 @@
 	                    <td class="tl-r"> 产品编码：</td>
 	                    <td ng-bind = "statusParamInfo.code"></td>
 	                </tr>
-	                <tr>
-	                    <td class="tl-r"> 合作机构：</td>
-	                    <td ng-bind = "statusParamInfo.partner"></td>
-	                </tr>
-	                <tr>
-	                    <td class="tl-r"> 合作机构编码：</td>
-	                    <td ng-bind = "statusParamInfo.partnerCode"></td>
-	                </tr>
 	            </table>
 	            <div class="inner-table">
 	                    <div class="hdFixed">
@@ -33,13 +25,11 @@
 	                    <div class="bd">
 	                       <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
 	                            <tr>
-	                                <th>资金合作机构名称</th>
-	                                <th>资金方机构编码</th>
-	                                <th>资金方分成</th>
-	                            	<th>资产方分成</th>
-	                            	<th>百融分成</th>
-	                            	<th>预计放款总额（万）</th>
-	                            	<th>催收发起节点</th>
+	                                <th>资金方名称</th>
+	                                <th>资金方编码</th>
+	                                <th>资金方资金成本</th>
+	                            	  <th>水象产品利率</th>
+	                            	  <th>催收发起节点</th>
 	                                <th ng-if = "checkStatus">操作</th>
 	                            </tr>
 	                            <tr ng-repeat="item in pairList">
@@ -47,10 +37,11 @@
 	                                <td ng-bind="item.accPartnerCode"></td>
 	                                <td ng-bind="item.fundSharing"></td>
 	                                <td ng-bind="item.assetSharing"></td>
-	                                <td ng-bind="item.brSharing"></td>
-	                                <td ng-bind="item.estimateLoan"></td>
 	                                <td ng-bind="item.collNode"></td>
-	                                <td ng-if = "checkStatus"><a href="javascript:void(0)" ng-click = "openPair(item)">编辑</a></td>
+	                                <td ng-if = "checkStatus">
+	                                	<a href="javascript:void(0)">删除</a>
+	                                	<a href="javascript:void(0)" ng-click = "openPair(item)">编辑</a>
+	                                </td>
 	                            </tr>
 	                        </table>
 	                    </div>
@@ -88,7 +79,7 @@
 	    			<td class="arrow_right"></td>
 	    			
 	    			<td>
-	    				<div class="pair-title">分成比例：</div>
+	    				<div class="pair-title">资金成本:</div>
 	    			</td>
 	    			<td>
 	    				<input type="number" oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.fundSharing" />
@@ -103,34 +94,14 @@
 	    			</td>
 	    			<td class="arrow_right"></td>
 	    			<td>
-	    				<div class="pair-title">分成比例：</div>
+	    				<div class="pair-title">产品综合利率:</div>
 	    			</td>
 	    			<td>
 	    				<input type="number"  oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.assetSharing" />
 	    			</td>
 	    		</tr>
 	    		<tr>
-	    			<td>
-	    			</td>
-	    			<td>
-	    				<input class="br-blank" type="text" value="百融方" readonly="readonly"/>
-	    			</td>
-	    			<td class="arrow_right"></td>
-	    			<td>
-	    				<div class="pair-title">分成比例：</div>
-	    			</td>
-	    			<td>
-	    				<input type="number"  oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.brSharing" />
-	    			</td>
-	    		</tr>
-	    		<tr>
-	    			<td>
-	    				<div class="pair-title">预计放款额&nbsp;&nbsp;&nbsp;&nbsp;<br>（万）：</div>
-	    			</td>
-	    			<td>
-	    				<input type="text" maxlength="50" ng-model = "production.estimateLoan" />
-	    			</td>
-	    			<td></td>
+	    		
 	    			<td>
 	    				<div class="pair-title">催收节点：</div>
 	    			</td>

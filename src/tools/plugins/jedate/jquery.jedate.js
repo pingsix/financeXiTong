@@ -18,9 +18,13 @@ window.console && (console = console || {log : function(){return;}});
 	var jet = {}, doc = document, ymdMacth = /\w+|d+/g, parseInt = function (n) { return window.parseInt(n, 10);},
 	config = {
 		skinCell:"jedateblue",
-		format:"YYYY-MM-DD hh:mm:ss", //日期格式
-		minDate:"2017-01-01 00:00:00", //最小日期
-		maxDate:"2099-12-31 23:59:59" //最大日期
+		// format:"YYYY-MM-DD hh:mm:ss", //日期格式
+		// minDate:"2017-01-01 00:00:00", //最小日期
+		// maxDate:"2099-12-31 23:59:59" //最大日期
+
+		format:"YYYY-MM-DD ", //日期格式
+		minDate:"2017-01-01 ", //最小日期
+		maxDate:"2099-12-31 " //最大日期
 	};
 	$.fn.jeDate = function(options){
 		return this.each(function(){
@@ -89,21 +93,24 @@ window.console && (console = console || {log : function(){return;}});
 	jet.parse = function(ymd, hms, format) {
 		ymd = ymd.concat(hms);
 		var hmsCheck = jet.parseCheck(format, false).substring(0, 5) == "hh:mm", num = 2;
-		return format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+		// return format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+		return format.replace(/YYYY|MM|DD/g, function(str, index) {
 			var idx = hmsCheck ? ++num :ymd.index = ++ymd.index | 0;
 			return jet.digit(ymd[idx]);
 		});
 	};
 	jet.parseCheck = function(format, bool) {
 		var ymdhms = [];
-		format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+		// format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+		format.replace(/YYYY|MM|DD/g, function(str, index) {
 			ymdhms.push(str);
 		});
 		return ymdhms.join(bool == true ? "-" :":");
 	};
 	jet.checkFormat = function(format) {
 		var ymdhms = [];
-		format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+		// format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+		format.replace(/YYYY|MM|DD/g, function(str, index) {
 			ymdhms.push(str);
 		});
 		return ymdhms.join("-");
@@ -127,7 +134,8 @@ window.console && (console = console || {log : function(){return;}});
 	}
 	//初始化日期
 	jet.initDates = function(num, format) {
-		format = format || 'YYYY-MM-DD hh:mm:ss';
+		format = format || 'YYYY-MM-DD';
+		// format = format || 'YYYY-MM-DD hh:mm:ss';
 		if(typeof num === "string"){
 			var newDate = new Date(parseInt(num.substring(0,10)) * 1e3);
 		}else{
@@ -249,8 +257,9 @@ window.console && (console = console || {log : function(){return;}});
 		var datetopStr = '<div class="jedatetop">' + (!isYYMM ? '<div class="jedateym" style="width:50%;"><i class="prev triangle yearprev"></i><span class="jedateyy" ym="24"><em class="jedateyear"></em><em class="pndrop"></em></span><i class="next triangle yearnext"></i></div>' + '<div class="jedateym" style="width:50%;"><i class="prev triangle monthprev"></i><span class="jedatemm" ym="12"><em class="jedatemonth"></em><em class="pndrop"></em></span><i class="next triangle monthnext"></i></div>' :'<div class="jedateym" style="width:100%;"><i class="prev triangle ymprev"></i><span class="jedateyy"><em class="jedateyearmonth"></em></span><i class="next triangle ymnext"></i></div>') + "</div>";
 		var dateymList = !isYYMM ? '<div class="jedatetopym" style="display: none;">' + '<ul class="ymdropul"></ul><p><span class="jedateymchle">&lt;&lt;</span><span class="jedateymchri">&gt;&gt;</span><span class="jedateymchok">关闭</span></p>' + "</div>" :(dateFormat == "YYYY" ? '<ul class="jedayy"></ul>' :　'<ul class="jedaym"></ul>');
 		var dateriList = '<ol class="jedaol"></ol><ul class="jedaul"></ul>';
-		var bothmsStr = !isYYMM ? '<div class="botflex jedatehmsshde"><ul class="jedatehms"><li><input type="text" /></li><i>:</i><li><input type="text" /></li><i>:</i><li><input type="text" /></li></ul></div>' + '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">今天</span><span class="jedateclear">清空</span></div>' :(dateFormat == "YYYY" ? '<div class="botflex jedatebtn"><span class="jedateok" style="width:47.8%">确认</span><span class="jedateclear" style="width:47.8%">清空</span></div>' : '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">本月</span><span class="jedateclear">清空</span></div>');
+		var bothmsStr = isYYMM ? '<div class="botflex jedatehmsshde"><ul class="jedatehms"><li><input type="text" /></li><i>:</i><li><input type="text" /></li><i>:</i><li><input type="text" /></li></ul></div>' + '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">今天</span><span class="jedateclear">清空</span></div>' :(dateFormat == "YYYY" ? '<div class="botflex jedatebtn"><span class="jedateok" style="width:47.8%">确认</span><span class="jedateclear" style="width:47.8%">清空</span></div>' : '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">本月</span><span class="jedateclear">清空</span></div>');
 		var datebotStr = '<div class="jedatebot">' + bothmsStr + "</div>";
+		// var datebotStr = '<div class="jedatebot">'  + "</div>";
 		var datehmschoose = '<div class="jedateprophms ' + (ishhmm ? "jedatepropfix" :"jedateproppos") + '"><div class="jedatepropcon"><div class="jedatehmstitle">时间选择<div class="jedatehmsclose">&times;</div></div><div class="jedateproptext">小时</div><div class="jedateproptext">分钟</div><div class="jedateproptext">秒数</div><div class="jedatehmscon jedateprophours"></div><div class="jedatehmscon jedatepropminutes"></div><div class="jedatehmscon jedatepropseconds"></div></div></div>';
 		var dateHtmStr = isYYMM ? datetopStr + dateymList + datebotStr :ishhmm ? datetopStr + datehmschoose + datebotStr :datetopStr + dateymList + dateriList + datehmschoose + datebotStr;
 		boxCell.html(dateHtmStr);

@@ -267,7 +267,7 @@ export default angular
         	}
     	}
     	
-        //开发机
+        //开发机制
         ajax.DOMAIN = '';  
         
     	return ajax;

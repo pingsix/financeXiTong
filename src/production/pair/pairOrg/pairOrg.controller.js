@@ -15,6 +15,7 @@ export default {
 	template : require('./pairOrg.template.html')
 }
 
+
 function controller(_,service,$state,$timeout){
 		'use strict';
 		var o,cfg = {},timer;
@@ -23,17 +24,17 @@ function controller(_,service,$state,$timeout){
         	try{_.statusParamInfo = JSON.parse(decodeURI($state.params.object));}catch(e){};
         }
 		_.production = {
-		 	code : '',
-		 	name : '',
+		    	code : '',
+		    	name : '',
         	accPartnerCode : '',
         	partnerName : '',
         	fundSharing : '',
         	assetSharing : '',
-        	brSharing : '',
-        	estimateLoan : '',
+        	// brSharing : '',
+        	// estimateLoan : '',
         	collNode : '',
         };
-        
+     
         _.checkStatus = _.statusParamInfo.status == 2 ? false : true;
         
         function resetProduction(){
@@ -63,10 +64,12 @@ function controller(_,service,$state,$timeout){
 			//等于0可以
 			var ignorePropVal = ['fundSharing','assetSharing','brSharing','collNode'];
 			
-			var validateVal = saveParam(data),
+			var validateVal = saveParam(data);
+      console.log(validateVal);
 //				totalRatio = 1,
-				isIntType = /^[0-9]*$/,
-				isAllFill = Object.keys(validateVal).every(function(v){
+		 	var isIntType = /^[0-9]*$/;
+				var isAllFill = Object.keys(validateVal).every(function(v){
+           console.log(v)
 					for(var i = 0,ii=ignorePropVal.length; i< ii;i++){
 						if(ignorePropVal[i] == v && validateVal[v] == '0') return true
 					}
@@ -83,11 +86,11 @@ function controller(_,service,$state,$timeout){
 //				alert('分成比例信息填写有误，请重新填写！');
 //				return false;
 //			}
-			if(!isIntType.test(data.estimateLoan)){
-				data.estimateLoan = '';
-				alert('预计放款额必须为正整数！');
-				return false;
-			}
+			// if(!isIntType.test(data.estimateLoan)){
+			// 	data.estimateLoan = '';
+			// 	alert('预计放款额必须为正整数！');
+			// 	return false;
+			// }
 			if(!isIntType.test(data.collNode)){
 				data.collNode = '';
 				alert('催收节点必须为正整数！');
@@ -104,8 +107,8 @@ function controller(_,service,$state,$timeout){
 				accPartnerCode : item.partnerName,
 				fundSharing : item.fundSharing,
 	        	assetSharing : item.assetSharing,
-	        	brSharing : item.brSharing,
-	        	estimateLoan : item.estimateLoan,
+	        	// brSharing : item.brSharing,
+	        	// estimateLoan : item.estimateLoan,
 	        	collNode : item.collNode,
 			};
 			if(_.editFlag){ saveParam.id = item.id;};
@@ -186,10 +189,11 @@ function controller(_,service,$state,$timeout){
                 },200);
             },
             getUserInfoList : function(config){
-            	if(!_.statusParamInfo) return;
+            	  if(!_.statusParamInfo) return;
                 var cfg = config ||{productionCode : _.statusParamInfo.code};     
                 service.getPairList(cfg).then(function(data){
                 	_.pairList = data.accpartnerlist;
+               
                 },function(data){alert(data.responseMsg)});
             },
             init : function(){

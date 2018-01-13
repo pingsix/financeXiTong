@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e1d15e559f824d747110"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "494184884c283d8eeba6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -33494,7 +33494,7 @@
 	/**
 	 * 总数
 	 */
-	module.exports = [{ id: 'j1_1', text: '收益明细', children: [{ id: 'j1_2', text: '图表展示', href: 'earnings/chart' }, { id: 'j1_3', text: '分润情况', href: 'earnings/splitting' }] }, { id: 'j1_4', text: '账务信息', children: [{ id: 'j1_13', text: '借款人财务信息', href: 'financial/loan' },
+	module.exports = [{ id: 'j1_1', text: '收益明细', children: [{ id: 'j1_3', text: '分润情况', href: 'earnings/splitting' }] }, { id: 'j1_4', text: '账务信息', children: [{ id: 'j1_13', text: '借款人财务信息', href: 'financial/loan' },
 		//		{id:'j1_14',text:'财务汇总信息',href:'financial/collect'},
 		//		{id:'j1_15',text:'逾期用户信息',href:'financial/overdue'},
 		//		{id:'j1_5',text:'个人账务信息',href:'financial/personage'},
@@ -33516,7 +33516,7 @@
 		if (source) {
 			var source = JSON.parse(JSON.stringify(source));
 		} else {
-			console.log('--> no source!');
+
 			return;
 		}
 		if (typeof ids === 'string') {
@@ -34242,7 +34242,7 @@
 			}
 		};
 
-		//开发机
+		//开发机制
 		ajax.DOMAIN = '';
 
 		return ajax;

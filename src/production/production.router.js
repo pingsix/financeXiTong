@@ -113,31 +113,31 @@ var config = ($stateProvider, $urlRouterProvider,$locationProvider) => {
 	        }
         }
     })
-    .state('configuration.pairOrg', {
-        url: '/pairOrg/:object',
-        views : {
-            'slider':{template : sliderBar},
-            'content@':{
-            	templateProvider : ($q) => {
-            		return $q((resolve) => {
-            			require.ensure([],(require) => resolve(require('./pair/pairOrg/pairOrg.controller').default.template),'production-pairOrg')
-            		})
-            	},
-				controller : 'pairOrgController',
-	           	resolve : {
-	           		loadLoanController : ($q, $ocLazyLoad) => {
-	           			return $q((resolve) => {
-	           				require.ensure([],(require) => {
-	           					let module = require('./pair/pairOrg/pairOrg.controller').default.module;
-	           					$ocLazyLoad.load({name : module.name});
-	           					resolve(module.controller)
-	           				})
-	           			})
-	           		}
-	           	}
-	        }
-        }
-    })
+    // .state('configuration.pairOrg', {
+    //     url: '/pairOrg/:object',
+    //     views : {
+    //         'slider':{template : sliderBar},
+    //         'content@':{
+    //         	templateProvider : ($q) => {
+    //         		return $q((resolve) => {
+    //         			require.ensure([],(require) => resolve(require('./pair/pairOrg/pairOrg.controller').default.template),'production-pairOrg')
+    //         		})
+    //         	},
+				// controller : 'pairOrgController',
+	   //         	resolve : {
+	   //         		loadLoanController : ($q, $ocLazyLoad) => {
+	   //         			return $q((resolve) => {
+	   //         				require.ensure([],(require) => {
+	   //         					let module = require('./pair/pairOrg/pairOrg.controller').default.module;
+	   //         					$ocLazyLoad.load({name : module.name});
+	   //         					resolve(module.controller)
+	   //         				})
+	   //         			})
+	   //         		}
+	   //         	}
+	   //      }
+    //     }
+    // })
 }
 
 /**

@@ -13,22 +13,22 @@
 	            	<tr>
 	                    <td class="tl-r">产品状态：</td>
 	                    <td>
-	                        <select class="select-global" ng-model="production.productionStatus" ng-options = "option.id as option.value for option in baseData.productionStatusList"></select>
+	                        <select class="select-global" ng-model="productions.status" ng-options = "option.id as option.value for option in baseData.productionStatusList"></select>
 	                    </td>
 	                </tr>
 	                <tr>
 	                	<td class="tl-r">配置状态：</td>
 	                    <td>
-	                        <select class="select-global" ng-model="production.configStatus" ng-options = "option.id as option.value for option in baseData.configStatusList"></select>
+	                        <select class="select-global" ng-model="productions.configStatus" ng-options = "option.id as option.value for option in baseData.configStatusList"></select>
 	                    </td>
 	                </tr>
-	                <tr>
+	               <!--  <tr>
 	                    <td class="tl-r"> 关键字：</td>
 	                    <td class="fl search">
 	                        <input type="text"  placeholder="产品编码" ng-model="production.keyWord" id="search"/>
 	                    </td>
-	                </tr>
-	                <tr>
+	                </tr> -->
+	                <!-- <tr> -->
 						<td class="tl-r"></td>
 						<td class="fl search">
 							<div class="search-start" ng-click="searchStart()">查 询</div>
@@ -40,31 +40,91 @@
 	                    <div class="hdFixed">
 	                    </div>
 	                    <div class="bd">
-	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
-	                            <tr>
-	                                <th>
+	                        <!-- <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)"> -->
+	                        	<div class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)" style="width: 1164px;"></div>
+	                            <div class="table-th" >
+	                                <h5 class="hOne">
 	                                	产品名称
 	                                	<!--<div class="sortWrap">
 	                                		<div class="sortTimeTop" ng-click = 'sortTime({sortKey:"update_time",order:"asc"})'></div>
 	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
 	                                	</div>-->
-	                                </th>
-	                                <th>产品编码</th>
-	                                <th>产品状态</th>
-	                            	<th>配置状态</th>
-	                                <th>操作</th>
-	                            </tr>
-	                            <tr ng-repeat="item in pairList">
-	                                <td width="30%" ng-bind="item.productionName"></td>
-	                                <td width="25%" ng-bind="item.productionCode"></td>
-	                                <td width="20%" ng-bind="item.status|productionStatus"></td>
-	                                <td width="20%" ng-bind="item.configStatus|configStatus"></td>
-	                                <td>
-	                                	<a href="javascript:void(0)" ng-click = "viewDetail(item)" ng-bind = "handleTitle(item)">配置</a>
-	                                </td>
-	                            </tr>
-	                        </table>
+	                                </h5>
+	                                <h5>产品编码</h5>
+	                                <!-- <th>关联资金方</th> -->
+	                                <h5>产品状态</h5>
+	                            	  <h5>配置状态</h5>
+	                            	  <!-- <h5>违约金</h5> -->
+	                                <h5>操作</h5>
+	                            </div>
+	                            <div  class="table-tbody" ng-repeat="item in pairList">
+	                               <div class="clearFix ps">
+	                               		<p  style="position: relative;" class="hOne">
+	                               			<!-- imgsIcon -->
+	                               			<span 
+
+	                               			class="imgIcon"
+	                               		  ng-click="dian(item,$event)"
+	                               		  ng-if="item.addShow"
+	                               		  >
+	                               				{{item.con}}
+	                               			</span>
+                                   {{item.productionName}}
+	                                </p>
+	                                <p  ng-bind="item.productionCode"></p>
+	                                <!--<p width="15%" ng-bind="item.productionCode"></p> -->
+	                                <p  ng-bind="item.status"></p>
+	                                
+	                                <p  ng-bind="item.configStatus|configStatus"></p>
+	                                <!-- <p  ng-bind="item.penalty"></p> -->
+	                                <p>
+	                                	<!-- <a href="javascript:void(0)" ng-click = "viewDetail(item)" ng-bind = "handleTitle(item)">配置</a> -->
+	                                	 <a 
+	                                	  href="javascript:void(0)"  
+                                      ng-mouseover="viewDetail(item)"
+	                                	  ng-click = "openPair()">
+	                                	 新增配对</a>
+	                                </p>
+	                               	</div>
+	                               <div class="capital" ng-if="item.imgsIcon">
+	                               	<div class="capital-th">
+	                               		<h5>资金方名称</h5>
+	                               		<h5>资金方编码</h5>
+	                               		<h5>资金成本</h5>
+	                               		<h5>水象产品利率</h5>
+	                               		<h5>催收节点</h5>
+	                               		<h5>违约金</h5>
+	                               		<h5>操作</h5>
+	                               	</div>
+	                               	<div class="capital-tbody" ng-repeat="itemo in  item.pairLists">
+	                               	 <p  ng-bind="itemo.accPartnerName"></p>
+	                               	 <p  ng-bind="itemo.accPartnerCode"></p>
+	                                 <p  ng-bind="itemo.fundSharing"></p>
+	                                 <!--<p width="15%" ng-bind="item.productionCode"></p> -->
+	                                 <p  ng-bind="itemo.assetSharing"></p>
+
+	                                 <p  ng-bind="itemo.collNode"></p>
+	                                 <p  ng-bind="itemo.penalty"></p>
+	                                 <p>
+	                                	<!-- <a href="javascript:void(0)" ng-click = "viewDetail(item)" ng-bind = "handleTitle(item)">配置</a> -->
+	                                	<!--  <a 
+	                                	  href="javascript:void(0)"  
+	                                	  ng-click = "openPair()">
+	                                	 停用</a> -->
+	                                	 <a href="javascript:void(0)"
+                                      ng-click="deletePair(itemo.id,item)"
+	                                	 >删除</a>
+	                                	 <a href="javascript:void(0)"
+                                       ng-mouseover="viewDetail(item)"
+	                                	  ng-click = "openPair(itemo,item)">编辑</a>
+	                                 </p>	
+	                               	</div>
+	                               </div>
+	                            </div>
+	                        </div>
 	                    </div>
+
+
 	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
 			            <div class="fl ft-lf">
 			                                共 <span ng-bind="count"></span>条 每页显示
@@ -75,11 +135,87 @@
 			                    <div class="page clearfix">
 			                        <span page></span>
 			                    </div>
-			        </div>
+			                </div>
 			    </div>
 			</div>
 	    </div>
 	    <div class="inner-footer"></div>
+	    <div class="pair-dialog" ng-if = "dialogShow">
+	    	<div class="pair-dialog-title">配对配置</div>
+	    	<table class = "pair-wrap">
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">产品名称：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  maxlength="50" ng-model = "production.productionName" readonly="readonly" />
+	    			</td>
+	    			<td><div style="width: 50px;"></div></td>
+	    			<td>
+	    				<div class="pair-title">产品编码：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  maxlength="50" ng-model = "production.productionCode" readonly="readonly" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">关联资金方：</div>
+	    			</td>
+	    			<td>
+	    				<select class="pair-edit-select" ng-model = "production.accPartnerCode" 
+	    				ng-change=fundShare(production.accPartnerCode,accSideList)
+	    				ng-options = "option.partnerCode as option.partnerName for option in accSideList"></select>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			
+	    			<td>
+	    				<div class="pair-title">资金成本:</div>
+	    			</td>
+	    			<!-- oninput="if(value.length>4)value=value.slice(0,6)" -->
+	    			<td>
+	    				<input  class="pair-edit-readonly" 
+	    				 type="number"  ng-model = "production.fundSharing"
+	    				 readonly="readonly" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">资产方：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  ng-model = "production.partner" readonly="readonly"/>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			<td>
+	    				<div class="pair-title">产品综合利率:</div>
+	    			</td>
+	    			<td>
+	    				<input type="number"  oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.assetSharing" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    		
+	    			<td>
+	    				<div class="pair-title">催收节点：</div>
+	    			</td>
+	    			<td>
+	    				<input type="text" maxlength="50" ng-model = "production.collNode" />
+	    			</td>
+	    			<td><div style="width: 50px;"></div></td>
+	    			<td>
+	    				<div class="pair-title">违约金：</div>
+	    			</td>
+	    			<td>
+	    				<input type="text" maxlength="50" ng-model = "production.penalty" />
+	    			</td>
+	    		</tr>
+	    	</table>
+	    	<div class="handle-btn">
+	    		<button class="pair-button" ng-click = "savePair()">确定</button>
+	    		<button class="pair-button" ng-click = "closePair()">返回</button>
+	    	</div>
+	    </div>
 	</div>
 </div>
 	

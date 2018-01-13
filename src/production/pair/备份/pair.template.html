@@ -1,0 +1,162 @@
+<div class="main">
+	<loding-mask></loding-mask>
+	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
+	    <div class="inner-header clearfix">
+	        <div class="inner-header-lf fl">机构配对</div>
+	        <!--<div class="inner-header-rt fr" style="min-width:220px">-->
+	            <!--<a  ui-sref ="configuration.newOrganic" class="btn1 fr importA">新建机构</a>-->
+	        <!--</div>-->
+	    </div>
+	    <div class="inner-body">
+	        <div class="inner-select">
+	            <table style="width: 100%;">
+	            	<tr>
+	                    <td class="tl-r">产品状态：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="production.productionStatus" ng-options = "option.id as option.value for option in baseData.productionStatusList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                	<td class="tl-r">配置状态：</td>
+	                    <td>
+	                        <select class="select-global" ng-model="production.configStatus" ng-options = "option.id as option.value for option in baseData.configStatusList"></select>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="tl-r"> 关键字：</td>
+	                    <td class="fl search">
+	                        <input type="text"  placeholder="产品编码" ng-model="production.keyWord" id="search"/>
+	                    </td>
+	                </tr>
+	                <tr>
+						<td class="tl-r"></td>
+						<td class="fl search">
+							<div class="search-start" ng-click="searchStart()">查 询</div>
+							<div class="search-start" ng-click="clearSearch()">清 空</div>
+						</td>
+					</tr>
+	            </table>
+	            <div class="inner-table">
+	                    <div class="hdFixed">
+	                    </div>
+	                    <div class="bd">
+	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
+	                            <tr>
+	                                <th>
+	                                	产品名称
+	                                	<!--<div class="sortWrap">
+	                                		<div class="sortTimeTop" ng-click = 'sortTime({sortKey:"update_time",order:"asc"})'></div>
+	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
+	                                	</div>-->
+	                                </th>
+	                                <th>产品编码</th>
+	                                <!-- <th>关联资金方</th> -->
+	                                <th>产品状态</th>
+	                            	  <th>配置状态</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            <tr ng-repeat="item in pairList">
+	                               
+	                               	<td width="15%" ng-bind="item.productionName">
+	                                	<!-- <img id="u200_img" class="img " src="/images/u200.png" tabindex="0" style="outline: none;"> -->
+	                                	<span>2</span>
+	                                </td>
+	                                
+	                               
+	                                <td width="15%" ng-bind="item.productionCode"></td>
+	                              <!--   <td width="15%" ng-bind="item.productionCode"></td> -->
+	                                <td width="15%" ng-bind="item.status|productionStatus"></td>
+	                                <td width="15%" ng-bind="item.configStatus|configStatus"></td>
+	                                <td  width="20%">
+	                                	<!-- <a href="javascript:void(0)" ng-click = "viewDetail(item)" ng-bind = "handleTitle(item)">配置</a> -->
+	                                	 <a href="javascript:void(0)"  
+                                      ng-mouseover="viewDetail(item)"
+	                                	 ng-click = "openPair()">
+	                                	 新增配对</a>
+	                                </td>
+	                            </tr>
+	                        </table>
+	                    </div>
+	                <div class="ft clearfix yeshu" ng-style="{visibility:showPage}">
+			            <div class="fl ft-lf">
+			                                共 <span ng-bind="count"></span>条 每页显示
+			                <select ng-model="selectOption.value" ng-change="selectChange(selectOption.value)" ng-options="v for v in selectOption.values">
+			                </select>
+			                </div>
+			                <div class="fr ft-rt">
+			                    <div class="page clearfix">
+			                        <span page></span>
+			                    </div>
+			        </div>
+			    </div>
+			</div>
+	    </div>
+	    <div class="inner-footer"></div>
+	    <div class="pair-dialog" ng-if = "dialogShow">
+	    	<div class="pair-dialog-title">配对配置</div>
+	    	<table class = "pair-wrap">
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">产品名称：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  maxlength="50" ng-model = "production.name" readonly="readonly" />
+	    			</td>
+	    			<td><div style="width: 50px;"></div></td>
+	    			<td>
+	    				<div class="pair-title">产品编码：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  maxlength="50" ng-model = "production.code" readonly="readonly" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">关联资金方：</div>
+	    			</td>
+	    			<td>
+	    				<select class="pair-edit-select" ng-model = "production.partnerName" ng-options = "option.partnerCode as option.partnerName for option in accSideList"></select>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			
+	    			<td>
+	    				<div class="pair-title">资金成本:</div>
+	    			</td>
+	    			<td>
+	    				<input type="number" oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.fundSharing" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td>
+	    				<div class="pair-title">资产方：</div>
+	    			</td>
+	    			<td>
+	    				<input class="pair-edit-readonly" type="text"  ng-model = "production.partner" readonly="readonly"/>
+	    			</td>
+	    			<td class="arrow_right"></td>
+	    			<td>
+	    				<div class="pair-title">产品综合利率:</div>
+	    			</td>
+	    			<td>
+	    				<input type="number"  oninput="if(value.length>4)value=value.slice(0,6)" ng-model = "production.assetSharing" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    		
+	    			<td>
+	    				<div class="pair-title">催收节点：</div>
+	    			</td>
+	    			<td>
+	    				<input type="text" maxlength="50" ng-model = "production.collNode" />
+	    			</td>
+	    		</tr>
+	    	</table>
+	    	<div class="handle-btn">
+	    		<button class="pair-button" ng-click = "savePair()">确定</button>
+	    		<button class="pair-button" ng-click = "closePair()">返回</button>
+	    	</div>
+	    </div>
+	</div>
+</div>
+	
+		

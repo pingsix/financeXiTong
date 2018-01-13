@@ -26,5 +26,17 @@ function service(util,ajax){
         getProductionaccpartnerList : function(cfg){
         	return ajax.post("/acc/productionaccpartner/list.do",cfg);
         },
+        delete : function(cfg) {
+            return ajax.post("/acc/productionaccpartner/deleteProductionAccPartner.do",cfg);
+        },
+        save : function(cfg){
+            return ajax.post('/acc/productionaccpartner/save.do',cfg);
+        },
+        getPairList : function(cfg){
+            return ajax.post("/acc/productionaccpartner/accpartnerlist.do",cfg);
+        },
+        getAccSideList : function(cfg){
+            return ajax.post("/acc/productionaccpartner/bankrollParList.do",cfg);
+        }
 	}
 }

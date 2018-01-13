@@ -41,16 +41,19 @@
 	                    
 	                </tr>
 	                <tr ng-repeat="item in UserInfoList">
-	                    <td><input type="checkbox"  ng-change = "watchChecked2()" ng-model="item.CheckboxFlag" ng-checked="item.CheckboxFlag"></td>
+	                    <td><input type="checkbox"  ng-change = "watchChecked2()" ng-model="item.CheckboxFlag" ng-checked="item.CheckboxFlag">
+	                    </td>
 	                    <td ng-bind="item.userId"></td>
 	                    <td ng-bind="item.userName"></td>
 	                    <td>                    
 	                    	<span ng-repeat = "i in item.groups" >
 	                    		{{i.groupName}}&nbsp;&nbsp;&nbsp;
 	                    	</span>
-	                    <td ng-bind="item.createTime.time|timeFilter"></td>
+	                    <td ng-bind="item.createTime.time|timeFilter">
+	                    </td>
 	                    <td ng-bind="item.spare1"></td>
-	                    <td><a href="javascript:void(0)" ng-click = "deblocking(item)" style="color: #81abe9;" ng-bind = "item.isLocked|deblockFilter"></a></td>
+	                    <td><a href="javascript:void(0)" ng-click = "deblocking(item)" style="color: #81abe9;" ng-bind = "item.isLocked|deblockFilter"></a>
+	                    </td>
 	                    <td>
 	                        <a class="mlr5" href="javascript:void(0)" ng-click = "editUser(item.id)">编辑</a>
 	                        <a class="mlr5" ng-click = "emitPassword(item.id)" href="javascript:void(0)">生成随机密码</a>

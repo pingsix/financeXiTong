@@ -5,80 +5,88 @@
 	        <div class="inner-header-lf fl">详细信息</div>
 	    </div>
 	    <div class="inner-body paddingInner">
-	    	<table id="baseInfo" class="sectionMargin" width="100%" border="1px" bordercolor="#d2d2d2">
-	    		<caption class="sectionTit">基本信息</caption>
+	    <table id="baseInfo" class="sectionMargin" width="100%" border="1px" bordercolor= "#d2d2d2">
+	    	<caption class="sectionTit">基本信息</caption>
 				<tr>
 					<td>客户ID</td>
 					<td ng-bind = "detailData.customId"></td>
 					<td>案件号</td>
 					<td ng-bind = "detailData.requestId"></td>
 					<td>还款方式</td>
-					<td ng-bind = "detailData.eventType"></td>
+					<td ng-bind = "repaymentType"></td>
 				</tr>
-				<tr>
-					<td>产品名称</td>
-					<td ng-bind = "detailData.productionName"></td>
-					<td>当前状态</td>
-					<td ng-bind = "detailData.presentStatus"></td>
-					<td>当前剩余本金余额</td>
-					<td ng-bind = "detailData.productionPresentStatus.presentResPri"></td>
-				</tr>
+			
 				<tr>
 					<td>姓名</td>
 					<td ng-bind = "detailData.applicantName"></td>
-					<td>当前状态数据时间</td>
-					<td ng-bind = "detailData.productionPresentStatus.presentTime.time|timeFilter"></td>
+				
+					<td>放款状态</td>
+					<td ng-bind = "detailData.loanStatus"></td>
 					<td>当前剩余利息</td>
 					<td ng-bind = "detailData.productionPresentStatus.presentResInt"></td>
 				</tr>
 				<tr>
 					<td>身份证</td>
 					<td ng-bind = "detailData.cardId"></td>
-					<td>放款状态</td>
-					<td ng-bind = "detailData.loanStatus"></td>
+					<td>未放款原因</td>
+					<td  title="{{detailData.loanRemark}}"><p ng-class = "{overflow : detailData.loanRemark.length > 27}" ng-bind = "detailData.loanRemark" ></p></td>
 					<td>当前剩余滞纳金</td>
 					<td ng-bind = "detailData.productionPresentStatus.presentResLateFee"></td>
 				</tr>
 				<tr>
 					<td>手机号码</td>
 					<td ng-bind = "detailData.callNumber"></td>
-					<td>未放款原因</td>
-					<td  title="{{detailData.loanRemark}}"><p ng-class = "{overflow : detailData.loanRemark.length > 27}" ng-bind = "detailData.loanRemark" ></p></td>
-					<td>当前剩余服务费</td>
-					<td ng-bind = "detailData.productionPresentStatus.presentServiceFee"></td>
-				</tr>
-				<tr>
 					<td>申请日期</td>
 					<td ng-bind = "detailData.createTime == '0' ? '' : detailData.createTime.time|timeFilter"></td>
+			   	<td>当前状态</td>
+					<td ng-bind = "detailData.presentStatus"></td>
+				</tr>
+				<tr>
+					<td>产品名称</td>
+					<td ng-bind = "detailData.productionName"></td>
+						<td>申请期数</td>
+					<td ng-bind = "detailData.refundPeriods == '0' ? '0' : detailData.refundPeriods"></td>
+				
+					<td>当前剩余本金余额</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentResPri"></td>
+				</tr>
+				<tr>
+					
 					<td>放款日期</td>
 					<td ng-bind = "detailData.loanTime.time|timeDateFilter"></td>
+					<td>资金方</td>
+					<td ng-bind = "detailData.partnerName"></td>
+	        <td>当前状态数据时间</td>
+					<td ng-bind = "detailData.productionPresentStatus.presentTime.time|timeFilter"></td>
+				</tr>
+				<tr>
+				
+					<td>放款金额</td>
+					<td ng-bind = "detailData.loanAmount == '0' ? '0' : detailData.loanAmount"></td>
+					<td>水象服务费总计</td>
+					<td ng-bind = "detailData.productionPresentStatus.serviceFeeZcTot == '0' ? '0' : detailData.productionPresentStatus.serviceFeeZcTot"></td>
 					<td>当前剩余期数</td>
 					<td ng-bind = "detailData.productionPresentStatus.presentResPeriods == '0' ? '0' : detailData.productionPresentStatus.presentResPeriods"></td>
 				</tr>
 				<tr>
-					<td>申请金额</td>
-					<td ng-bind = "detailData.applyMoney == '0' ? '0' : detailData.applyMoney"></td>
-					<td>放款金额</td>
-					<td ng-bind = "detailData.loanAmount == '0' ? '0' : detailData.loanAmount"></td>
-					<td>百融服务费总计</td>
-					<td ng-bind = "detailData.productionPresentStatus.serviceFeeBrTot == '0' ? '0' : detailData.productionPresentStatus.serviceFeeBrTot"></td>
-				</tr>
-				<tr>
-					<td>申请期数</td>
-					<td ng-bind = "detailData.refundPeriods == '0' ? '0' : detailData.refundPeriods"></td>
+				
 					<td>放款期数</td>
 					<td ng-bind = "detailData.loanPeriods == '0' ? '0' : detailData.loanPeriods"></td>
-					<td>百融已收服务费</td>
-					<td ng-bind = "detailData.productionPresentStatus.repaidServiceFeeBr == '0' ? '0' : detailData.productionPresentStatus.repaidServiceFeeBr"></td>
+					<td>水象已收服务费</td>
+					<td ng-bind = "detailData.productionPresentStatus.repaidServiceFeeZc == '0' ? '0' : detailData.productionPresentStatus.repaidServiceFeeZc"></td>
+					<td>水象违约金</td>
+					<!-- penalty.penalty -->
+					<td ng-bind = "penalty == '0' ? '0' : penalty"></td>
 				</tr>
-	    	</table>
+	    </table>
 	    	
 	    	<div>
 	    		<div class="sectionTit">各期明细账单信息</div>
 	    		<ul class="navigation">
-	    			<li>资金方还款计划</li>
-	    			<li>百融还款计划</li>
-	    			<li>资产方还款计划</li>
+	    			<li ng-click="show">资金方还款计划</li>
+	    			<li ng-click="show">水象还款计划</li>
+	    		<!-- 	<li>{{ceshi}}</li> -->
+	    			<!-- <li>资产方还款计划</li> -->
 	    		</ul>
 	    		<div class="detail_plan">
 			    	<div id="detailInfo" class="sectionMargin detailInfo">
@@ -86,24 +94,24 @@
 				    		<li>当前期数</li>
 				    		<li class="overStyle" title = "当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额">当期应偿未偿金额</li>
 				    		<li>当期应偿本金</li>
-				    		<li>当期应偿利息</li>
-				    		<li>当期应偿滞纳金</li>
-				    		<li>当期应偿逾期管理费</li>
+				    		<li>当期应偿资金方利息</li>
+				    		<!-- <li>当期应偿滞纳金</li> -->
+				    		<!-- <li>当期应偿逾期管理费</li> -->
 				    		<li>当期应偿服务费</li>
 				    		<li>当期应偿总金额</li>
 				    		<li>当期已偿本金</li>
-				    		<li>当期已偿利息</li>
-				    		<li>当期已偿滞纳金</li>
-				    		<li>当期已偿逾期管理费</li>
+				    		<li>当期已偿资金方利息</li>
+				    		<!-- <li>当期已偿滞纳金</li> -->
+				    		<!-- <li>当期已偿逾期管理费</li> -->
 				    		<li>当期已偿服务费</li>
 				    		<li>当期已偿总金额</li>
-				    		<li>实际回款日期</li>
-				    		<li>当次逾期发生日期</li>
+				    		<li>实际回款时间</li>
+				    		<!-- <li>当次逾期发生日期</li> -->
 				    		<li>应回款日期</li>
 				    		<li>保证金划扣金额</li>
 				    		<li>保证金划扣时间</li>
-				    		<li>合作机构回款金额</li>
-				    		<li>合作机构回款时间</li>
+				    		<!-- <li>合作机构回款金额</li> -->
+				    		<!-- <li>合作机构回款时间</li> -->
 				    		<li class="overStyle" title="还款合计 = 当期已偿总金额 + 当期已偿服务费">还款合计</li>
 				    		<li>当期状态</li>
 				    	</ul>
@@ -277,35 +285,45 @@
 					    					</div>
 					    				</cloak_frame>
 					    			</li>
-					    			<li ng-bind = "{{handleNum(item.presentTotDue - item.repaidTotMoney - item.repaidServiceFee)}}|toNum0"></li>
+					    			<!-- <li ng-bind = "{{handleNum(item.presentTotDue - item.repaidTotMoney - item.repaidServiceFee)}}|toNum0"></li> -->
+					    			<li ng-bind = "item.presentDue|toNum0"></li>
 					    			<li ng-bind = "item.presentPri|toNum0"></li>
 					    			<li ng-bind = "item.presentInt|toNum0"></li>
-					    			<li ng-bind = "item.presentLateFee|toNum0"></li>
-					    			<li ng-bind = "item.presentLateManFee|toNum0"></li>
 					    			<li ng-bind = "item.presentServiceFee|toNum0"></li>
-					    			<!--<li ng-bind = "item.presentTotDue|toNum0"></li>-->
-					    			<li ng-bind = "(item.presentServiceFee + item.presentInt + item.presentPri)|number:2"></li>
+					    			<li ng-bind = "item.presentTotDue|toNum0"></li>
+					    			<!-- <li ng-bind = "item.presentLateFee|toNum0"></li> -->
+					    			<!-- <li ng-bind = "item.presentLateManFee|toNum0"></li> -->
+					    			
+					    			
+					    		<!-- 	<li ng-bind = "(item.presentServiceFee + item.presentInt + item.presentPri)|number:2"></li> -->
 					    			<li ng-bind = "item.repaidPri|toNum0"></li>
 					    			<li ng-bind = "item.repaidInt|toNum0"></li>
-					    			<li ng-bind = "item.repaidLateFee|toNum0"></li>
-					    			<li ng-bind = "item.repaidLateManFee|toNum0"></li>
 					    			<li ng-bind = "item.repaidServiceFee|toNum0"></li>
-					    			<li ng-bind = "item.repaidTotMoney|toNum0"></li>
+					    			<li ng-bind = "item.presentLateFee|toNum0">
+					    		<!-- 	<li ng-bind = "item.repaidLateFee|toNum0"></li> -->
+					    			<!-- <li ng-bind = "item.repaidLateManFee|toNum0"></li> -->
+					    	
+					    			<!-- <li ng-bind = "item.repaidTotMoney|toNum0"></li> -->
+					    			
+					    			
 					    			<li ng-bind = "item.repaidDate.time|timeDateFilter"></li><!--实际回款日期-->
-					    			<li ng-bind = "item.presOverdueDate.time|timeDateFilter"></li>
+					    			<!-- <li ng-bind = "item.presOverdueDate.time|timeDateFilter"></li> -->
 					    			<li ng-bind = "item.repaidDeadline.time|timeDateFilter"></li>
 					    			<li ng-bind = "item.fineMoney|toNum0"></li>
 					    			<li ng-bind = "item.fineDate.time|timeFilter"></li>
-					    			<li ng-bind = "item.fineRepaidMoney|toNum0"></li>
-					    			<li ng-bind = "item.fineRepaidDate.time|timeFilter"></li>
+					    			<!-- <li ng-bind = "item.fineDate|timeFilter"></li> -->
+					    <!-- 			<li ng-bind = "item.fineRepaidMoney|toNum0"></li>
+					    			<li ng-bind = "item.fineRepaidDate.time|timeFilter"></li> -->
 					    			<li ng-bind = "(item.repaidServiceFee + item.repaidTotMoney)|number:2"></li>
 					    			<li ng-bind = "item.status"></li>  
 					    		</ul>
 							</div>
+
 			    		</div>
 			    	</div>
-		    	</div>
-		    	<div class="detail_plan">
+		    	 </div>
+		    	 
+		    	 <!-- <div class="detail_plan">
 		    		<div id="detailInfo" class="sectionMargin detailInfo">
 			    		<ul class="sideTitle">
 				    		<li>当前期数</li>
@@ -352,7 +370,7 @@
 							</div>
 			    		</div>
 			    	</div>
-		    	</div>
+		    	 </div> -->
 		    	<div class="detail_plan">
 			    	<div id="detailInfo" class="sectionMargin detailInfo">
 			    		<ul class="sideTitle">
@@ -360,16 +378,29 @@
 				    		<li class="overStyle" title="当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额 - 当期已偿服务费">当期应偿未偿金额</li>
 				    		<li>当期应偿本金</li>
 				    		<li>当期应偿利息</li>
+
+
 				    		<li>当期应偿服务费</li>
+				    		<!-- <li>当期应偿撮合费</li> -->
+
+
 				    		<li>当期应偿总金额</li>
+               	<li>罚息</li>
+				    		<li>滞纳金</li>
+				    		<li>逾期天数</li>
+				 
 				    		<li>当期已偿本金</li>
 				    		<li>当期已偿利息</li>
+
 				    		<li>当期已偿服务费</li>
+				    		<!-- <li>当期已偿撮合费</li> -->
+
 				    		<li>当期已偿总金额</li>
 				    		<li>应回款日期</li>
-				    		<li>实际回款日期</li>
-				    		<li>保证金划扣金额</li>
-				    		<li>保证金划扣时间</li>
+				    		<li>实际回款时间</li>
+				    		<!-- <li>实际回款日期</li> -->
+				    		<!-- <li>保证金划扣金额</li>
+				    		<li>保证金划扣时间</li> -->
 				    		<li class="overStyle" title="还款合计 = 当期已偿服务费 + 当期已偿总金额">还款合计</li>
 				    		<li>当期状态</li>
 				    	</ul>
@@ -377,28 +408,35 @@
 							<div class="innerWrapper">
 								<ul ng-repeat = "item in billPeriodsData.billPeriodsForZc">
 					    			<li>第{{item.billPeriods}}期</li>
-					    			<li ng-bind = "(item.presentTotDue - item.repaidTotMoney - item.repaidServiceFee).toFixed(2)|toNum0"></li>
+					    			<!-- <li ng-bind = "(item.presentTotDue - item.repaidTotMoney - item.repaidServiceFee).toFixed(2)|toNum0"></li> -->
+					    			<li ng-bind="item.presentDue|toNum0"></li>
 					    			<li ng-bind = "item.presentPri|toNum0"></li>
 					    			<li ng-bind = "item.presentInt|toNum0"></li>
 					    			<li ng-bind = "item.presentServiceFee|toNum0"></li>
 					    			<li ng-bind = "item.presentTotDue|toNum0"></li>
+					    			<li ng-bind = "item.presentLateManFee|toNum0"></li>
+					    			<li ng-bind = "item.presentLateFee|toNum0"></li>
+					    			<li ng-bind = "item.presOverdueDay|toNum0"></li>
+					    			<!-- <li >0</li> -->
+
 					    			<li ng-bind = "item.repaidPri|toNum0"></li>
+
 					    			<li ng-bind = "item.repaidInt|toNum0"></li>
+					    			
 					    			<li ng-bind = "item.repaidServiceFee|toNum0"></li>
 					    			<li ng-bind = "item.repaidTotMoney|toNum0"></li>
-					    			<li ng-bind = "item.repaidDeadline.time|timeDateFilter"></li>
-					    			<li ng-bind = "item.repaidDate.time|timeDateFilter"></li><!--实际回款日期-->
-					    			<li ng-bind = "item.fineMoney|toNum0"></li>
-					    			<li ng-bind = "item.fineDate.time|timeFilter"></li>
+
+					    			<li ng-bind = "item.repaidDeadline.time|timeFilter"></li>
+					    			<li ng-bind = "item.repaidDate.time|timeDateFilter"></li>
+					    		
 					    			<li ng-bind = "(item.repaidServiceFee + item.repaidTotMoney)|number:2"></li>
 					    			<li ng-bind = "item.status"></li>  
 					    		</ul>
 							</div>
 			    		</div>
 			    	</div>
-		    	</div>
+		    	</div>  
 	    	</div>
-	    	
 	    	<div>
 	    		<table class="detailRunning" width="100%" border="1px" bordercolor="#d2d2d2">
 		    		<caption class="sectionTit">明细账单流水</caption>
@@ -472,9 +510,9 @@
 	    			<td class="show-periods-td">
 	    				<a ng-click ="showModifyRecord($index+1)" href="javascript:void(0)">查看</a>
 	    				<cloak_frame name="modifyRecordForm" head="第({{item.billPeriods}})期 修改记录查看">
-	    					<div id="detailInfo">
-	    						<div class="show-periods-list">
-		    						<ul class="sideTitle">
+	    				<div id="detailInfo">
+	    					<div class="show-periods-list">
+		    					<ul class="sideTitle">
 						    			<li>计划所属机构</li>
 										<li class="overStyle" title = "当期应偿未偿金额 = 当期应偿总金额 - 当期已偿总金额">当期应偿未偿金额</li>
 										<li>当期应偿本金</li>
@@ -541,7 +579,8 @@
 										    ng-bind = "_item.data.presentLateManFee.val|toNum0"></li>
 										    			
 										<li ng-bind = "_item.data.presentServiceFee.val|toNum0"></li>
-										<!--<li ng-bind = "_item.data.presentTotDue.val|toNum0"></li>-->
+									
+                    <li ng-bind = "_item.data.presentTotDue.val|toNum0"></li>
 										<li ng-bind = "(_item.data.presentServiceFee.val + _item.data.presentInt.val + _item.data.presentPri.val)|number:2"></li>
 										    			
 										<li  ng-class="{'changed':_item.data.repaidPri.sign}" ng-bind="_item.data.repaidPri.val"></li>
@@ -599,7 +638,7 @@
 										    			
 										    			
 										<li ng-if="_item.nameData.key === 'zjBefore' || 
-											_item.nameData.key === 'zjAfter' ? false :true">-</li>
+									_item.nameData.key === 'zjAfter' ? false :true">-</li>
 										<li  ng-class="{'changed':_item.data.presOverdueDate.sign}" ng-if="_item.nameData.key === 'zjBefore' || 
 											_item.nameData.key === 'zjAfter' ? true :false"  ng-bind="_item.data.presOverdueDate.val"></li>
 										    			

@@ -26,19 +26,30 @@
 	                    <td>
 	                    	<select class="select-global" ng-model = "query.productionCode" ng-options = "option.productionCode as option.productionName for option in baseSelectData.productionList"></select>
 	                    </td>
-	                </tr>
-	                <tr>
+                      <td class="tl-r">资金方:</td>
+	                  	<td>
+
+	                  		<select class="select-global" 
+	                  		ng-model = "query.partnerCode"
+	                  		ng-options = "option.partnerCode as option.partnerName for option in baseSelectData.accpartnerList" ></select>
+	                  	</td>
+	                  </tr>
+	                 <!--  <tr>
+	                  	
+	                  </tr> -->
+	                  <tr>
 	                    <td class="tl-r">当前状态：</td>
 	                    <td>
 	                    	<select class="select-global" ng-model = "query.presentStatus" ng-options = "option.id as option.value for option in baseSelectData.presentStatusList"></select>
 	                    </td>
-	                </tr>
-	                <tr>
-	                <td class="tl-r">放款状态：</td>
+	                    <td class="tl-r">放款状态：</td>
 	                    <td>
 	                    	<select class="select-global" ng-model = "query.loanStatus" ng-options = "option.id as option.value for option in baseSelectData.loanStatusList"></select>
 	                    </td>
 	                </tr>
+	                <!-- <tr>
+	              
+	                </tr> -->
 	                <tr>
 	                    <td class="tl-r"> 关键字：</td>
 	                    <td class="fl search">
@@ -61,9 +72,9 @@
 									<input type="checkbox" id="selectAll" class="checkAll-checkbox" ng-click = "allChecked()" ng-checked = "checkBoxManage"/>
 									<span style="-webkit-user-select: none;">全选</span>
 	                            </label>
-	                            <span>
+	                            <!-- <span>
 	                            	<download-btn name = "全量导出" lock = "isDisabled" ng-click = "exprotFileAll()" class="fr"/>
-	                            </span>
+	                            </span> -->
 	                            <span>
 	                            	<download-btn name = "导出" lock = "downloadBtn" ng-click = "exprotFile()" class="fr"/>
 	                            </span>
@@ -75,6 +86,7 @@
 	                                <th width="39"></th>
 	                            	<th>案件号</th>
 	                                <th>产品</th>
+	                                <th>资金方</th>
 	                                <th>
 	                                	数据更新时间
 	                                	<div class="sortWrap">
@@ -85,8 +97,7 @@
 	                                <th>放款金额</th>
 	                                <th>姓名</th>
 	                                <th>身份证号</th>
-	                                <th>当前状态</th>
-	                                <th>操作状态</th>
+	                                <th>当前状态</th> 
 	                                <th>放款状态</th>
 	                                <th>操作</th>
 	                            </tr>
@@ -94,14 +105,19 @@
 	                            	<td><input type="checkbox" ng-model="item.CheckboxFlag" ng-click = "watchListChecked()" ng-change = "watchChecked2()" ng-disabled = "item.beAccept" ng-checked="item.CheckboxFlag"/></td>
 	                                <td ng-bind="item.requestId"></td>
 	                                <td ng-bind="item.productionName"></td>
-	                                <td ng-bind="item.updateTime.time|timeFilter"></td>
+	                                <!-- <td ng-bind="item.applicantName"></td> -->
+	                                <td ng-bind="item.partnerName"></td>
+	                                 <td ng-bind="item.updateTime.time|timeFilter"></td>
 	                                <td ng-bind="item.loanAmount"></td>
+	                              
 	                                <td ng-bind="item.applicantName"></td>
+	                                
 	                                <td ng-bind="item.cardId"></td>
 	                                <td ng-bind="item.presentStatus"></td>
-	                                <td ng-bind="item.operationStatus"></td>
+	                                 
 	                                <td ng-bind="item.loanStatus"></td>
 	                                <td><a href="javascript:void(0)" target="_blank" ng-click = "viewDetail(item)">查看</a></td>
+	                               
 	                            </tr>
 	                        </table>
 	                    </div>

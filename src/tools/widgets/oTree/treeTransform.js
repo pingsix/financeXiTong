@@ -5,7 +5,7 @@
 			if(source){
 				var source = JSON.parse(JSON.stringify(source));
 			}else{
-				console.log('--> no source!');
+				
 				return;
 			}
 			if(typeof ids === 'string'){

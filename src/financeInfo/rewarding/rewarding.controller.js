@@ -13,7 +13,8 @@ function controller(_,service,$timeout,$state,util,$q){
 		'use strict';
 		var o,timer;
         _.count = '';
-        _.downloadBtn = false;         
+        _.downloadBtn = false;  
+           
         _.checkBoxManage = false;
         _.loanMenInfo = [];
         _.selectOption = {
@@ -23,6 +24,42 @@ function controller(_,service,$timeout,$state,util,$q){
             "values" : ["10条","20条","30条","40条","50条"]
         };
         
+        _.statusLists = [
+           {
+            code: "-1", value: '未申请放款'
+           },
+            {
+            code: "0", value: '正常'
+           },
+            {
+            code: "1", value: '逾期'
+           },
+            {
+            code: "2", value: '已结清'
+           },
+            {
+            code: "3", value: '一次结清'
+           },
+            {
+            code: "4", value: '取消借款'
+           },
+            {
+            code: "5", value: '待放款'
+           },
+           {
+            code: "6", value: '提交失败'
+           },
+          {
+            code: "7", value: '待还款'
+           },
+           {
+            code: "8", value: '放款成功'
+           },
+           {
+            code: "9", value: '放款失败'
+           },
+        ]
+
         /**
 		 * 过滤列表添加默认选项
 		 * @param {Object} arrList
@@ -46,7 +83,9 @@ function controller(_,service,$timeout,$state,util,$q){
         
         var queryParam = function(){
 			return {
-	        	repaymentDate : util.getLatelyDay(0,"noExtend"),
+	        	// repaymentDate : util.getLatelyDay(0,"noExtend"),
+                repaymentDate : '',
+                createTimeEnd : '',
 				productionCode : '',
 				pageSize : 10,              			 
 	            pageNo : 1
@@ -74,8 +113,10 @@ function controller(_,service,$timeout,$state,util,$q){
           * @param {Event} evt
           */
         _.getCreateStartDate = function(startTime){
+            
 	        _.getDate("#inpCreateStart",function(starTime){
 		 		_.query.repaymentDate = starTime;
+               
 		 		_.$apply();
 			},function(startObj){
 	        	startObj.format = 'YYYY-MM-DD';
@@ -85,6 +126,24 @@ function controller(_,service,$timeout,$state,util,$q){
 	        
         }
 
+
+  /**
+          * 进件结束时间
+          * @param {Event} evt
+          */
+        _.getCreateEndDat= function(endTime){
+            _.getDate("#inpCreateEn",function(endTime){
+              // endTime =  endTime.split('-').slice(0,3);
+                _.query.createTimeEnd = endTime;
+
+            
+                _.$apply();
+            },function(startObj){
+                startObj.format = 'YYYY-MM-DD';
+                delete startObj['maxDate'];
+//              startObj["minDate"] = $.nowDate(0);
+            })
+        }
         //查询
         _.searchStart = function(){
 			o.laterQueryList();
@@ -127,7 +186,9 @@ function controller(_,service,$timeout,$state,util,$q){
         	delete _.downFileFilter['pageSize'];
         	delete _.downFileFilter['pageNo'];
         	delete _.downFileFilter['isFirst'];
-        	service.exprotFile( _.downFileFilter);
+            // return;
+        	service.exprotFile( _.query);
+            // service.exprotFile( _.downFileFilter);
         }
         
         
@@ -158,6 +219,7 @@ function controller(_,service,$timeout,$state,util,$q){
             	var cfg = JSON.parse(JSON.stringify(_.query));
             	//全量导出
             	cfg.isFirst = isFirst(),
+             
                 _.downFileFilter = deleteEmptyData(cfg);
                 service.getLoanMenInfoList(_.query).then(function(data){
 	                _.baseSelectData = paddingData(data);
@@ -167,6 +229,11 @@ function controller(_,service,$timeout,$state,util,$q){
                 	
                 	_.loanMenInfo.forEach(function(v){
 	                    v['CheckboxFlag'] = false;
+                      _.statusLists.forEach(function(item){
+                        if (v.status == item.code) {
+                            v.status = item.value;
+                        }
+                      })
 	                })
                 	
                 	//页码问题

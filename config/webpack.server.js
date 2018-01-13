@@ -4,26 +4,25 @@ var config = {
 	entry: {},
 	output: {},
 	devServer: {
-      	protocol: "https",
-     	host: 'accms2.100credit.com',
-     	port: '4000',
+      protocol: "http",
+     	host: '127.0.0.1',
+     	port: '80',
      	contentBase: "./build",
-	 	stats: { colors: true },
+	 	  stats: { colors: true },
    		historyApiFallback: true,
         hot: true,
         inline: true,
         progress: true,
         proxy: {
             "/acc/": {
-                target: "https://192.168.23.60",
+                // target: "http://192.168.1.202",
+               target: "http://192.168.1.55:8080",
                 headers: {
-                	host : 'acc.100credit.com',
+                	host : 'acc.juncai360.com',
                 },
               	secure: true,
             }
         },
    }
 }
-
-
 module.exports = config;

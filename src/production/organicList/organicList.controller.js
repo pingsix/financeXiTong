@@ -99,11 +99,11 @@ function controller(_,service,$state,$timeout,FileUploader,util){
         });
         // CALLBACKS
         uploader.onProgressAll = function(progress) {
-        	progress = 100
-            console.info('onProgressAll', progress);
+        	progress = 100;
         };
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
 		     $timeout(function () {
+
 		          alert(response.responseMsg)
 		          uploader.clearQueue(_.dialog)
 		          location.reload();
@@ -144,6 +144,7 @@ function controller(_,service,$state,$timeout,FileUploader,util){
 			service.freezeCtrl(cfg).then(function(data){
 				o.getUserInfoList();
 			},function(reason){
+               
 				alert(reason.responseMsg)
 			})
 		}

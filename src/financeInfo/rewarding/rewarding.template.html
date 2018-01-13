@@ -3,6 +3,7 @@
 	<div class="inner" ng-style="{'min-height':isShowReportDialog ? '5000px':'auto'}">
 	    <div class="inner-header clearfix">
 	        <div class="inner-header-lf fl">应回款报表</div>
+	  
 	    </div>
 	    <div class="inner-body">
 	        <div class="inner-select">
@@ -10,9 +11,14 @@
 	                <tr>
 	                    <td class="tl-r">应回款日期：<input type="hidden" id="timeDefaut"></td>
 	                    <td style="width: 500px;">
-	                    	<input id="inpCreateStart" class="datainp inp1 fl calendar" ng-model = 'query.repaymentDate' ng-click = "getCreateStartDate(query.repaymentDate)" type="text" readonly>
+	                    	<input id="inpCreateStart" class="datainp inp1 fl calendar" ng-model = 'query.repaymentDate' ng-click = "getCreateStartDate(query.repaymentDate)" type="text"  placeholder="开始日期" readonly>
+	                    	<span class="fl" style="line-height:27px;padding:0 6px;">至</span>
+
+	                    <!-- 	 <input id="inpCreateEn" class="datainp inp1 fl calendar" ng-model = 'query.createTimeEnd' ng-click = "getCreateEndDat(query.createTimeEnd)" type="text" placeholder="结束日期" readonly> -->
+
+						           <input id="inpCreateEn" class="datainp inp1 fl calendar" ng-model = 'query.createTimeEnd' ng-click = "getCreateEndDat(query.createTimeEnd)" type="text"  placeholder="结束日期" readonly>
 	                    </td>
-	                	<td></td>
+	                	  <td></td>
 	                    <td>
 	                    </td>
 	                </tr>
@@ -40,17 +46,16 @@
 	                    <div class="bd">
 	                        <table class="table_user oddEvenColor" border="1" borderColor="#fff" ng-click="tableClick($event)">
 	                            <tr>
-	                                <th width="39">序号</th>
+	                              <th width="39">序号</th>
 	                            	<th>案件号</th>
 	                            	<th>产品</th>
-	                                <th>姓名</th>
-	                                <th>期数</th>
-	                                <th>应还时间</th>
-	                                <th>应还本金</th>
-	                                <th>应还利息</th>
-	                                <th>应还百融服务费</th>
-	                                <th>应还总金额</th>
-	                                <th>还款状态</th>
+	                              <th>姓名</th>
+	                              <th>期数</th>
+	                              <th>应还时间</th>
+	                              <th>应还本金</th>
+	                              <th>应还利息</th>
+	                              <th>应还总金额</th>
+	                              <th>还款状态</th>
 	                            </tr>
 	                            <tr ng-repeat="item in loanMenInfo">
 	                            	<td ng-bind="$index + 1"></td>
@@ -61,7 +66,6 @@
 	                                <td ng-bind="item.repaidDeadline.time|timeDateFilter"></td>
 	                                <td ng-bind="item.presentPri"></td>
 	                                <td ng-bind="item.presentInt"></td>
-	                                <td ng-bind="item.presentServiceFeeBr"></td>
 	                                <td ng-bind="(item.presentPri + item.presentInt + item.presentServiceFeeBr) | number:2"></td>
 	                                <td ng-bind="item.status"></td>
 	                            </tr>

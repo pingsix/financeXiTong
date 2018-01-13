@@ -3,24 +3,24 @@ var dependArr = [
 	require('./viewDetail.service').default.name
 ]
 export default {
-	module : angular.module('viewDetailCtrl',dependArr).controller('viewDetailController',['$scope','viewDetailService','$timeout','$state','util','$compile',controller]),
+	module : angular.module('viewDetailCtrl',dependArr).controller('viewDetailController',['$scope','viewDetailService','$timeout','$state','util','$q',controller]),
 	template : require('./viewDetail.template.html')
-}
+} 
 
-function controller(_,service,$timeout,$state,util,$compile){
+function controller(_,service,$timeout,$state,util,$q){
 		'use strict';
+
 		var o,cfg = {},timer;
-//		var stateParam = JSON.parse(decodeURI($state.params.object));
+		var stateParam = JSON.parse(decodeURI($state.params.object));
 		var cliceParam = location.href.slice(location.href.lastIndexOf('/')+1);
-		var stateParam = JSON.parse(decodeURI(cliceParam));
+		// var stateParam = JSON.parse(decodeURI(cliceParam));
 		
-		_.flager = !!localStorage.getItem('modifyAuthFlag') ? JSON.parse(localStorage.getItem('modifyAuthFlag')) : false;
-//		_.flager = true;
+		_.flager = localStorage.getItem('modifyAuthFlag') == 'undefined' ? false :  JSON.parse(localStorage.getItem("modifyAuthFlag"));
+		    // _.flager = true;
         //params
         _.pageNo = 1;            //页数
         _.pageSize = 10;          //每页多少个
         _.count = '';
-        
         _.swifts = [];    //流水数据
         _.loanMenInfo = [];
         _.productionNames = '';           //产品名称
@@ -36,7 +36,27 @@ function controller(_,service,$timeout,$state,util,$compile){
             "value" : "10条",
             "values" : ["10条","20条","30条","40条","50条"]
         };
-		
+		    _.loanStatusList = [
+                {id :　'5'　, value :　'待放款'},
+                {id :　'6'　, value :　'提交失败'},
+                {id :　'7'　, value :　'待放款'},
+                {id :　'8'　, value :　'放款成功'},
+                {id :　'9'　, value :　'放款失败'},
+            ];
+
+         _.presentStatusList = [
+                {id : '0' , value : '正常'},
+                {id : '1' , value : '逾期'},
+                {id : '2' , value : '已结清'},
+                {id : '3' , value : '一次结清'},
+                {id : '4' , value : '取消借款'},
+                {id :　'7'　, value :　'待还款'},
+
+                // {id : '已提交' , value : '已提交'},
+                // {id : '提交失败' , value : '提交失败'},
+                
+            ];
+
 		var _nameList = [
 	            {name: '百融前',key:'brBefore'},
 	            {name: '百融后',key:'brAfter'},
@@ -48,7 +68,7 @@ function controller(_,service,$timeout,$state,util,$compile){
 		
 		var periodsInfo = [
 			{name: '资金方',key:'billPeriods'},
-			{name: '百融',key:'billPeriodsForBr'},
+			// {name: '百融',key:'billPeriodsForBr'},
 			{name: '资产方',key:'billPeriodsForZc'}
 		]
 		
@@ -74,18 +94,20 @@ function controller(_,service,$timeout,$state,util,$compile){
 		}
 		
 		function setPeriodsDefaultValue(obj){
-			if(!obj.status) obj.status = '正常';
+		 	if(!obj.status) obj.status = '正常';
 		}
-		
+		// console.log(_)
 		/*显示-账单明细编辑信息*/
 		_.editItemForm = function(index){
 			_.itemFormParam = {remark:''};
+			
+
 			var handleEditList = [],
 				billPeriodsData  = JSON.parse(JSON.stringify(_.billPeriodsData));
 			for(let key in billPeriodsData){
-				for(let i = 0,list = billPeriodsData[key]; i < list.length; i++){
+				 for(let i = 0,list = billPeriodsData[key]; i < list.length; i++){
 					//select 设置默认值
-//					setPeriodsDefaultValue(list[i]);
+          //	setPeriodsDefaultValue(list[i]);
 					if(typeof list[i]['billPeriods'] !== 'undefined'&& list[i]['billPeriods'] == index){
 						for(let k in list[i]){
 							if(/time|date|line/gi.test(k)){
@@ -114,11 +136,143 @@ function controller(_,service,$timeout,$state,util,$compile){
 			_.editList = rmNoUserVal(handleEditList);
 			_.rawItemFormValue = JSON.stringify(_.editList);
 			//找到指令自动创建的方法并调用返回Promise对象，并自动弹出遮罩；
-			_['cloakCallback'+index]().then(saveItemForm);
-		}
-		setTimeout(function(){
-			console.log(118,_)
-		},2000)
+			_['cloakCallback' + index]().then(saveItemForm);
+			}
+			setTimeout(function () {
+			  // console.log(118,_)
+			}, 2000)
+
+			_.show = function () {
+			  o.getUserInfoList();
+			}
+		   o = {
+            laterQueryList : function(){
+                var that = this;
+                if(timer){
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(function(){
+                    that.getUserInfoList();
+                },200);
+            },
+            getUserInfoList : function(config){
+                service.getViewDetailData({requestId:stateParam.requestId}).then(function(data){
+	                	_.detailData = data.essential;  
+                       // console.log('123456789');
+                       // console.log(data);
+                       _.penalty = data.penalty;
+                       _.repaymentType = data.repaymentType;
+                        _.loanStatusList.forEach(function(item){
+                         if (item.id == _.detailData.loanStatus) {
+                            // if (!v.loanStatus) {
+                               _.detailData.loanStatus = item.value;
+                             // }
+                            }
+
+                         })
+                        _.presentStatusList.forEach(function(item) {
+                        	 if (item.id == _.detailData.presentStatus) {
+                            // if (!v.loanStatus) {
+                               _.detailData.presentStatus = item.value;
+                             // }
+                            }
+                            data.billPeriods.forEach(function(i){
+                            	if (item.id == i.status) {
+                            		i.status = item.value;
+                            	}
+                            })
+
+                            data.billPeriodsForZc.forEach(function(i){
+                            	if (item.id == i.status) {
+                            		i.status = item.value;
+                            	}
+                            })
+                        })
+	                	  				//基本信息
+	                	_.billPeriodsData = {
+	                		billPeriods : data.billPeriods,
+	                		// billPeriodsForBr : data.billPeriodsForBr,
+	                		billPeriodsForZc : data.billPeriodsForZc
+	                	}
+	                	
+	                	_.periodsModifyRecord = [{id:456}]
+	                	
+	                	_.swifts = data.swifts;							//流水详情
+	                	_.collection = data.collection;					//代扣通知操作明细
+	                	_.collectionOver = data.collectionOver;			//结束催收记录明细
+	                	
+	                	var billPeriods2 = [];
+	                	for(var i = 0; i < data.billPeriods.length; i++){
+	                		var newArr = {};
+	                		//此处按数据类型分开，不参与展示的用保存成属性值；
+	                		newArr['presentTotDue'] = data.billPeriods[i].presentTotDue + '';
+	                		if(data.billPeriods[i].presentTotDue - data.billPeriods[i].repaidTotMoney === 0 ||
+	                			(data.billPeriods[i].presentLateFee === 0 && data.billPeriods[i].presentInt === 0 )){
+	                			continue;
+	                		}else{
+	                			newArr['billPeriods'] = data.billPeriods[i].billPeriods + '';
+	                		}
+	                		newArr['presentServiceFee'] = data.billPeriods[i].presentLateManFee;
+	                		newArr['presentLateManFee'] = data.billPeriods[i].presentLateManFee;
+	                		newArr['presentLateFee'] = data.billPeriods[i].presentLateFee;
+	                		newArr['presentInt'] = data.billPeriods[i].presentInt;
+	                		newArr['presentPri'] = data.billPeriods[i].presentPri;
+	                		billPeriods2.push(JSON.stringify(newArr))
+	                	}
+	                	
+	                	var billPeriods3;
+	                	_.billPeriods2 = billPeriods3 = JSON.stringify(billPeriods2);
+	                	_.billPeriods3 = JSON.parse(billPeriods3);
+	                	clearList();
+	                	
+	                	_.countDetaiInfoWrap(0)  
+	                		
+	                	_.showScroll = _.swifts.length > 5 ?  true : false;
+	                },function(reason){
+	                	alert(reason.responseMsg)
+    //	                	location.href='../view/login.html';
+	              }
+	            );
+	            
+	            
+	            service.editPeriodsRecord({requestId:stateParam.requestId}).then(function(data){
+	            },function(reason){
+	            	_.periodsRecord = reason;
+	            	var _data = JSON.parse(JSON.stringify(reason));
+	            	_.periodsRecordArr = []
+	            	for(let i =0;i<_data.length;i++){
+	            		let periodsData = {};
+	            		for(let k in _data[i]){
+	            			for(let u = 0; u < _nameList.length;u++){
+	            				var item = _nameList[u]
+	            				var reg = new RegExp(item.key,'gi')
+	            				if(reg.test(k)){
+	            					periodsData[item.key] = {
+	            						nameData : item,
+	            						data : _data[i][k] ? JSON.parse(_data[i][k]) : _data[i][k]
+	            					}
+	            				}
+	            			}
+	            		}
+	            		_.periodsRecordArr.push({
+	            			id : i + 1,
+	            			data : periodsData,
+	            			remark : _data[i].remark
+	            		})
+	            	}
+	            })
+            },
+            init : function(){
+                this.getUserInfoList();
+            }
+        }
+
+
+
+
+
+
+
 		//校验提交-账单明细（此提交在指令里执行并返回错误信息）
 		_.validateSubmit = function(err){
 			if(err){
@@ -251,7 +405,7 @@ function controller(_,service,$timeout,$state,util,$compile){
 					}
                }
 			}
-			console.log(233,data)
+			// console.log(233,data)
 			return data;
 		}
 		
@@ -332,7 +486,6 @@ function controller(_,service,$timeout,$state,util,$compile){
 			return _data;
 		}
 		
-		
 		/**
 		 * 高度设置
 		 */
@@ -351,14 +504,12 @@ function controller(_,service,$timeout,$state,util,$compile){
 					count = _.billPeriodsData.billPeriods.length;
 					break;
 				case 1:
-					count = _.billPeriodsData.billPeriodsForBr.length;
+					count = _.billPeriodsData.billPeriodsForZc.length;
 					break;
 			}
 			var detailWarpWidth = 340 * count;
 			$(".innerWrapper").width(detailWarpWidth);
 		}
-		
-		
 		/**
 		 * 查看当前用户是否有查看逾期用户信息权限（催收主管角色具有该权限）
 		 */
@@ -399,36 +550,42 @@ function controller(_,service,$timeout,$state,util,$compile){
 		})
 		
 		
+
+
 		_.deductRecord = function(item){
+			console.log('888899');
+			console.log(item.withholdDetail);
 			if(!item.withholdDetail) return;
-//			if(item.withholdStatus !== 'success') return;
-			_.isShowReportDialog5 = true;
-			_.alerShow = !_.alerShow;
-			_.inputFlag = false;
-			_.isDeductRecord = false;
-			_.subInfo = '代扣金额记录';
-			var withholdDetail = JSON.parse(item.withholdDetail);
-			//显示代扣详情
-//			return
-			if(withholdDetail.detail){
-				_.billPeriods3 = JSON.parse(withholdDetail.detail);
-			}
-		}
-		_.closeDialog = function(){
-			_.isShowReportDialog5 = false;
-			_.alerShow = !_.alerShow;
-			clearList();
-		}
-		
-		_.overReceivable = function(){
-			_.isShowReportDialog5 = true;
-			_.alerShow = !_.alerShow;
-			_.inputFlag = true;
-			_.isDeductRecord = true;
-			_.subInfo = '是否结束催收，若结束请填写结束详情';
-			_.overReceivableFlag = true;
-		}
-		
+        //			if(item.withholdStatus !== 'success') return;
+        _.isShowReportDialog5 = true;
+        _.alerShow = !_.alerShow;
+        _.inputFlag = false;
+        _.isDeductRecord = false;
+        _.subInfo = '代扣金额记录';
+
+        var withholdDetail = JSON.parse(item.withholdDetail);
+			    //显示代扣详情
+          //			return
+          if(withholdDetail.detail){
+          	_.billPeriods3 = JSON.parse(withholdDetail.detail);
+          }
+        }
+        _.closeDialog = function(){
+        	_.isShowReportDialog5 = false;
+        	_.alerShow = !_.alerShow;
+        	clearList();
+        }
+
+        _.overReceivable = function(){
+        	_.isShowReportDialog5 = true;
+        	_.alerShow = !_.alerShow;
+        	_.inputFlag = true;
+
+        	_.isDeductRecord = true;
+        	_.subInfo = '是否结束催收，若结束请填写结束详情';
+        	_.overReceivableFlag = true;
+        }
+
 		_.emitInform = function(){
 //			var currentStatus = service.checkStatus();
 //			if(currentStatus.status){
@@ -616,95 +773,6 @@ function controller(_,service,$timeout,$state,util,$compile){
 		}
 		
         //获取列表
-        o = {
-            laterQueryList : function(){
-                var that = this;
-                if(timer){
-                    clearTimeout(timer);
-                }
-                timer = setTimeout(function(){
-                    that.getUserInfoList();
-                },200);
-            },
-            getUserInfoList : function(config){
-                service.getViewDetailData({requestId:stateParam.requestId}).then(function(data){
-	                	_.detailData = data.essential;    				//基本信息
-	                	_.billPeriodsData = {
-	                		billPeriods : data.billPeriods,
-	                		billPeriodsForBr : data.billPeriodsForBr,
-	                		billPeriodsForZc : data.billPeriodsForZc
-	                	}
-	                	
-	                	_.periodsModifyRecord = [{id:456}]
-	                	
-	                	_.swifts = data.swifts;							//流水详情
-	                	_.collection = data.collection;					//代扣通知操作明细
-	                	_.collectionOver = data.collectionOver;			//结束催收记录明细
-	                	
-	                	var billPeriods2 = [];
-	                	for(var i = 0; i < data.billPeriods.length; i++){
-	                		var newArr = {};
-	                		//此处按数据类型分开，不参与展示的用保存成属性值；
-	                		newArr['presentTotDue'] = data.billPeriods[i].presentTotDue + '';
-	                		if(data.billPeriods[i].presentTotDue - data.billPeriods[i].repaidTotMoney === 0 ||
-	                			(data.billPeriods[i].presentLateFee === 0 && data.billPeriods[i].presentInt === 0 )){
-	                			continue;
-	                		}else{
-	                			newArr['billPeriods'] = data.billPeriods[i].billPeriods + '';
-	                		}
-	                		newArr['presentServiceFee'] = data.billPeriods[i].presentLateManFee;
-	                		newArr['presentLateManFee'] = data.billPeriods[i].presentLateManFee;
-	                		newArr['presentLateFee'] = data.billPeriods[i].presentLateFee;
-	                		newArr['presentInt'] = data.billPeriods[i].presentInt;
-	                		newArr['presentPri'] = data.billPeriods[i].presentPri;
-	                		billPeriods2.push(JSON.stringify(newArr))
-	                	}
-	                	
-	                	var billPeriods3;
-	                	_.billPeriods2 = billPeriods3 = JSON.stringify(billPeriods2);
-	                	_.billPeriods3 = JSON.parse(billPeriods3);
-	                	clearList();
-	                	
-	                	_.countDetaiInfoWrap(0)  
-	                		
-	                	_.showScroll = _.swifts.length > 5 ?  true : false;
-	                },function(reason){
-	                	alert(reason.responseMsg)
-//	                	location.href='../view/login.html';
-	                }
-	            );
-	            
-	            
-	            service.editPeriodsRecord({requestId:stateParam.requestId}).then(function(data){
-	            },function(reason){
-	            	_.periodsRecord = reason;
-	            	var _data = JSON.parse(JSON.stringify(reason));
-	            	_.periodsRecordArr = []
-	            	for(let i =0;i<_data.length;i++){
-	            		let periodsData = {};
-	            		for(let k in _data[i]){
-	            			for(let u = 0; u < _nameList.length;u++){
-	            				var item = _nameList[u]
-	            				var reg = new RegExp(item.key,'gi')
-	            				if(reg.test(k)){
-	            					periodsData[item.key] = {
-	            						nameData : item,
-	            						data : _data[i][k] ? JSON.parse(_data[i][k]) : _data[i][k]
-	            					}
-	            				}
-	            			}
-	            		}
-	            		_.periodsRecordArr.push({
-	            			id : i + 1,
-	            			data : periodsData,
-	            			remark : _data[i].remark
-	            		})
-	            	}
-	            })
-            },
-            init : function(){
-                this.getUserInfoList();
-            }
-        }
+     
         o.init();
 }

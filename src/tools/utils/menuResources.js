@@ -3,7 +3,6 @@
  */
 module.exports = [
 	{id:'j1_1',text:'收益明细',children:[
-		{id:'j1_2',text:'图表展示',href:'earnings/chart'},
 		{id:'j1_3',text:'分润情况',href:'earnings/splitting'},
 	]},
 	{id:'j1_4',text:'账务信息',children:[

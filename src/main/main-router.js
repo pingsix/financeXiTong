@@ -116,7 +116,7 @@ var config = ($stateProvider, $urlRouterProvider,$locationProvider) => {
     })
     .state('manager.newRole', {
         url: '/newRole/:object',
-//      params : {'no' : null, "id" : null, "groupId" : null},
+          // params : {'no' : null, "id" : null, "groupId" : null},
         views : {
             'slider':{template : sliderBar},
             'content@':{

@@ -10,7 +10,7 @@ export default {
 }
 function controller(_,service,$state,){
 	_.stateParams = JSON.parse($state.params.object);
-	console.log(10,_.stateParams)
+	
     _.url=window.location.href;
 	if(_.url.indexOf('comingDay') !== -1) alert("你的密码已到期，请及时修改密码！");
     

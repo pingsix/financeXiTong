@@ -12,7 +12,7 @@ function controller(_,service,$timeout,$state){
 		'use strict';
 		var o,cfg = {};
 		var stateParam = JSON.parse(decodeURI($state.params.object));
-		console.log(14,stateParam)
+		// console.log(14,stateParam)
 		_.goBack = function(){
 			window.history.back();
         }

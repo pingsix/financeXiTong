@@ -41,7 +41,7 @@ import './editform.css';
         }
         return array;
     };
-
+   
     /**
      * FieldList数据转化器
      * @type {{m2vm: FieldListTranslater.m2vm, vm2m: FieldListTranslater.vm2m}}
@@ -119,10 +119,16 @@ import './editform.css';
 			        {repayId : '0', value : '无'},
 			        {repayId : '1', value : '有'}
 		        ];
-            
+            var paymentTypeLists = [
+                    {repayId : '0', value : '等额本息'},
+                    {repayId : '1', value : '等本等息'}
+            ];
             return {
             	 guaranteeList: unshiftOption(guaranteeList, {
                 	value : "请选择"
+                }),
+                paymentTypeLists: unshiftOption(paymentTypeLists, {
+                    value : "请选择"
                 }),
                 partnerTypeList: unshiftOption([{"id":"0","typeName":"Ⅱ类机构（资金方）"},{"id":"1","typeName":"Ⅲ类机构（资金资产方）"}], {
                     typeName: "请选择"
@@ -172,7 +178,7 @@ function controller($scope,service,$state,$stateParams){
         // 获取编辑页选择条件数据
         var getEditBaseData = function(fn){
         	service.getEditBaseData().then(function(data) {
-        		console.log('edit.do:',data)
+        		// console.log('edit.do:',data)
             	$scope.productionBaseData = data;
             	if(fn &&($scope.renderAgent === 'viewDetail' || $scope.renderAgent === 'upDate')){
             		fn(BaseDataTranslater.m2vm(data));
@@ -192,11 +198,16 @@ function controller($scope,service,$state,$stateParams){
         	}
         }
         
-        
+        $scope.changes = function (ha) {
+            console.log(ha);
+        }
         /**
          * 单击保存的处理方法
          */
         $scope.save = function(isValid,isPristine) {
+            // console.log('000');
+            // console.log(isValid);
+            // console.log(isPristine);
             // 先判断验证是否通过
             if (!isValid) {
                 $scope.showValid = true;
@@ -214,7 +225,7 @@ function controller($scope,service,$state,$stateParams){
 //		            return
 		            if($scope.production.privatePfx) delete $scope.production['privatePfx'];
 		            if($scope.production.publicCer) delete $scope.production['publicCer'];
-		            
+		              
 		            //---
 		            for(var i = 0,groups = $scope.base.groups; i < groups.length ; i++){
 		            	if(groups[i].groupId == $scope.production.partnerAdmin){
@@ -227,7 +238,8 @@ function controller($scope,service,$state,$stateParams){
 				}
 				return;
 			} 
-//			console.log(230,$scope.production)
+            // console.log($scope.base.groups)
+			console.log(230,$scope.production)
             service.update($scope.production).then(function(data) {
                 location.href = '#/configuration/production';
             },function(reason){
@@ -254,10 +266,13 @@ function controller($scope,service,$state,$stateParams){
 //          FieldListTranslater.m2vm(data.production.proFieldList, $scope.proFieldMap);
         }
 		
+
+
 		// 添加production中选项的name值
 		function addProInfo(getData, baseSelect) {
 			baseSelect(function(data){
 				$scope.base = data;
+                // console.log($scope.base)
 				if(getData.partnerType && Array.isArray(data.partnerTypeList)){
 					data.partnerTypeList.forEach(function(v){
 						if(v.id === getData.partnerType) getData.partnerTypeName = v.typeName;
@@ -265,9 +280,20 @@ function controller($scope,service,$state,$stateParams){
 				}
 				if(getData.guarantee && Array.isArray(data.guaranteeList)){
 					data.guaranteeList.forEach(function(v){
-						if(v.repayId === getData.partnerType) getData.guaranteeName = v.value;
+						if(v.repayId === getData.guarantee) getData.guaranteeName = v.value;
 					})
 				}
+
+                if(getData.paymentType && Array.isArray(data.paymentTypeLists)){
+                    
+                    data.paymentTypeLists.forEach(function(v){
+                        if(v.repayId === getData.paymentType) {
+                            getData.paymentTypeName = v.value;
+                            
+                        }
+                    
+                    })
+                }
 				if(getData.partnerAdmin && Array.isArray(data.groups)){
 					data.groups.forEach(function(v){
 						if(v.groupId === getData.partnerAdmin){
@@ -332,7 +358,9 @@ function controller($scope,service,$state,$stateParams){
 					pageNo: 1,
 					pageSize:10
 				}
+               
 				service.get(param).then(function(data) {
+                   
 					if(data && data.page && data.page.result)
                     render(data.page.result[0]);
                 }, function(reason) {
@@ -347,7 +375,9 @@ function controller($scope,service,$state,$stateParams){
 					pageNo: 1,
 					pageSize:10
 				}
+               
 				service.get(param).then(function(data) {
+                    
 					if(data && data.page && data.page.result)
                     render(data.page.result[0]);
                 }, function(reason) {

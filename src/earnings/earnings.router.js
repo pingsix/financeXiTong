@@ -1,5 +1,4 @@
 /**
- * 
  */
 var sliderBar = '<div class="slide fl noprint">'+
 			'<div id="slideBar">'+
@@ -20,40 +19,15 @@ var config = ($stateProvider, $urlRouterProvider,$locationProvider) => {
             'content':{
             	templateProvider : ($q) => {
             		return $q((resolve) => {
-            			require.ensure([],(require) => resolve(require('./chart/chart.controller').default.template),'earnings-chart')
+            			require.ensure([],(require) => resolve(require('./splitting/splitting.controller').default.template),'earnings-splitting')
             		})
             	},
-				controller : 'chartController',
+				controller : 'splittingController',
 	           	resolve : {
 	           		loadLoanController : ($q, $ocLazyLoad) => {
 	           			return $q((resolve) => {
 	           				require.ensure([],(require) => {
-	           					let module = require('./chart/chart.controller').default.module;
-	           					$ocLazyLoad.load({name : module.name});
-	           					resolve(module.controller)
-	           				})
-	           			})
-	           		}
-	           	}
-	        }
-        }
-    })
-    .state('earnings.chart', {
-        url: '/chart',
-        views : {
-            'slider':{template : sliderBar},
-            'content@':{
-            	templateProvider : ($q) => {
-            		return $q((resolve) => {
-            			require.ensure([],(require) => resolve(require('./chart/chart.controller').default.template),'earnings-chart')
-            		})
-            	},
-				controller : 'chartController',
-	           	resolve : {
-	           		loadLoanController : ($q, $ocLazyLoad) => {
-	           			return $q((resolve) => {
-	           				require.ensure([],(require) => {
-	           					let module = require('./chart/chart.controller').default.module;
+	           					let module = require('./splitting/splitting.controller').default.module;
 	           					$ocLazyLoad.load({name : module.name});
 	           					resolve(module.controller)
 	           				})

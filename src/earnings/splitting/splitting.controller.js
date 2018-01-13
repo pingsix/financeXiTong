@@ -16,7 +16,7 @@ function controller(_,service,$state){
         //请求参数 保持初始样板
 		var queryParam = function(){
 			return {
-				partnerCode : '',
+				partnerZjCode : '',
 				accPartnerCode : '',
 				productionCode : '',
 	        	keyWord : '',
@@ -56,10 +56,10 @@ function controller(_,service,$state){
 		 * 获取Ⅱ类合作机构筛选列表
 		 */
 		_.getSelectFlList = function(code){
-			console.log(code)
+			
 			if(!code) return;
 			_.query.accPartnerCode = '';
-			service.getSelectList({partnerCode:code}).then(function(data){
+			service.getSelectList({partnerZjCode:code}).then(function(data){
 				data.accPartner.unshift({
 					accPartnerName : '请选择',
 					accPartnerCode : ''
@@ -69,9 +69,6 @@ function controller(_,service,$state){
 				alert(reason.responseMsg)
 			})
 		}
-		
-		
-		
 		/**
 		 * 填充筛选列表条件
 		 * @param {Array} item
@@ -86,9 +83,9 @@ function controller(_,service,$state){
 		
 		function paddingData(data){
 			return {
-				organize1 : unshiftDefault(data.partnerList,{
-					partnerName : '请选择',
-					partnerCode : ''
+				organize1 : unshiftDefault(data.productionAccList,{
+					partnerZjName : '请选择',
+					partnerZjCode : ''
 				}),
 //				organize2 : [{
 //					accPartnerName : '请选择',
@@ -142,8 +139,10 @@ function controller(_,service,$state){
                 }
                 cfg = cfg2;
                 service.getSplittingList(_.query).then(function(data){
-                	_.selectBaseData = paddingData(handleSourceData(data));
+                	console.log(data);
+                  _.selectBaseData = paddingData(handleSourceData(data));
                 	_.listBaseData = data.page.result;
+                 
                 	_.exportAllLock = _.listBaseData.length == 0 ? false : true;
                 },function(data){
                   	alert(data.responseMsg)

@@ -27,7 +27,7 @@ export default angular
             	console.log(cfg)
                 return ajax.post('/acc/garfield/call.do',cfg);
             },
-            //代扣
+          //代扣
             overReceivableFlag : function(cfg){
             	return ajax.post('/acc/productioncollection/save.do',cfg);
             },

@@ -1,12 +1,10 @@
-
-
 export default angular
 	.module('organicListSer',[])
 	.factory('organicListService',['util','ajax',service])
 
 function service(util,ajax){
 	return {
-		setSelectedLi : function(current){
+		   setSelectedLi : function(current){
             var parent = util.parent(current,'ul');
                 angular.element(parent).find('li').removeClass('selected');
                 angular.element(current).parent().addClass('selected');

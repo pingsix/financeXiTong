@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack --config ./config/webpack.config.js NODE_ENV=development --progress --watch ",
     "build": "webpack --config ./config/webpack.config.js NODE_ENV=dist --progress",
-    "devs": "webpack-dev-server --config ./config/webpack.server.js --hot",
+    "devs": "webpack-dev-server  --open --config ./config/webpack.server.js --hot",
     "zip": "node ./tools/pack-zip.js",
     "svn": "node ./tools/upsvn.js",
     "stop": "rimraf build"

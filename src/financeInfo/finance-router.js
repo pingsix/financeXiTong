@@ -130,7 +130,7 @@ var config = ($stateProvider, $urlRouterProvider,$locationProvider) => {
 	           				require.ensure([],(require) => {
 	           					let module = require('./viewDetail/viewDetail.controller').default.module;
 	           					$ocLazyLoad.load({name : module.name});
-	           					resolve(module.controller);
+	           					resolve(module.controller)
 	           				})
 	           			})
 	           		}
@@ -187,12 +187,7 @@ var config = ($stateProvider, $urlRouterProvider,$locationProvider) => {
 	           	}
 	        }
         }
-    })
-    
-    
-    
-    
-    
+    }) 
 }
 
 /**

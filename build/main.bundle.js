@@ -85,7 +85,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e1d15e559f824d747110"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "494184884c283d8eeba6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -608,7 +608,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 
-/******/ 			script.src = __webpack_require__.p + "" + ({"4":"user-admin","5":"role-admin","6":"new-user","7":"new-role","8":"edit-user","9":"handler","10":"earnings-chart","11":"earnings-splitting","12":"finance-loan","13":"finance-collect","14":"finance-overdue","15":"finance-viewDetail","16":"financial-viewRunning","17":"financial-rewarding","18":"production-organicList","19":"production-newOrganic","20":"production-pair","21":"production-pairOrg"}[chunkId]||chunkId) + "_router." + {"4":"82470ce3","5":"7ba3b012","6":"cf7573bd","7":"10cb673d","8":"48fa8fb3","9":"fd46c995","10":"92e3a93d","11":"804aa9c5","12":"e63a5b59","13":"58066820","14":"01a4eeca","15":"5124fa31","16":"4880c5a2","17":"c9b69e33","18":"eb33f887","19":"8a7fe2d6","20":"f2c1a3c4","21":"a0458720"}[chunkId] + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + ({"4":"user-admin","5":"role-admin","6":"new-user","7":"new-role","8":"edit-user","9":"handler","10":"earnings-splitting","11":"finance-loan","12":"finance-collect","13":"finance-overdue","14":"finance-viewDetail","15":"financial-viewRunning","16":"financial-rewarding","17":"production-organicList","18":"production-newOrganic","19":"production-pair"}[chunkId]||chunkId) + "_router." + {"4":"caa6242b","5":"7ba3b012","6":"cf7573bd","7":"66481460","8":"48fa8fb3","9":"6853510a","10":"f8d6fd2e","11":"8970f9be","12":"8404c045","13":"dafefb77","14":"9a315a9c","15":"4b98565b","16":"5c6076c5","17":"ea8cd495","18":"1c24013e","19":"af384845"}[chunkId] + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -5269,6 +5269,316 @@
 
 /***/ },
 
+/***/ 11:
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+
+/***/ 16:
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+
 /***/ 33:
 /***/ function(module, exports) {
 
@@ -5539,7 +5849,7 @@
 			}
 		};
 
-		//开发机
+		//开发机制
 		ajax.DOMAIN = '';
 
 		return ajax;
@@ -5871,7 +6181,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.default = angular.module('main', [__webpack_require__(104).default.name, __webpack_require__(34).default.name, __webpack_require__(33).default.name, __webpack_require__(105).default.name, __webpack_require__(106).default.name, __webpack_require__(135).default.name, __webpack_require__(145).default.name, __webpack_require__(164).default.name, "oc.lazyLoad", __webpack_require__(191).default.name, __webpack_require__(192).default.name, __webpack_require__(197).default.name]);
+	exports.default = angular.module('main', [__webpack_require__(104).default.name, __webpack_require__(34).default.name, __webpack_require__(33).default.name, __webpack_require__(105).default.name, __webpack_require__(106).default.name, __webpack_require__(135).default.name, __webpack_require__(139).default.name, __webpack_require__(158).default.name, "oc.lazyLoad", __webpack_require__(182).default.name, __webpack_require__(183).default.name, __webpack_require__(188).default.name]);
 
 /***/ },
 
@@ -6650,7 +6960,7 @@
 									}
 					}).state('manager.newRole', {
 									url: '/newRole/:object',
-									//      params : {'no' : null, "id" : null, "groupId" : null},
+									// params : {'no' : null, "id" : null, "groupId" : null},
 									views: {
 													'slider': { template: sliderBar },
 													'content@': {
@@ -17763,7 +18073,6 @@
 		value: true
 	});
 	/**
-	 * 
 	 */
 	var sliderBar = '<div class="slide fl noprint">' + '<div id="slideBar">' + '<ul>' + '<li ng-repeat = "item in appShell.slideBar" ng-class="{selected:item.selected}">' + '<a ui-sref=".{{item.href}}" class="{{item.menuName}}" ng-bind = "item.text"></a>' + '</li>' + '</ul>' + '</div>' + '</div>';
 
@@ -17780,33 +18089,7 @@
 							});
 						});
 					},
-					controller: 'chartController',
-					resolve: {
-						loadLoanController: function loadLoanController($q, $ocLazyLoad) {
-							return $q(function (resolve) {
-								__webpack_require__.e/* nsure */(10/* duplicate */, function (require) {
-									var module = __webpack_require__(136).default.module;
-									$ocLazyLoad.load({ name: module.name });
-									resolve(module.controller);
-								});
-							});
-						}
-					}
-				}
-			}
-		}).state('earnings.chart', {
-			url: '/chart',
-			views: {
-				'slider': { template: sliderBar },
-				'content@': {
-					templateProvider: function templateProvider($q) {
-						return $q(function (resolve) {
-							__webpack_require__.e/* nsure */(10, function (require) {
-								return resolve(__webpack_require__(136).default.template);
-							});
-						});
-					},
-					controller: 'chartController',
+					controller: 'splittingController',
 					resolve: {
 						loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 							return $q(function (resolve) {
@@ -17827,8 +18110,8 @@
 				'content@': {
 					templateProvider: function templateProvider($q) {
 						return $q(function (resolve) {
-							__webpack_require__.e/* nsure */(11, function (require) {
-								return resolve(__webpack_require__(142).default.template);
+							__webpack_require__.e/* nsure */(10, function (require) {
+								return resolve(__webpack_require__(136).default.template);
 							});
 						});
 					},
@@ -17836,8 +18119,8 @@
 					resolve: {
 						loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 							return $q(function (resolve) {
-								__webpack_require__.e/* nsure */(11/* duplicate */, function (require) {
-									var module = __webpack_require__(142).default.module;
+								__webpack_require__.e/* nsure */(10/* duplicate */, function (require) {
+									var module = __webpack_require__(136).default.module;
 									$ocLazyLoad.load({ name: module.name });
 									resolve(module.controller);
 								});
@@ -17856,7 +18139,7 @@
 
 /***/ },
 
-/***/ 145:
+/***/ 139:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17877,8 +18160,8 @@
 													'content': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(12, function (require) {
-																													return resolve(__webpack_require__(146).default.template);
+																									__webpack_require__.e/* nsure */(11, function (require) {
+																													return resolve(__webpack_require__(140).default.template);
 																									});
 																					});
 																	},
@@ -17886,8 +18169,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(12/* duplicate */, function (require) {
-																																	var module = __webpack_require__(146).default.module;
+																													__webpack_require__.e/* nsure */(11/* duplicate */, function (require) {
+																																	var module = __webpack_require__(140).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -17903,8 +18186,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(12, function (require) {
-																													return resolve(__webpack_require__(146).default.template);
+																									__webpack_require__.e/* nsure */(11, function (require) {
+																													return resolve(__webpack_require__(140).default.template);
 																									});
 																					});
 																	},
@@ -17912,8 +18195,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(12/* duplicate */, function (require) {
-																																	var module = __webpack_require__(146).default.module;
+																													__webpack_require__.e/* nsure */(11/* duplicate */, function (require) {
+																																	var module = __webpack_require__(140).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -17929,8 +18212,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(13, function (require) {
-																													return resolve(__webpack_require__(149).default.template);
+																									__webpack_require__.e/* nsure */(12, function (require) {
+																													return resolve(__webpack_require__(143).default.template);
 																									});
 																					});
 																	},
@@ -17938,8 +18221,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(13/* duplicate */, function (require) {
-																																	var module = __webpack_require__(149).default.module;
+																													__webpack_require__.e/* nsure */(12/* duplicate */, function (require) {
+																																	var module = __webpack_require__(143).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -17955,8 +18238,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(14, function (require) {
-																													return resolve(__webpack_require__(152).default.template);
+																									__webpack_require__.e/* nsure */(13, function (require) {
+																													return resolve(__webpack_require__(146).default.template);
 																									});
 																					});
 																	},
@@ -17964,8 +18247,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(14/* duplicate */, function (require) {
-																																	var module = __webpack_require__(152).default.module;
+																													__webpack_require__.e/* nsure */(13/* duplicate */, function (require) {
+																																	var module = __webpack_require__(146).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -17981,8 +18264,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(15, function (require) {
-																													return resolve(__webpack_require__(155).default.template);
+																									__webpack_require__.e/* nsure */(14, function (require) {
+																													return resolve(__webpack_require__(149).default.template);
 																									});
 																					});
 																	},
@@ -17990,8 +18273,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(15/* duplicate */, function (require) {
-																																	var module = __webpack_require__(155).default.module;
+																													__webpack_require__.e/* nsure */(14/* duplicate */, function (require) {
+																																	var module = __webpack_require__(149).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18007,8 +18290,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(16, function (require) {
-																													return resolve(__webpack_require__(158).default.template);
+																									__webpack_require__.e/* nsure */(15, function (require) {
+																													return resolve(__webpack_require__(152).default.template);
 																									});
 																					});
 																	},
@@ -18016,8 +18299,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(16/* duplicate */, function (require) {
-																																	var module = __webpack_require__(158).default.module;
+																													__webpack_require__.e/* nsure */(15/* duplicate */, function (require) {
+																																	var module = __webpack_require__(152).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18033,8 +18316,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(17, function (require) {
-																													return resolve(__webpack_require__(161).default.template);
+																									__webpack_require__.e/* nsure */(16, function (require) {
+																													return resolve(__webpack_require__(155).default.template);
 																									});
 																					});
 																	},
@@ -18042,8 +18325,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(17/* duplicate */, function (require) {
-																																	var module = __webpack_require__(161).default.module;
+																													__webpack_require__.e/* nsure */(16/* duplicate */, function (require) {
+																																	var module = __webpack_require__(155).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18062,7 +18345,7 @@
 
 /***/ },
 
-/***/ 164:
+/***/ 158:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18083,8 +18366,8 @@
 													'content': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(18, function (require) {
-																													return resolve(__webpack_require__(165).default.template);
+																									__webpack_require__.e/* nsure */(17, function (require) {
+																													return resolve(__webpack_require__(159).default.template);
 																									});
 																					});
 																	},
@@ -18092,8 +18375,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(18/* duplicate */, function (require) {
-																																	var module = __webpack_require__(165).default.module;
+																													__webpack_require__.e/* nsure */(17/* duplicate */, function (require) {
+																																	var module = __webpack_require__(159).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18109,8 +18392,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(18, function (require) {
-																													return resolve(__webpack_require__(165).default.template);
+																									__webpack_require__.e/* nsure */(17, function (require) {
+																													return resolve(__webpack_require__(159).default.template);
 																									});
 																					});
 																	},
@@ -18118,8 +18401,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(18/* duplicate */, function (require) {
-																																	var module = __webpack_require__(165).default.module;
+																													__webpack_require__.e/* nsure */(17/* duplicate */, function (require) {
+																																	var module = __webpack_require__(159).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18135,8 +18418,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(19, function (require) {
-																													return resolve(__webpack_require__(177).default.template);
+																									__webpack_require__.e/* nsure */(18, function (require) {
+																													return resolve(__webpack_require__(171).default.template);
 																									});
 																					});
 																	},
@@ -18144,8 +18427,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(19/* duplicate */, function (require) {
-																																	var module = __webpack_require__(177).default.module;
+																													__webpack_require__.e/* nsure */(18/* duplicate */, function (require) {
+																																	var module = __webpack_require__(171).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18161,8 +18444,8 @@
 													'content@': {
 																	templateProvider: function templateProvider($q) {
 																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(20, function (require) {
-																													return resolve(__webpack_require__(182).default.template);
+																									__webpack_require__.e/* nsure */(19, function (require) {
+																													return resolve(__webpack_require__(176).default.template);
 																									});
 																					});
 																	},
@@ -18170,34 +18453,8 @@
 																	resolve: {
 																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
 																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(20/* duplicate */, function (require) {
-																																	var module = __webpack_require__(182).default.module;
-																																	$ocLazyLoad.load({ name: module.name });
-																																	resolve(module.controller);
-																													});
-																									});
-																					}
-																	}
-													}
-									}
-					}).state('configuration.pairOrg', {
-									url: '/pairOrg/:object',
-									views: {
-													'slider': { template: sliderBar },
-													'content@': {
-																	templateProvider: function templateProvider($q) {
-																					return $q(function (resolve) {
-																									__webpack_require__.e/* nsure */(21, function (require) {
-																													return resolve(__webpack_require__(185).default.template);
-																									});
-																					});
-																	},
-																	controller: 'pairOrgController',
-																	resolve: {
-																					loadLoanController: function loadLoanController($q, $ocLazyLoad) {
-																									return $q(function (resolve) {
-																													__webpack_require__.e/* nsure */(21/* duplicate */, function (require) {
-																																	var module = __webpack_require__(185).default.module;
+																													__webpack_require__.e/* nsure */(19/* duplicate */, function (require) {
+																																	var module = __webpack_require__(176).default.module;
 																																	$ocLazyLoad.load({ name: module.name });
 																																	resolve(module.controller);
 																													});
@@ -18207,6 +18464,31 @@
 													}
 									}
 					});
+					// .state('configuration.pairOrg', {
+					//     url: '/pairOrg/:object',
+					//     views : {
+					//         'slider':{template : sliderBar},
+					//         'content@':{
+					//         	templateProvider : ($q) => {
+					//         		return $q((resolve) => {
+					//         			require.ensure([],(require) => resolve(require('./pair/pairOrg/pairOrg.controller').default.template),'production-pairOrg')
+					//         		})
+					//         	},
+					// controller : 'pairOrgController',
+					//         	resolve : {
+					//         		loadLoanController : ($q, $ocLazyLoad) => {
+					//         			return $q((resolve) => {
+					//         				require.ensure([],(require) => {
+					//         					let module = require('./pair/pairOrg/pairOrg.controller').default.module;
+					//         					$ocLazyLoad.load({name : module.name});
+					//         					resolve(module.controller)
+					//         				})
+					//         			})
+					//         		}
+					//         	}
+					//      }
+					//     }
+					// })
 	};
 
 	/**
@@ -18216,7 +18498,7 @@
 
 /***/ },
 
-/***/ 191:
+/***/ 182:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18250,7 +18532,7 @@
 
 /***/ },
 
-/***/ 192:
+/***/ 183:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18266,20 +18548,20 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//日期样式
-	__webpack_require__(193); /**
+	__webpack_require__(184); /**
 	                                                     * @author hontianyem
 	                                                     */
 
-	__webpack_require__(195);
+	__webpack_require__(186);
 
 	//导航
-	__webpack_require__(196);
+	__webpack_require__(187);
 
 	(0, _jquery2.default)(function () {
 		(0, _jquery2.default)("#bar1").xq_navbar({ "type": "underline", "liwidth": "136px", "bgcolor": "#333", "hcolor": "#ffba00" });
 	});
 
-	exports.default = angular.module('main.ctrl', [__webpack_require__(191).default.name]).controller('mainCtrl', ['$scope', '$rootScope', 'MainService', '$timeout', '$state', function (scope, $rootScope, service, $timeout, $state) {
+	exports.default = angular.module('main.ctrl', [__webpack_require__(182).default.name]).controller('mainCtrl', ['$scope', '$rootScope', 'MainService', '$timeout', '$state', function (scope, $rootScope, service, $timeout, $state) {
 		var appShell = scope.appShell = {};
 
 		//不显示二级导航的路由
@@ -18499,14 +18781,14 @@
 
 /***/ },
 
-/***/ 193:
+/***/ 184:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 195:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18545,9 +18827,13 @@
 		},
 		    config = {
 			skinCell: "jedateblue",
-			format: "YYYY-MM-DD hh:mm:ss", //日期格式
-			minDate: "2017-01-01 00:00:00", //最小日期
-			maxDate: "2099-12-31 23:59:59" //最大日期
+			// format:"YYYY-MM-DD hh:mm:ss", //日期格式
+			// minDate:"2017-01-01 00:00:00", //最小日期
+			// maxDate:"2099-12-31 23:59:59" //最大日期
+
+			format: "YYYY-MM-DD ", //日期格式
+			minDate: "2017-01-01 ", //最小日期
+			maxDate: "2099-12-31 " //最大日期
 		};
 		$.fn.jeDate = function (options) {
 			return this.each(function () {
@@ -18617,21 +18903,24 @@
 			ymd = ymd.concat(hms);
 			var hmsCheck = jet.parseCheck(format, false).substring(0, 5) == "hh:mm",
 			    num = 2;
-			return format.replace(/YYYY|MM|DD|hh|mm|ss/g, function (str, index) {
+			// return format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+			return format.replace(/YYYY|MM|DD/g, function (str, index) {
 				var idx = hmsCheck ? ++num : ymd.index = ++ymd.index | 0;
 				return jet.digit(ymd[idx]);
 			});
 		};
 		jet.parseCheck = function (format, bool) {
 			var ymdhms = [];
-			format.replace(/YYYY|MM|DD|hh|mm|ss/g, function (str, index) {
+			// format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+			format.replace(/YYYY|MM|DD/g, function (str, index) {
 				ymdhms.push(str);
 			});
 			return ymdhms.join(bool == true ? "-" : ":");
 		};
 		jet.checkFormat = function (format) {
 			var ymdhms = [];
-			format.replace(/YYYY|MM|DD|hh|mm|ss/g, function (str, index) {
+			// format.replace(/YYYY|MM|DD|hh|mm|ss/g, function(str, index) {
+			format.replace(/YYYY|MM|DD/g, function (str, index) {
 				ymdhms.push(str);
 			});
 			return ymdhms.join("-");
@@ -18655,7 +18944,8 @@
 		};
 		//初始化日期
 		jet.initDates = function (num, format) {
-			format = format || 'YYYY-MM-DD hh:mm:ss';
+			format = format || 'YYYY-MM-DD';
+			// format = format || 'YYYY-MM-DD hh:mm:ss';
 			if (typeof num === "string") {
 				var newDate = new Date(parseInt(num.substring(0, 10)) * 1e3);
 			} else {
@@ -18807,8 +19097,9 @@
 			var datetopStr = '<div class="jedatetop">' + (!isYYMM ? '<div class="jedateym" style="width:50%;"><i class="prev triangle yearprev"></i><span class="jedateyy" ym="24"><em class="jedateyear"></em><em class="pndrop"></em></span><i class="next triangle yearnext"></i></div>' + '<div class="jedateym" style="width:50%;"><i class="prev triangle monthprev"></i><span class="jedatemm" ym="12"><em class="jedatemonth"></em><em class="pndrop"></em></span><i class="next triangle monthnext"></i></div>' : '<div class="jedateym" style="width:100%;"><i class="prev triangle ymprev"></i><span class="jedateyy"><em class="jedateyearmonth"></em></span><i class="next triangle ymnext"></i></div>') + "</div>";
 			var dateymList = !isYYMM ? '<div class="jedatetopym" style="display: none;">' + '<ul class="ymdropul"></ul><p><span class="jedateymchle">&lt;&lt;</span><span class="jedateymchri">&gt;&gt;</span><span class="jedateymchok">关闭</span></p>' + "</div>" : dateFormat == "YYYY" ? '<ul class="jedayy"></ul>' : '<ul class="jedaym"></ul>';
 			var dateriList = '<ol class="jedaol"></ol><ul class="jedaul"></ul>';
-			var bothmsStr = !isYYMM ? '<div class="botflex jedatehmsshde"><ul class="jedatehms"><li><input type="text" /></li><i>:</i><li><input type="text" /></li><i>:</i><li><input type="text" /></li></ul></div>' + '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">今天</span><span class="jedateclear">清空</span></div>' : dateFormat == "YYYY" ? '<div class="botflex jedatebtn"><span class="jedateok" style="width:47.8%">确认</span><span class="jedateclear" style="width:47.8%">清空</span></div>' : '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">本月</span><span class="jedateclear">清空</span></div>';
+			var bothmsStr = isYYMM ? '<div class="botflex jedatehmsshde"><ul class="jedatehms"><li><input type="text" /></li><i>:</i><li><input type="text" /></li><i>:</i><li><input type="text" /></li></ul></div>' + '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">今天</span><span class="jedateclear">清空</span></div>' : dateFormat == "YYYY" ? '<div class="botflex jedatebtn"><span class="jedateok" style="width:47.8%">确认</span><span class="jedateclear" style="width:47.8%">清空</span></div>' : '<div class="botflex jedatebtn"><span class="jedateok">确认</span><span class="jedatetodaymonth">本月</span><span class="jedateclear">清空</span></div>';
 			var datebotStr = '<div class="jedatebot">' + bothmsStr + "</div>";
+			// var datebotStr = '<div class="jedatebot">'  + "</div>";
 			var datehmschoose = '<div class="jedateprophms ' + (ishhmm ? "jedatepropfix" : "jedateproppos") + '"><div class="jedatepropcon"><div class="jedatehmstitle">时间选择<div class="jedatehmsclose">&times;</div></div><div class="jedateproptext">小时</div><div class="jedateproptext">分钟</div><div class="jedateproptext">秒数</div><div class="jedatehmscon jedateprophours"></div><div class="jedatehmscon jedatepropminutes"></div><div class="jedatehmscon jedatepropseconds"></div></div></div>';
 			var dateHtmStr = isYYMM ? datetopStr + dateymList + datebotStr : ishhmm ? datetopStr + datehmschoose + datebotStr : datetopStr + dateymList + dateriList + datehmschoose + datebotStr;
 			boxCell.html(dateHtmStr);
@@ -19716,7 +20007,7 @@
 
 /***/ },
 
-/***/ 196:
+/***/ 187:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -19843,7 +20134,7 @@
 
 /***/ },
 
-/***/ 197:
+/***/ 188:
 /***/ function(module, exports) {
 
 	'use strict';

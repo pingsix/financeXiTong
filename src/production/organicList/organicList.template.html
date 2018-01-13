@@ -4,7 +4,7 @@
 	    <div class="inner-header clearfix">
 	        <div class="inner-header-lf fl">机构配置</div>
 	        <div class="inner-header-rt fr" style="min-width:220px">
-	            <a  ui-sref ="configuration.newOrganic" class="btn1 fr importA">新建机构</a>
+	            <a  ui-sref ="configuration.newOrganic" class="btn1 fr importA">新建资金方</a>
 	        </div>
 	    </div>
 	    <div class="inner-body">
@@ -18,24 +18,24 @@
 						    <input id="inpend" class="datainp inp1 fl calendar" ng-model = 'query.presentDateEnd' type="text" placeholder="结束日期" readonly>
 	                    </td>
 	                </tr>-->
-	                <tr>
+	              <!--   <tr>
 	                    <td class="tl-r">机构类型：</td>
 	                    <td>
 	                    	<select class="select-global" ng-model = "query.partnerType" ng-options = "option.typeCode as option.typeName for option in baseSelectData.partnerTypeList"></select>
 	                    </td>
-	                </tr>
+	                </tr> -->
 	                <tr>
-	                    <td class="tl-r">机构名称：</td>
+	                    <td class="tl-r">合作资金方名称：</td>
 	                    <td>
 	                    	<select class="select-global" ng-model = "query.partnerCode" ng-options = "option.partnerCode as option.partnerName for option in baseSelectData.partnerList"></select>
 	                    </td>
 	                </tr>
-	                <tr>
+	             <!--    <tr>
 	                    <td class="tl-r"> 关键字：</td>
 	                    <td class="fl search">
 	                        <input type="text"  placeholder="apiCode" ng-model="query.apiCode" id="search"/>
 	                    </td>
-	                </tr>
+	                </tr> -->
 	                <tr>
 						<td class="tl-r"></td>
 						<td class="fl search">
@@ -57,9 +57,7 @@
 	                                		<div class="sortTimeBottom" ng-click = 'sortTime({sortKey:"update_time",order:"desc"})'></div>
 	                                	</div>
 	                                </th>
-	                                <th>机构名称</th>
-	                                <th>机构类型</th>
-	                            	<th>放款总额（万）</th>
+	                                <th>合作资金方名称</th>
 	                                <th>保证金额度（万）</th>
 	                                <th>机构管理员</th>
 	                                <th>apiCode</th>
@@ -68,8 +66,6 @@
 	                            <tr ng-repeat="item in loanMenInfo">
 	                                <td ng-bind="item.modifyTime.time|timeDateFilter"></td>
 	                                <td ng-bind="item.partnerName"></td>
-	                                <td ng-bind="item.partnerType|partnerType"></td>
-	                                <td ng-bind="item.totalLoans"></td>
 	                                <td ng-bind="item.fineMoney"></td>
 	                                <td ng-bind="item.partnerAdminName"></td>
 	                                <td ng-bind="item.apiCode"></td>
